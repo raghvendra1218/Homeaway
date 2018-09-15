@@ -66,15 +66,15 @@ class userInput extends Component {
     }
 
     render(){
-        const inputBoxStyle = {
-            fontSize: '25px',
-            padding : '10px auto',
-            margin: '10px auto',
-            textAlign: 'right',
-            border: '2px solid purple',
-            width: '97%',
-            height: '50px'
-        }
+        // const inputBoxStyle = {
+        //     fontSize: '25px',
+        //     paddingRight : '10px',
+        //     margin: 'auto',
+        //     textAlign: 'right',
+        //     border: '2px solid purple',
+        //     width: '270px',
+        //     height: '50px'
+        // }
         return(
             <div className="container">
                 <div className="login-form">
@@ -84,7 +84,7 @@ class userInput extends Component {
                             <p>Please enter Input</p>
                         </div>
                         <div>
-                            <input style={inputBoxStyle} type="text" autoFocus
+                            <input className ='input input-boxstyle' type="text" autoFocus
                                     onChange={this.inputChangeHandler}
                                     value={this.state.displayValue} />
                             <br></br>

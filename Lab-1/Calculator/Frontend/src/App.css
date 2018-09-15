@@ -15,16 +15,16 @@
   border-radius: 2px;
   margin: 10px auto 30px;
   max-width: 20%;
-  padding: 50px 70px 20% 71px;
+  padding: 50px 70px 250px 71px;
   border: 2px solid black;
 }
 .login-form .input.input-boxstyle {
   font-size: 25px;
-  padding:10px auto;
+  padding: 3% 5%;
   margin: 10px auto;
   text-align: right;
   border: 2px solid purple;
-  width: 97%;
+  width: 89%;
   height: 50px
 }
 
