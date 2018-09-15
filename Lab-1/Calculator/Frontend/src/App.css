@@ -1,28 +1,74 @@
-.App {
+
+.form-heading { color:#fff; font-size:23px;}
+.panel h2{ color:#444444; font-size:24px; margin:0 0 4px 0; }
+.panel p { color:#777777; font-size:18px; margin-bottom:10px; line-height:24px;}
+.login-form .form-control {
+  background: #f7f7f7 none repeat scroll 0 0;
+  border: 1px solid #d4d4d4;
+  border-radius: 4px;
+  font-size: 14px;
+  height: 50px;
+  line-height: 50px;
+}
+.main-div {
+  background: #ffffff none repeat scroll 0 0;
+  border-radius: 2px;
+  margin: 10px auto 30px;
+  max-width: 20%;
+  padding: 50px 70px 20% 71px;
+  border: 2px solid black;
+}
+.login-form .input.input-boxstyle {
+  font-size: 25px;
+  padding:10px auto;
+  margin: 10px auto;
+  text-align: right;
+  border: 2px solid purple;
+  width: 97%;
+  height: 50px
+}
+
+.login-form .form-group {
+  margin-bottom:10px;
+}
+.login-form{ text-align:center;}
+.forgot a {
+  color: #777777;
+  font-size: 14px;
+  text-decoration: underline;
+}
+.login-form  .btn.btn-response {
+  background: #b8b3ae none repeat scroll 0 0;
+  border-color: #706e6b;
+  color: #161515;
+  font-weight: bold;
+  font-size: 14px;
+  width: 100%;
+  height: 70px;
+  line-height: 50px;
+  padding: 0;
+}
+
+.login-form  .btn.btn-primary {
+  background: #f0ad4e none repeat scroll 0 0;
+  border-color: #795018;
+  color: #161515;
+  font-size: 20px;
   text-align: center;
+  font-weight: bold;
+  width: 100%;
+  height: 60px;
+  line-height: 50px;
+  padding: 0;
 }
 
-.App-logo {
-  animation: App-logo-spin infinite 20s linear;
-  height: 80px;
+.forgot {
+  text-align: left; margin-bottom:30px;
 }
-
-.App-header {
-  background-color: #222;
-  height: 150px;
-  padding: 20px;
-  color: white;
+.botto-text {
+  color: #ffffff;
+  font-size: 14px;
+  margin: auto;
 }
-
-.App-title {
-  font-size: 1.5em;
-}
-
-.App-intro {
-  font-size: large;
-}
-
-@keyframes App-logo-spin {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
-}
+.back { text-align: left; margin-top:10px;}
+.back a {color: #444444; font-size: 13px;text-decoration: none;}
