@@ -8,7 +8,7 @@ var cors = require('cors');
 app.set('view engine', 'ejs');
 var mysql = require('mysql');
 var pool = require('./pool');
-var logger = require('morgan');
+var morgan = require('morgan');
 
 //use cors to allow cross origin resource sharing
 app.use(cors({origin:'http://localhost:3000', credentials: true}));
@@ -121,7 +121,7 @@ app.post('/signup',function(req,res){
     } else {
 
         //If Owner, Insert the record in the OWNER_INFO_TABLE 
-        console.log("Inside Owner Login request"); 
+        console.log("Inside Owner Signup request"); 
         var sql = "INSERT INTO OWNER_INFO_TABLE (FIRST_NAME, LAST_NAME, EMAIL, PASSWORD) VALUES ( " + 
         mysql.escape(FIRST_NAME) + " , " + mysql.escape(LAST_NAME) + " , "+
         mysql.escape(EMAIL) + " ," +  mysql.escape(PASSWORD) + ")";
@@ -161,6 +161,10 @@ app.post('/signup',function(req,res){
 */
 app.put('/editprofile:id',function(req,res){
     console.log("Inside Edit profile Request.");
+    var FIRST_NAME = req.body.firstName;
+    var LAST_NAME = req.body.lastName;
+    var EMAIL = req.body.email;
+    var PASSWORD = req.body.password;
 
 });
 

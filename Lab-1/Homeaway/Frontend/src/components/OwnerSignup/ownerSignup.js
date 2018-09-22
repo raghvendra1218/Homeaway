@@ -1,11 +1,102 @@
 import React, { Component } from 'react';
-import LoginNavbar from './LoginNavbar';
+import axios from 'axios';
+import cookie from 'react-cookies';
+import {Redirect} from 'react-router';
 
-class Signup extends Component{
+class ownerSignup extends Component{
+    constructor(props) {
+        super(props);
+        this.state = {
+            firstName: "",
+            lastName: "",
+            email: "",
+            password: "",
+            isTraveler: false,
+            isRegistered: false
+        }
+        //Bind the handlers to this class
+        this.firstNameChangeHandler = this.firstNameChangeHandler.bind(this);
+        this.lastNameChangeHandler = this.lastNameChangeHandler.bind(this);
+        this.emailChangeHandler = this.emailChangeHandler.bind(this);
+        this.passwordChangeHandler = this.passwordChangeHandler.bind(this);
+        this.signUp = this.signUp.bind(this);
+    }
+
+    firstNameChangeHandler = (event) => {
+        this.setState({
+            ...this.state,
+            firstName: event.target.value
+        })
+    }
+
+    lastNameChangeHandler = (event) => {
+        this.setState({
+            ...this.state,
+            lastName: event.target.value
+        })
+    }
+
+    emailChangeHandler = (event) => {
+        this.setState({
+            ...this.state,
+            email: event.target.value
+        })
+    }
+
+    passwordChangeHandler = (event) => {
+        this.setState({
+            ...this.state,
+            password: event.target.value
+        })
+    }
+
+    signUp =(event)=>{
+        //prevent page from refresh
+        event.preventDefault();
+
+        let data = {
+            firstName: this.state.firstName,
+            lastName: this.state.lastName,
+            email: this.state.email,
+            password: this.state.password,
+            isTraveler: false
+        }
+
+        axios.post('http://localhost:3001/signup',data)
+        .then(response => {
+            console.log("Status Code : ",response.status);
+            if(response.status === 200){
+                this.setState({
+                    ...this.setState,
+                    isRegistered : true
+                })
+            }else{
+                this.setState({
+                    ...this.state,
+                    isRegistered : false
+                })
+            }
+        })
+        .catch( error =>{
+            console.log("error:", error);
+        });
+
+    }
+
+
     render(){
+        // let redirectVar = null;
+        // if(!cookie.load('cookie')){
+        //     redirectVar = <Redirect to= "/home"/>
+        // }
+        // if(this.state.isRegistered) {
+        //     return (<Redirect to = "/home"/>)
+        // } else {
+
+        // }
         return(
             <div>
-                <LoginNavbar/>
+                {/* {redirectVar} */}
                 <div id = "container" className ="container">
                     <div id="login-container" className="row">
                         <div className="login-header text-center traveler">
@@ -23,37 +114,35 @@ class Signup extends Component{
                                     <div className="login-form traveler">
                                         <fieldset id="login-form-fieldset" className="travelerFieldSet">
                                             <div className="panel-body">
-                                                <form id="login-form" name="fm1" className="singleSubmit" action="/auth/traveler/register?service=https%3A%2F%2Fwww.homeaway.com%2Fexp%2Fsso%2Fauth%3Flt%3Dtraveler%26context%3Ddef%26service%3D%252F&amp;requestingBrand=traveler"
-                                                    method="post">
+                                                <form id="login-form" name="fm1" className="singleSubmit">
                                                     <div id="createAccountFields" className="">
-                                                        <div id="messages">
-                                                        </div>
+                                                        <div id="messages"></div>
                                                         <div className="form-group clearfix">
                                                             <div className="name name-registration traveler">
                                                                 <label for="firstName" className="hidden">First name</label>
-                                                                <input id="firstName" name="firstName" className="form-control input-lg"
-                                                                    tabindex="1" placeholder="First Name" type="text" value="" size="20"
+                                                                <input id="firstName" onChange = {this.firstNameChangeHandler} name="firstName" className="form-control input-lg"
+                                                                    tabindex="1" placeholder="First Name" type="text" size="20"
                                                                     autocomplete="on" />
                                                             </div>
                                                             <div className="name name-registration traveler" style={{marginRight:"0px"}}>
                                                                 <label for="lastName" className="hidden">Last Name</label>
-                                                                <input id="lastName" name="lastName" className="form-control input-lg"
-                                                                    tabindex="2" placeholder="Last Name" type="text" value="" size="20"
+                                                                <input id="lastName" onChange = {this.lastNameChangeHandler} name="lastName" className="form-control input-lg"
+                                                                    tabindex="2" placeholder="Last Name" type="text" size="20"
                                                                     autocomplete="on" />
                                                             </div>
                                                         </div>
                                                         <div className="form-group">
                                                             <label for="emailAddress" className="hidden">Email Address</label>
-                                                            <input id="emailAddress" name="emailAddress" className="form-control input-lg"
-                                                                tabindex="3" placeholder="Email address" type="email" value="" size="20"
+                                                            <input id="emailAddress" onChange = {this.emailChangeHandler} name="emailAddress" className="form-control input-lg"
+                                                                tabindex="3" placeholder="Email address" type="email" size="20"
                                                                 autocomplete="on" />
                                                         </div>
                                                         <div className="form-group">
                                                             <label for="password" className="hidden">Password</label>
-                                                            <input id="password" name="password" className="form-control input-lg" tabindex="4"
-                                                                placeholder="Password" type="password" value="" size="20" autocomplete="off" />
+                                                            <input id="password" onChange = {this.passwordChangeHandler} name="password" className="form-control input-lg" tabindex="4"
+                                                                placeholder="Password" type="password" size="20" autocomplete="off" />
                                                         </div>
-                                                        <input tabindex="6" type="submit" className="btn btn-primary btn-lg btn-block btn-cas-primary"
+                                                        <input tabindex="6" type="submit" onClick ={this.signUp} className="btn btn-primary btn-lg btn-block btn-cas-primary"
                                                             value="Sign Me Up" id="form-submit" />
                                                     </div>
                                                     <button type="button" tabindex="6" className="btn btn-primary btn-lg btn-block btn-cas-primary hidden"
@@ -117,4 +206,4 @@ class Signup extends Component{
     }
 }
 
-export default Signup;
+export default ownerSignup;
