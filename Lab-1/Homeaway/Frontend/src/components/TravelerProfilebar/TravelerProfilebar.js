@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import LoginNavbar from './LoginNavbar';
+import LoginNavbar from '../LoginNavbar/LoginNavbar';
 
 class TravelerProfilebar extends Component {
     render(){
@@ -12,16 +12,16 @@ class TravelerProfilebar extends Component {
                             <div className="container">
                                 <ul className="nav nav-underline nav-underline--left" role="tablist">
                                     <li role="presentation" className="js-th-nav-inbox">
-                                        <a href="/traveler/th/inbox" data-bypass="true">Inbox</a>
+                                        <a href="http://localhost:3000/inbox" data-bypass="true">Inbox</a>
                                     </li>
                                     <li role="presentation" className="js-th-nav-booked">
-                                        <a href="/traveler/th/bookings" data-bypass="true">My Trips</a>
+                                        <a href="http://localhost:3000//bookings" data-bypass="true">My Trips</a>
                                     </li>
                                     <li role="presentation" className="js-th-nav-profile">
-                                        <a href="/traveler/profile/edit">Profile</a>
+                                        <a href="http://localhost:3000/editprofile">Profile</a>
                                     </li>
                                     <li role="presentation" className="js-th-nav-settings">
-                                        <a href="/traveler/account">Account</a>
+                                        <a href="http://localhost:3000/account">Account</a>
                                     </li>
                                 </ul>
                             </div>

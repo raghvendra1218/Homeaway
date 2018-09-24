@@ -1,15 +1,22 @@
 import React, { Component } from 'react';
+import {Link} from 'react-router-dom';
+import cookie from 'react-cookies';
+import {Redirect} from 'react-router';
 import './home.css';
 import $ from 'jquery';
+import TravelerLogin from '../TravelerLogin/TravelerLogin';
 
 class Home extends Component {
     constructor(props) {
         super(props)
-        this.state = {
-            open: false
-        };
     }
 
+    //handle logout to destroy the cookie
+    handleLogout = () => {
+        sessionStorage.clear();
+        console.log("User logged out Successfully.");
+        console.log(`values of email in session storage ${sessionStorage.getItem('email')}`);
+    }
 
     componentDidMount = () => {
         $('#login').on('click', function(){
@@ -20,6 +27,43 @@ class Home extends Component {
 
 
     render(){
+        let userLogin = null;
+        if(sessionStorage.getItem("userEmail") !== null){
+            console.log('Able to read session.');
+            userLogin = (
+                <div className="dropdown" tabindex="-1" role="presentation">
+                <button aria-haspopup="true" aria-expanded="false" className="site-header-nav__toggle Dropdown__toggle" id="dropdownMenuButton"
+                    label="Login" data-toggle="dropdown">
+                    {sessionStorage.getItem('userFirstName').toUpperCase()}<span aria-hidden="true" className="caret"></span>
+                </button>
+                <div class="dropdown-menu" aria-labelledby="site-header__login">
+                    <ul>
+                        <li class="dropdown-item"><Link to="/inbox"><span className="glyphicon glyphicon-envelope"></span>&nbsp;&nbsp;&nbsp;Inbox </Link></li>
+                        <li class="dropdown-item"><Link to="/trips"><span className="glyphicon glyphicon-briefcase"></span>&nbsp;&nbsp;&nbsp;My trips</Link></li>
+                        <li class="dropdown-item"><Link to="/editprofile"><span className="glyphicon glyphicon-user"></span>&nbsp;&nbsp;&nbsp;My profile</Link></li>
+                        <li class="dropdown-item"><Link to="/account"><span className="glyphicon glyphicon-cog"></span>&nbsp;&nbsp;&nbsp;Account</Link></li>
+                        <li class="dropdown-item"><Link to="/" onClick = {this.handleLogout}><span className="glyphicon glyphicon-log-out"></span>&nbsp;&nbsp;&nbsp;Logout</Link></li>
+                    </ul>
+                </div>
+            </div>
+            );
+        } else {
+            console.log("unable to read session");
+            userLogin = (
+                <div id="login" className="dropdown" tabindex="-1" role="presentation">
+                    <button aria-haspopup="true" aria-expanded="false" className="site-header-nav__toggle Dropdown__toggle" id="dropdownMenuButton"
+                        label="Login" data-toggle="dropdown">
+                        Login<span aria-hidden="true" className="caret"></span>
+                    </button>
+                    <div class="dropdown-menu" aria-labelledby="site-header__login">
+                        <ul>
+                            <li class="dropdown-item"><Link to="/travelerlogin"><span className="glyphicon glyphicon-log-in"></span>&nbsp;&nbsp;&nbsp;Traveler Login</Link></li>
+                            <li class="dropdown-item"><Link to="/ownerlogin"><span className="glyphicon glyphicon-log-in"></span>&nbsp;&nbsp;&nbsp;Owner Login</Link></li>
+                        </ul>
+                    </div>
+                </div>
+            );
+        }
         return(
             <div>
                 <div className ="HeroImage" style={{backgroundImage: "url('http://csvcus.homeaway.com/rsrcs/stab-cms-resources/0.10.30/images/homepage/jumbotron/ptaHpNextHeroImage/large.jpg')", height: "100%", backgroundPosition: "center", backgroundRepeat: "no-repeat", backgroundSize: "cover"}}>
@@ -55,29 +99,7 @@ class Home extends Component {
                                             <div className="site-header-scratchpad__label">Trip Boards</div>
                                         </div>
                                     </a>
-                                    <div className="dropdown" tabindex="-1" role="presentation">
-                                        <button aria-haspopup="true" aria-expanded="false" className="site-header-nav__toggle Dropdown__toggle" id="dropdownMenuButton"
-                                            label="Login" data-toggle="dropdown">
-                                            UserName<span aria-hidden="true" className="caret"></span>
-                                        </button>
-                                        <div class="dropdown-menu" aria-labelledby="site-header__login">
-                                            <a class="dropdown-item" href="#">&nbsp;<span className="glyphicon glyphicon-envelope"></span>&nbsp;&nbsp;&nbsp;Inbox</a><br></br>
-                                            <a class="dropdown-item" href="#">&nbsp;<span className="glyphicon glyphicon-briefcase"></span>&nbsp;&nbsp;&nbsp;My trips</a><br></br>
-                                            <a class="dropdown-item" href="#">&nbsp;<span className="glyphicon glyphicon-user"></span>&nbsp;&nbsp;&nbsp;My profile</a><br></br>
-                                            <a class="dropdown-item" href="#">&nbsp;<span className="glyphicon glyphicon-cog"></span>&nbsp;&nbsp;&nbsp;Account</a><br></br>
-                                            <a class="dropdown-item" href="#">&nbsp;<span className="glyphicon glyphicon-log-out"></span>&nbsp;&nbsp;&nbsp;Logout</a><br></br>
-                                        </div>
-                                    </div>
-                                    <div id="login" className="dropdown" tabindex="-1" role="presentation">
-                                        <button aria-haspopup="true" aria-expanded="false" className="site-header-nav__toggle Dropdown__toggle" id="dropdownMenuButton"
-                                            label="Login" data-toggle="dropdown">
-                                            Login<span aria-hidden="true" className="caret"></span>
-                                        </button>
-                                        <div class="dropdown-menu" aria-labelledby="site-header__login">
-                                            <a class="dropdown-item" href="#">&nbsp;<span className="glyphicon glyphicon-log-in"></span>&nbsp;&nbsp;&nbsp;Traveler Login</a><br></br>
-                                            <a class="dropdown-item" href="#">&nbsp;<span className="glyphicon glyphicon-log-in"></span>&nbsp;&nbsp;&nbsp;Owner Login</a>
-                                        </div>
-                                    </div>
+                                        {userLogin}
                                     <div className="Dropdown site-header-nav__dropdown" tabindex="-1" role="presentation"><button aria-expanded="false"
                                         aria-haspopup="true" className="site-header-nav__toggle Dropdown__toggle" id="site-header__help" label="Help">Help
                         <span aria-hidden="true" className="caret"></span></button>

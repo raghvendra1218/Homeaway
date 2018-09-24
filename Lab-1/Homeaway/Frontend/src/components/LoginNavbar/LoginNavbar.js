@@ -8,9 +8,9 @@ class LoginNavbar extends Component {
                 <div className="navbar header navbar-bce">
                     <div className="navbar-inner">
                         <div className="pull-left">
-                            <a href="http://www.homeaway.com/" title="HomeAway" className="logo">
+                            <a href="http://localhost:3000" title="HomeAway" className="logo">
                                 <img src={"//csvcus.homeaway.com/rsrcs/cdn-logos/2.10.6/bce/moniker/homeaway_us/logo-bceheader.svg"} alt = "logo"/>
-                            </a>
+                            </a>    
                         </div>
                     </div>
                 </div>
