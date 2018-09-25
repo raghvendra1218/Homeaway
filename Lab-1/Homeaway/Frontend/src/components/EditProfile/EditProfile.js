@@ -254,7 +254,7 @@ class EditProfile extends Component {
                                                          <div className="img-circle profile-user-photo js-user-photo">
                                                             <div className="img-circle user-photo" style={{ backgroundImage: "url('https://odis.homeaway.com/mda01/7651dc3c-43ae-4ab3-98ef-396e47b19072.2.2')" }}></div>
                                                         </div>
-                                                        <button id="js-edit-photo" className="btn btn-default btn-icon-circle btn-edit-photo" title="Add photo" type="button">
+                                                        <button id="js-edit-photo" className="btn btn-default btn-icon-circle btn-edit-photo" title="Add photo" type="file">
                                                             <i className="icon-edit"></i>
                                                         </button>
                                                     </div>

@@ -43,8 +43,8 @@ app.use(function(req, res, next) {
 app.get('/userdetail',function(req,res){
     console.log("Inside User Detail Request");
     var EMAIL = req.query.email;
-
-    if(req.query.isTraveler === true) {
+    console.log(`is Traveler ${req.query.isTraveler}`);
+    if(req.query.isTraveler === true) {  
 
         console.log("Inside Traveler Detail Request");
         //QUERY TRAVELER_INFO_TABLE to get the email and password

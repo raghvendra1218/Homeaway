@@ -110,8 +110,7 @@ class Home extends Component {
                                             <li className="dropdown-header">Travelers</li>
                                         </ul>
                                     </div>
-                                </div><a className="site-header-list-your-property btn btn-default btn-inverse" data-bypass="true" href="https://www.homeaway.com/lyp?icid=IL___O_Text___top_nav_link_hp">List
-                your property</a>
+                                </div><a className="site-header-list-your-property btn btn-default btn-inverse" data-bypass="true" href="http://localhost:3000/postproperty">Post your property</a>
                                 <div className="site-header-birdhouse">
                                     <div className="site-header-birdhouse__toggle" data-toggle="dropdown" role="button" tabindex="0"><img alt="HomeAway birdhouse"
                                         className="site-header-birdhouse__image" role="presentation" src={"//csvcus.homeaway.com/rsrcs/cdn-logos/2.11.0/bce/moniker/homeaway_us/birdhouse-bceheader-white.svg"} />
