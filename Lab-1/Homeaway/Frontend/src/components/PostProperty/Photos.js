@@ -2,7 +2,7 @@ import React from 'react';
 import './postproperty.css';
 const photos =(props)=> {
     return (
-        <div className="col-md-7 content-panel-container center-property-form">
+        <div className="col-md-7 content-panel-container ">
             <div className="panel panel-default">
                 <div className="panel-body">
                     <div className="checklist-header-container">
@@ -24,7 +24,7 @@ const photos =(props)=> {
                                             </div><br />
                                             <div>
                                                 <label style={{ textAlign: 'center' }} for="uploadPhotoInput" className="photo-drop-button btn btn-primary btn-rounded btn-sm">SELECT PHOTOS</label>
-                                                <input style={{ display: 'none' }} type="file" id="uploadPhotoInput" multiple="" />
+                                                <input style={{ display: 'none' }} onChange= {props.photoOneChange}  type="file" id="uploadPhotoInput" multiple="" />
                                             </div><hr />
                                         </div>
                                     </div>
@@ -36,7 +36,7 @@ const photos =(props)=> {
                                             type="button"><span className="btn__label">Back</span></a>
                                         </div>
                                         <div id="next-ph" className="col-xs-6">
-                                        <a className="btn btn-primary btn-rounded btn-sm" label="Next" data-toggle="tab" href="#pricing"
+                                        <a className="btn btn-primary btn-rounded btn-sm" label="Next" data-toggle="tab" href="#availability"
                                             type="button"><span className="btn__label">Next</span></a>
                                         </div>
                                     </div>

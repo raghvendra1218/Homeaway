@@ -1,8 +1,8 @@
 import React from 'react';
 import './postproperty.css';
-const pricing = () => {
+const pricing = (props) => {
     return(
-        <div id="layout" className="col-md-7 content-panel-container center-property-form">
+        <div id="layout" className="col-md-7 content-panel-container">
             <div className="panel panel-default">
                 <div className="panel-body">
                     <div className="panel-body">
@@ -21,7 +21,7 @@ const pricing = () => {
                                 <div className="col-10">
                                     <div className="form-group">
                                         <div>
-                                            <select id="rates-onboarding-currencyCode" className="form-control currency-select">
+                                            <select id="rates-onboarding-currencyCode" onChange= {props.currencyChange}  className="form-control currency-select">
                                                 <option value=""></option>
                                                 <option value="AUD">Australian Dollar (AUD)</option>
                                                 <option value="EUR">Euros (EUR)</option>
@@ -39,26 +39,19 @@ const pricing = () => {
                                 <label for="example-text-input" class="col-2 col-form-label">Nightly Base Rate</label>
                                 <div class="col-10">
                                     <div>
-                                        <input class="form-control" title="(USD)" min="1" max="10000" maxlength="10" type="text" id="rates-onboarding-base-rate-amount" />
+                                        <input class="form-control" onChange= {props.baseRateChange}  title="(USD)" min="1" max="10000" maxlength="10" type="text" id="rates-onboarding-base-rate-amount" />
                                     </div>
                                 </div>
                             </div>
-                            <div class="form-group row">
-                                <label for="example-text-input" class="col-2 col-form-label">Minimum stay</label>
-                                <div class="col-10">
-                                    <div>
-                                        <input class="form-control" title="Days" pattern="\d*" min="1" type="number" id="rates-onboarding-base-rate-minstay" />
-                                    </div>
-                                </div>
-                            </div><hr />
+                            <hr/>
                             <div style={{ paddingTop: '10px', paddingBottom: '25px', textAlign: 'center' }} className="panel-control step-footer-wrapper">
                                 <div className="row">
                                     <div id= "back-pr" className="col-xs-6">
-                                    <a className="btn btn-default btn-rounded btn-sm" label="Back" data-toggle="tab" href="#photos"
+                                    <a className="btn btn-default btn-rounded btn-sm" label="Back" data-toggle="tab" href="#availability"
                                         type="button"><span className="btn__label">Back</span></a>
                                     </div>
-                                    <div className="col-xs-6"><a className="btn btn-primary btn-rounded btn-sm" label="Next" href="/pob/checklist/121.7360001.6717288/propertyDetails"
-                                        type="button"><span className="btn__label">Next</span></a>
+                                    <div className="col-xs-6">
+                                    <input className="btn btn-primary btn-rounded btn-sm" onClick= {props.submitClick} label="Submit" value="Submit"  type="button"/>
                                     </div>
                                 </div>
                             </div>

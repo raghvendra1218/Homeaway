@@ -146,12 +146,92 @@ app.post('/login',function(req,res){
     @param : Arrival Date
     @param : End Date
 */
+app.get('/search:propid', function(req,res){
+    console.log("Inside search Request.");
+    
+})
+
+
 
 //Route to Post the Property Details
 // TODO: Check if the the the login is Owner login 
 // if yes then allow the Property post else throw error , handle that in front-end with suitable Message
-app.post('/addproperty', function(req,res){
+app.post('/postproperty', function(req,res){
     console.log("Inside the Post property Handler");
+    var PROP_COUNTRY = req.body.propertyDetails.propCountry;
+    var PROP_ST_ADDRESS = req.body.propertyDetails.propStreetAddress;
+    var PROP_APT = req.body.propertyDetails.propApartment;
+    var PROP_CITY = req.body.propertyDetails.propCity;
+    var PROP_STATE = req.body.propertyDetails.propState;
+    var PROP_ZIP = req.body.propertyDetails.propZip;
+    var PROP_HEADLINE = req.body.propertyDetails.propHeadline;
+    var PROP_DESC = req.body.propertyDetails.propDescription;
+    var PROP_TYPE = req.body.propertyDetails.propType;
+    var PROP_NO_BEDROOM = req.body.propertyDetails.propNoBedroom;
+    var PROP_GUEST_COUNT = req.body.propertyDetails.propGuestCount;
+    var PROP_BATH = req.body.propertyDetails.propNoBathroom;
+    var PROP_PHOTO_1 = req.body.propertyDetails.propPhoto1;
+    var PROP_PHOTO_2 = req.body.propertyDetails.propPhoto2;
+    var PROP_PHOTO_3 = req.body.propertyDetails.propPhoto3;
+    var PROP_PHOTO_4 = req.body.propertyDetails.propPhoto4;
+    var PROP_PHOTO_5 = req.body.propertyDetails.propPhoto5;
+    var PROP_CURRENCY = req.body.propertyDetails.propCurrency;
+    var PROP_BASE_RATE = req.body.propertyDetails.propBaseRate;
+    var PROP_AVAIL_DATE = req.body.propertyDetails.propStartDate;
+    var PROP_AVAIL_TILL = req.body.propertyDetails.propEndDate;
+    var EMAIL = req.body.propertyDetails.email;
+
+    //SQL Query to update the parameters received
+    var sql = "INSERT INTO OWNER_PROPERTY_TABLE (PROP_COUNTRY, PROP_ST_ADDRESS, PROP_APT, PROP_CITY, " +
+     "PROP_STATE, PROP_ZIP, PROP_HEADLINE, PROP_DESC, PROP_TYPE, PROP_NO_BEDROOM, PROP_GUEST_COUNT, PROP_BATH, PROP_PHOTO_1, " +
+     "PROP_PHOTO_2, PROP_PHOTO_3, PROP_PHOTO_4, PROP_PHOTO_5, PROP_CURRENCY, PROP_BASE_RATE, PROP_AVAIL_DATE, PROP_AVAIL_TILL, EMAIL) " +
+                                            "VALUES (" + "'" +
+                                            PROP_COUNTRY + "' ," + "'" +
+                                            PROP_ST_ADDRESS + "' ," + "'" +
+                                            PROP_APT + "' ," + "'" +
+                                            PROP_CITY + "' ," + "'" +
+                                            PROP_STATE + "' ," +
+                                            PROP_ZIP + " ," + "'" +
+                                            PROP_HEADLINE + "' ," + "'" +
+                                            PROP_DESC + "' ," + "'" +
+                                            PROP_TYPE + "' ," +
+                                            PROP_NO_BEDROOM + " ," +
+                                            PROP_GUEST_COUNT + " ," +
+                                            PROP_BATH + " ," + "'" +
+                                            PROP_PHOTO_1 + "' ," + "'" +
+                                            PROP_PHOTO_2 + "' ," + "'" +
+                                            PROP_PHOTO_3 + "' ," + "'" +
+                                            PROP_PHOTO_4 + "' ," + "'" +
+                                            PROP_PHOTO_5 + "' ," + "'" +
+                                            PROP_CURRENCY + "' ," +
+                                            PROP_BASE_RATE + " ," + "'" +
+                                            PROP_AVAIL_DATE + "' ," + "'" +
+                                            PROP_AVAIL_TILL + "' ," + "'" +
+                                            EMAIL + "');";
+    //Get a connection from the created SQL pool
+    pool.getConnection(function(err,con){
+        if(err){
+            res.writeHead(400,{
+                'Content-Type' : 'text/plain'
+            })
+            res.end("Could Not Get Connection Object");
+        } else {
+            con.query(sql,function(err,result){
+                if(err){
+                    res.writeHead(400,{
+                        'Content-Type' : 'text/plain'
+                    })
+                    res.end("some error occurred while executing sql query");
+                }else{
+                    res.writeHead(200,{
+                        'Content-Type' : 'text/plain'
+                    })
+                    console.log(`Property with Address: ${PROP_ST_ADDRESS} Created Successfully`);
+                    res.end('Record Created Successfully');
+                }
+            });
+        }
+    });
 
 })
 

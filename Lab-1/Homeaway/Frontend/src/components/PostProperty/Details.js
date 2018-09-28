@@ -16,7 +16,7 @@ const details = (props) => {
                                     <div className="row headline-container out-of-limits">
                                         <div className="col-xs-12">
                                             <div className="form-group floating-label not-empty">
-                                                <input className="form-control" aria-label="Headline"
+                                                <input className="form-control" onChange= {props.headlineChange} aria-label="Headline"
                                                     aria-invalid="false" aria-describedby="headline__help" id="headline" name="headline"
                                                     type="text" />
                                                 </div>
@@ -24,7 +24,8 @@ const details = (props) => {
                                     </div>
                                     <div className="row out-of-limits">
                                         <div className="col-xs-12">
-                                            <div className="form-group floating-label not-empty"><textarea className="FormTextArea__textarea form-control"
+                                            <div className="form-group floating-label not-empty">
+                                            <textarea className="FormTextArea__textarea form-control" onChange={props.descriptionChange}
                                                 aria-label="Property description" aria-describedby="description__help" id="description"
                                                 name="description" rows="8">avaiable in the prime area</textarea><label className="FormTextArea__floating-label"
                                                     for="description">Property description</label></div>
@@ -34,7 +35,7 @@ const details = (props) => {
                                         <div className="col-xs-12 col-lg-6">
                                             <div className="form-group floating-label not-empty"><label>Property type</label>
                                                 <div className="FormSelect__wrapper">
-                                                <select aria-label="Property type" name="propertyType"
+                                                <select aria-label="Property type" onChange={props.typeChange} name="propertyType"
                                                     className="form-control FormSelect__select">
                                                     <option value="apartment">Apartment</option>
                                                     <option value="barn">Barn</option>
@@ -75,7 +76,7 @@ const details = (props) => {
                                     <div className="row">
                                         <div className="col-xs-12 col-lg-6">
                                             <div className="form-group floating-label not-empty">
-                                                <input className="form-control" aria-label="Bedrooms"
+                                                <input className="form-control" onChange={props.bedroomsChange} aria-label="Bedrooms"
                                                     aria-invalid="false" id="bedrooms" name="bedrooms" type="number" step="1" min = "1"/>
                                                 <label className="" for="bedrooms">Bedrooms</label></div>
                                         </div>
@@ -83,7 +84,7 @@ const details = (props) => {
                                     <div className="row">
                                         <div className="col-xs-12 col-lg-6">
                                             <div className="form-group floating-label not-empty">
-                                                <input className="form-control" aria-label="Accommodates"
+                                                <input className="form-control" onChange={props.guestCountChange} aria-label="Accommodates"
                                                     aria-invalid="false" id="sleeps" name="sleeps" type="number" max="500" min="1"
                                                     step="1" /><label className="" for="sleeps">Accommodates</label></div>
                                         </div>
@@ -91,7 +92,7 @@ const details = (props) => {
                                     <div className="row">
                                         <div className="col-xs-12 col-lg-6">
                                             <div className="form-group floating-label not-empty">
-                                                <input className="form-control" aria-label="Bathrooms"
+                                                <input className="form-control" onChange={props.bathroomsChange} aria-label="Bathrooms"
                                                     aria-invalid="false" id="bathrooms" name="bathrooms" type="number" max="500"
                                                     min="1" step="0.5" /><label className="" for="bathrooms">Bathrooms</label></div>
                                         </div>

@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import axios from 'axios';
-import cookie from 'react-cookies';
 import {Redirect} from 'react-router';
 import './editprofile.css';
 import {capitalizeFirstLetter} from '../../utility';
@@ -254,10 +253,10 @@ class EditProfile extends Component {
                 // ...this.state
             }
         }
-        //Post Call to update the Traveler Details
+        //Put Call to update the Traveler Details
         //set the with credentials to true
         axios.defaults.withCredentials = true;
-        //make a post request with the user data
+        //make a put request with the user data
         axios.put('http://localhost:3001/editprofile',data)
         .then(response => {
             console.log("Status Code : ",response.status);
