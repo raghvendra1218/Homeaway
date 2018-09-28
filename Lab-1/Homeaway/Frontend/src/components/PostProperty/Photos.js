@@ -5,41 +5,39 @@ const photos =(props)=> {
         <div className="col-md-7 content-panel-container center-property-form">
             <div className="panel panel-default">
                 <div className="panel-body">
-                    <div data-reactroot="" className="listing-editor">
-                        <div>
-                            <div>
-                                <div className="panel panel-default pyl-photos">
-                                    <div>
-                                        <div className="le-nav-header">
-                                            <h1 className="nav-header-text">Add up to 5 photos of your property</h1>
+                    <div className="checklist-header-container">
+                        <div className="le-nav-header">
+                            <div style={{ paddingTop: '25px', textAlign: 'center' }} className="le-nav-header">
+                                <h2 className="nav-header-text">Add up to 5 photos of your property</h2>
+                            </div>
+                            <hr></hr>
+                        </div>
+                        <div style={{ border: '1px, solid red' }} className="pyl-photos-container">
+                            <div className="pyl-photos-content">
+                                <div className="pyl-photos-photo-drop">
+                                    <div id="inside-upload-area">
+                                        <div style={{ textAlign: 'center' }} className="pyl-photos-photo-drop-inside">
+                                            <div style={{ border: "2px dashed #C0C0C0", margin: "15px" }}>
+                                                <h2 className="photo-drop-title text-muted">Drop photos here</h2>
+                                                <h2 className="photo-drop-OR text-muted">or</h2>
+                                                <h2 className="photo-drop-error text-muted">Only JPEG images are supported</h2>
+                                            </div><br />
+                                            <div>
+                                                <label style={{ textAlign: 'center' }} for="uploadPhotoInput" className="photo-drop-button btn btn-primary btn-rounded btn-sm">SELECT PHOTOS</label>
+                                                <input style={{ display: 'none' }} type="file" id="uploadPhotoInput" multiple="" />
+                                            </div><hr />
                                         </div>
-                                        <hr></hr>
                                     </div>
-                                    <div className="pyl-photos-container">
-                                        <div className="pyl-photos-content">
-                                            <div className="pyl-photos-photo-drop">
-                                                <div id="inside-upload-area">
-                                                    <div className="pyl-photos-photo-drop-inside">
-                                                        <h1 className="photo-drop-title text-muted">Drop photos here</h1>
-                                                        <h1 className="photo-drop-OR text-muted">or</h1>
-                                                        <h1 className="photo-drop-error text-muted">Only JPEG images are supported</h1>
-                                                        <div><label for="uploadPhotoInput" className="photo-drop-button btn btn-primary btn-rounded btn-sm">SELECT
-                                                PHOTOS TO UPLOAD</label><input type="file" id="uploadPhotoInput"
-                                                                multiple="" /></div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div className="pyl-photos-shot-list"></div>
-                                            <div className="panel-control step-footer-wrapper">
-                                                <div className="row">
-                                                    <div className="col-xs-6"><a className="btn btn-default btn-rounded btn-sm" label="Back" href="/pob/checklist/121.7360001.6717288"
-                                                        type="button"><span className="btn__label">Back</span></a>
-                                                    </div>
-                                                    <div className="col-xs-6"><a className="btn btn-primary btn-rounded btn-sm" label="Next" href="/pob/checklist/121.7360001.6717288/propertyDetails"
-                                                        type="button"><span className="btn__label">Next</span></a>
-                                                    </div>
-                                                </div>
-                                            </div>
+                                </div>
+                                <div style={{ paddingTop: '10px', paddingBottom: '25px', textAlign: 'center' }} className="panel-control step-footer-wrapper">
+                                    <div className="row">
+                                        <div id="back-ph" className="col-xs-6">
+                                        <a className="btn btn-default btn-rounded btn-sm" label="Back" data-toggle="tab" href="#details"
+                                            type="button"><span className="btn__label">Back</span></a>
+                                        </div>
+                                        <div id="next-ph" className="col-xs-6">
+                                        <a className="btn btn-primary btn-rounded btn-sm" label="Next" data-toggle="tab" href="#pricing"
+                                            type="button"><span className="btn__label">Next</span></a>
                                         </div>
                                     </div>
                                 </div>

@@ -44,8 +44,10 @@ app.get('/userdetail',function(req,res){
     console.log("Inside User Detail Request");
     var EMAIL = req.query.email;
     console.log(`is Traveler ${req.query.isTraveler}`);
-    if(req.query.isTraveler === true) {  
+    var isTraveler = JSON.parse(req.query.isTraveler);
+    console.log("typeof: "+ isTraveler);
 
+    if(isTraveler) {  
         console.log("Inside Traveler Detail Request");
         //QUERY TRAVELER_INFO_TABLE to get the email and password
         var sql = "SELECT *  FROM TRAVELER_INFO_TABLE WHERE EMAIL = " + mysql.escape(EMAIL);
@@ -77,7 +79,7 @@ app.get('/userdetail',function(req,res){
                             'Content-Type' : 'text/plain'
                         })
                     console.log(`Successful fetched the ${EMAIL} details.`);
-                    console.log(`value of sql fetched ${JSON.stringify(result)}`);
+                    console.log(`Result of userdetail  route: ${JSON.stringify(result)}`);
                     res.end(JSON.stringify(result));
                 }
             });
@@ -93,7 +95,7 @@ app.post('/login',function(req,res){
     var PASSWORD = req.body.userDetails.password;
     console.log("Req Body : ",req.body.userDetails);
 
-    if(req.body.userDetails.isTraveler == true) {
+    if(req.body.userDetails.isTraveler) {
 
         console.log("Inside Traveler Login Request");
         //QUERY TRAVELER_INFO_TABLE to get the email and password
@@ -125,7 +127,8 @@ app.post('/login',function(req,res){
                     if (result.length > 0){
                         res.cookie('cookie',"admin",{maxAge: 900000, httpOnly: false, path : '/'});
                         req.session.user = result;
-                        res.status(200).json({"message":"Successful login"});
+                        console.log(`Result of login route: ${JSON.stringify(result)}`);
+                        res.status(200).json(JSON.stringify(result));
                     }
                     else{
                         res.status(401).json({"message":"incorrect username or password"});

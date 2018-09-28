@@ -8,21 +8,38 @@ import TravelerProfilebar from '../TravelerProfilebar/TravelerProfilebar';
 
 class EditProfile extends Component {
     constructor(props) {
-        super(props);
+        super();
         this.state = {
             userDetails : {
+                // email: sessionStorage.getItem('userEmail'),
+                // firstName : capitalizeFirstLetter(sessionStorage.getItem('userFirstName')),
+                // lastName : capitalizeFirstLetter(sessionStorage.getItem('userLastName')),
+                // aboutMe: sessionStorage.getItem('aboutMe'),
+                // city: capitalizeFirstLetter(sessionStorage.getItem('city')),
+                // country: capitalizeFirstLetter(sessionStorage.getItem('country')),
+                // company: capitalizeFirstLetter(sessionStorage.getItem('company')),
+                // school: capitalizeFirstLetter(sessionStorage.getItem('school')),
+                // hometown: capitalizeFirstLetter(sessionStorage.getItem('hometown')),
+                // languages:capitalizeFirstLetter(sessionStorage.getItem('languages')),
+                // gender: capitalizeFirstLetter(sessionStorage.getItem('gender')),
+                // phoneNumber: sessionStorage.getItem('phoneNumber'),
+
+                //Using get api Call through Get Component didmount.
+
                 email: sessionStorage.getItem('userEmail'),
-                firstName : capitalizeFirstLetter(sessionStorage.getItem('userFirstName')),
-                lastName : capitalizeFirstLetter(sessionStorage.getItem('userLastName')),
-                aboutMe: sessionStorage.getItem('aboutMe'),
-                city: capitalizeFirstLetter(sessionStorage.getItem('city')),
-                country: capitalizeFirstLetter(sessionStorage.getItem('country')),
-                company: capitalizeFirstLetter(sessionStorage.getItem('company')),
-                school: capitalizeFirstLetter(sessionStorage.getItem('school')),
-                hometown: capitalizeFirstLetter(sessionStorage.getItem('hometown')),
-                languages:capitalizeFirstLetter(sessionStorage.getItem('languages')),
-                gender: capitalizeFirstLetter(sessionStorage.getItem('gender')),
-                phoneNumber: sessionStorage.getItem('phoneNumber'),
+                isTraveler: sessionStorage.getItem('isTraveler'),
+                firstName : "",
+                lastName : "",
+                aboutMe: "",
+                profileImage: "",
+                city: "",
+                country: "",
+                company: "",
+                school: "",
+                hometown: "",
+                languages:"",
+                gender: "",
+                phoneNumber: "",
                 isUpdated: false
             }
         }
@@ -32,6 +49,7 @@ class EditProfile extends Component {
         this.lastNameChangeHandler = this.lastNameChangeHandler.bind(this);
         this.aboutMeChangeHandler = this.aboutMeChangeHandler.bind(this);
         this.cityChangeHandler = this.cityChangeHandler.bind(this);
+        this.fileChangeHandler = this.fileChangeHandler.bind(this);
         this.countryChangeHandler = this.countryChangeHandler.bind(this);
         this.companyChangeHandler = this.companyChangeHandler.bind(this);
         this.hometownChangeHandler = this.hometownChangeHandler.bind(this);
@@ -42,15 +60,36 @@ class EditProfile extends Component {
     }
 
     //get the user details from Back-end  
-    // componentDidMount(){
-    //     axios.get('http://localhost:3001/userdetail')
-    //             .then((response) => {
-    //             //update the state with the response data
-    //             this.setState({
-    //                 userDetails : this.state.userDetails.concat(response.data) 
-    //             });
-    //         });
-    // }
+    componentDidMount(){
+        axios.get('http://localhost:3001/userdetail', { params: {email:this.state.userDetails.email, isTraveler: this.state.userDetails.isTraveler}})
+        // axios.get('http://localhost:3001/userdetail', { params: {email:this.state.email, isTraveler: this.state.isTraveler}})
+                .then((response) => {
+                //update the state with the response data
+                const userDetailsFetched = response.data[0];
+                //creating a temporary object to store the values of the response data
+                // let obj1 = new Object(this.state.userDetails);
+                let obj1 = this.state.userDetails;
+                obj1.firstName = userDetailsFetched.FIRST_NAME;
+                obj1.lastName = userDetailsFetched.LAST_NAME;
+                obj1.aboutMe = userDetailsFetched.ABOUT_ME;
+                obj1.profileImage = userDetailsFetched.PROFILE_IMAGE;
+                obj1.city = userDetailsFetched.CITY;
+                obj1.country = userDetailsFetched.COUNTRY;
+                obj1.company = userDetailsFetched.COMPANY;
+                obj1.school = userDetailsFetched.SCHOOL;
+                obj1.hometown = userDetailsFetched.HOMETOWN;
+                obj1.languages = userDetailsFetched.LANGUAGES;
+                obj1.gender = userDetailsFetched.GENDER;
+                obj1.phoneNumber = userDetailsFetched.PHONE_NUMBER;
+                // const UserFirstName = userDetailsFetched.FIRST_NAME;
+                this.setState({
+                        ...this.state,
+                        userDetails: obj1
+                        // firstName: userDetailsFetched.FIRST_NAME,
+
+                });
+            });
+    }
     //Call the Will Mount to set the auth Flag to false
     // componentWillMount(){
     //     this.setState({
@@ -67,6 +106,7 @@ class EditProfile extends Component {
         this.setState({
             userDetails:{
                 ...this.state.userDetails,
+                // ...this.state,
                 firstName : userFirstName
             }
         })
@@ -78,6 +118,7 @@ class EditProfile extends Component {
         this.setState({
             userDetails:{
                 ...this.state.userDetails,
+                // ...this.state,
                 lastName : userLastName
             }
         })
@@ -89,17 +130,30 @@ class EditProfile extends Component {
         this.setState({
             userDetails:{
                 ...this.state.userDetails,
+                // ...this.state,
                 aboutMe : userAboutMe
             }
         })
     }
 
+    //File change Handler to upload a new file uploaded by the user
+    fileChangeHandler = (e) => {
+        const newImage = e.target.files[0];
+        this.setState({
+            userDetails: {
+                ...this.state.userDetails,
+                // ...this.state,
+                profileImage: newImage
+            }
+        })
+    }
     //City change handler to update state variable with the text entered by the user
     cityChangeHandler = (e) => {
         const userCity = e.target.value;
         this.setState({
             userDetails:{
                 ...this.state.userDetails,
+                // ...this.state,
                 city : userCity
             }
         })
@@ -111,6 +165,7 @@ class EditProfile extends Component {
         this.setState({
             userDetails:{
                 ...this.state.userDetails,
+                // ...this.state,
                 country : userCountry
             }
         })
@@ -122,6 +177,7 @@ class EditProfile extends Component {
         this.setState({
             userDetails:{
                 ...this.state.userDetails,
+                // ...this.state,
                 company : userCompany
             }
         })
@@ -133,6 +189,7 @@ class EditProfile extends Component {
         this.setState({
             userDetails:{
                 ...this.state.userDetails,
+                // ...this.state,
                 school : userSchool
             }
         })
@@ -144,6 +201,7 @@ class EditProfile extends Component {
         this.setState({
             userDetails:{
                 ...this.state.userDetails,
+                // ...this.state,
                 hometown : userHometown
             }
         })
@@ -155,6 +213,7 @@ class EditProfile extends Component {
         this.setState({
             userDetails:{
                 ...this.state.userDetails,
+                // ...this.state,
                 languages : userLanguages
             }
         })
@@ -166,6 +225,7 @@ class EditProfile extends Component {
         this.setState({
             userDetails:{
                 ...this.state.userDetails,
+                // ...this.state,
                 gender : userGender
             }
         })
@@ -177,6 +237,7 @@ class EditProfile extends Component {
         this.setState({
             userDetails:{
                 ...this.state.userDetails,
+                // ...this.state,
                 phoneNumber : userPhoneNumber
             }
         })
@@ -189,7 +250,8 @@ class EditProfile extends Component {
         e.preventDefault();
         const data = {
             userDetails: {
-                ...this.state.userDetails
+                ...this.state.userDetails,
+                // ...this.state
             }
         }
         //Post Call to update the Traveler Details
@@ -219,7 +281,7 @@ class EditProfile extends Component {
     render() {
         // redirect based on successful login
         let redirectVar = null;
-        if(!cookie.load('cookie')){
+        if(!sessionStorage.getItem('userEmail')){
             redirectVar = <Redirect to= "/"/>
         }
 
@@ -254,7 +316,8 @@ class EditProfile extends Component {
                                                          <div className="img-circle profile-user-photo js-user-photo">
                                                             <div className="img-circle user-photo" style={{ backgroundImage: "url('https://odis.homeaway.com/mda01/7651dc3c-43ae-4ab3-98ef-396e47b19072.2.2')" }}></div>
                                                         </div>
-                                                        <button id="js-edit-photo" className="btn btn-default btn-icon-circle btn-edit-photo" title="Add photo" type="file">
+                                                        <input style={{display: 'none'}} type="file" onChange ={this.fileChangeHandler} ref= {fileInput => this.fileInput = fileInput}/>
+                                                        <button id="js-edit-photo" onClick={()=> this.fileInput.click()} className="btn btn-default btn-icon-circle btn-edit-photo" title="Add photo" type="button">
                                                             <i className="icon-edit"></i>
                                                         </button>
                                                     </div>

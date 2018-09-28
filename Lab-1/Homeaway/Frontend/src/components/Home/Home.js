@@ -1,21 +1,22 @@
 import React, { Component } from 'react';
 import {Link} from 'react-router-dom';
-import cookie from 'react-cookies';
-import {Redirect} from 'react-router';
 import './home.css';
 import $ from 'jquery';
-import TravelerLogin from '../TravelerLogin/TravelerLogin';
 
 class Home extends Component {
     constructor(props) {
-        super(props)
+        super()
+        this.state = {
+            isTraveler: JSON.parse(sessionStorage.getItem('isTraveler'))
+        }
     }
 
     //handle logout to destroy the cookie
     handleLogout = () => {
+        let loggedInUser = sessionStorage.getItem('userEmail');
         sessionStorage.clear();
+        alert(`${loggedInUser} logged out successfully.`);
         console.log("User logged out Successfully.");
-        console.log(`values of email in session storage ${sessionStorage.getItem('email')}`);
     }
 
     componentDidMount = () => {
@@ -28,7 +29,7 @@ class Home extends Component {
 
     render(){
         let userLogin = null;
-        if(sessionStorage.getItem("userEmail") !== null){
+        if(sessionStorage.getItem('userEmail') !== null && this.state.isTraveler){
             console.log('Able to read session.');
             userLogin = (
                 <div className="dropdown" tabindex="-1" role="presentation">
@@ -47,6 +48,25 @@ class Home extends Component {
                 </div>
             </div>
             );
+        } else if(sessionStorage.getItem('userEmail') !== null && !this.state.isTraveler) {
+            console.log('Able to read session.');
+            userLogin = (
+                <div className="dropdown" tabindex="-1" role="presentation">
+                <button aria-haspopup="true" aria-expanded="false" className="site-header-nav__toggle Dropdown__toggle" id="dropdownMenuButton"
+                    label="Login" data-toggle="dropdown">
+                    {sessionStorage.getItem('userFirstName').toLocaleUpperCase()}<span aria-hidden="true" className="caret"></span>
+                </button>
+                <div class="dropdown-menu" aria-labelledby="site-header__login">
+                    <ul>
+                        <li class="dropdown-item"><Link to="/inbox"><span className="glyphicon glyphicon-envelope"></span>&nbsp;&nbsp;&nbsp;Inbox </Link></li>
+                        <li class="dropdown-item"><Link to="/postings"><span className="glyphicon glyphicon-tent"></span>&nbsp;&nbsp;&nbsp;My postings</Link></li>
+                        <li class="dropdown-item"><Link to="/editprofile"><span className="glyphicon glyphicon-user"></span>&nbsp;&nbsp;&nbsp;My profile</Link></li>
+                        <li class="dropdown-item"><Link to="/account"><span className="glyphicon glyphicon-cog"></span>&nbsp;&nbsp;&nbsp;Account</Link></li>
+                        <li class="dropdown-item"><Link to="/" onClick = {this.handleLogout}><span className="glyphicon glyphicon-log-out"></span>&nbsp;&nbsp;&nbsp;Logout</Link></li>
+                    </ul>
+                </div>
+            </div>
+            ); 
         } else {
             console.log("unable to read session");
             userLogin = (
@@ -110,7 +130,15 @@ class Home extends Component {
                                             <li className="dropdown-header">Travelers</li>
                                         </ul>
                                     </div>
-                                </div><a className="site-header-list-your-property btn btn-default btn-inverse" data-bypass="true" href="http://localhost:3000/postproperty">Post your property</a>
+                                </div>
+                                { (!this.state.isTraveler) ?
+                                    <div>
+                                        <a className="site-header-list-your-property btn btn-default btn-inverse" data-bypass="true" href="http://localhost:3000/postproperty">Post your property</a>
+                                    </div> : 
+                                    <div>
+                                        <a className="site-header-list-your-property btn btn-default btn-inverse"  data-bypass="true" href="http://localhost:3000">Post your property</a>
+                                    </div>
+                                }
                                 <div className="site-header-birdhouse">
                                     <div className="site-header-birdhouse__toggle" data-toggle="dropdown" role="button" tabindex="0"><img alt="HomeAway birdhouse"
                                         className="site-header-birdhouse__image" role="presentation" src={"//csvcus.homeaway.com/rsrcs/cdn-logos/2.11.0/bce/moniker/homeaway_us/birdhouse-bceheader-white.svg"} />

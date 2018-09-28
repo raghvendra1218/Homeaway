@@ -24,6 +24,8 @@ class OwnerLogin extends Component {
         this.emailChangeHandler = this.emailChangeHandler.bind(this);
         this.submitLogin = this.submitLogin.bind(this);
     }
+
+
     //Call the Will Mount to set the auth Flag to false
     componentWillMount(){
         this.setState({
@@ -76,30 +78,44 @@ class OwnerLogin extends Component {
         .then(response2 => {
             console.log("Status Code for post: ",response2.status);
             if(response2.status === 200){
-                axios.get('http://localhost:3001/userdetail',{ params: {email:this.state.userDetails.email, isTraveler: this.state.userDetails.isTraveler}})
-                .then((response) => {
-                    console.log("Status code for get: ", response.status);
-                    if(response.status === 200) {
-                        //update the state with the response data
-                        const userFirstName = response.data[0].FIRST_NAME;
-                        const userLastName = response.data[0].LAST_NAME;
-                        const userID = response.data[0].ID;
-                        const phoneNumber = response.data[0].PHONE_NUMBER;
-                        const userEmail = this.state.userDetails.email;
-                        sessionStorage.setItem('userEmail', userEmail);
-                        sessionStorage.setItem('userFirstName', userFirstName);
-                        sessionStorage.setItem('userLastName', userLastName);
-                        sessionStorage.setItem('userID', userID);
-                        sessionStorage.setItem('phoneNumber', phoneNumber);
-                        this.setState({
-                            userDetails: {
-                                ...this.state.userDetails,
-                                firstName : userFirstName,
-                                lastName : userLastName
-                            }
-                        });
-                    }
-                });
+            //     axios.get('http://localhost:3001/userdetail',{ params: {email:this.state.userDetails.email, isTraveler: this.state.userDetails.isTraveler}})
+            //     .then((response) => {
+            //         console.log("Status code for get: ", response.status);
+            //         if(response.status === 200) {
+            //             //update the state with the response data
+            //             const userFirstName = response.data[0].FIRST_NAME;
+            //             const userLastName = response.data[0].LAST_NAME;
+            //             const userID = response.data[0].ID;
+            //             const phoneNumber = response.data[0].PHONE_NUMBER;
+            //             const userEmail = this.state.userDetails.email;
+            //             sessionStorage.setItem('userEmail', userEmail);
+            //             sessionStorage.setItem('userFirstName', userFirstName);
+            //             sessionStorage.setItem('userLastName', userLastName);
+            //             sessionStorage.setItem('userID', userID);
+            //             sessionStorage.setItem('phoneNumber', phoneNumber);
+            //             this.setState({
+            //                 userDetails: {
+            //                     ...this.state.userDetails,
+            //                     firstName : userFirstName,
+            //                     lastName : userLastName
+            //                 }
+            //             });
+            //         }
+            //     });
+            let loggedInUserDetails = JSON.parse(response2.data)[0];
+            const userEmail = this.state.userDetails.email;
+            const isTraveler = this.state.userDetails.isTraveler;
+            const userFirstName = loggedInUserDetails.FIRST_NAME;
+            const userID = loggedInUserDetails.ID;
+            sessionStorage.setItem('userEmail',  userEmail);
+            sessionStorage.setItem('isTraveler',  isTraveler);
+            sessionStorage.setItem('userFirstName', userFirstName);
+            sessionStorage.setItem('userID', userID);
+            this.setState({
+                ...this.state.userDetails,
+                firstName: userFirstName,
+                authFlag : true
+            });
             } else {
                 alert(response2.data.message);
                 this.setState({
@@ -109,7 +125,7 @@ class OwnerLogin extends Component {
             }
         })
         .catch(err=>{
-            alert(err.response.data.message);
+            alert(err.response2.data.message);
         });
     }
 
@@ -152,7 +168,7 @@ class OwnerLogin extends Component {
                                                 <div className="has-feedback form-group floating-label" data-toggle="label">
                                                     <label For="username" className="hidden">Email</label>
                                                     <input id="username" onChange = {this.emailChangeHandler} name="email" className="form-control input-lg-login" tabindex="1"
-                                                        placeholder="Email address" type="email" size="20" autocomplete="on" />
+                                                        placeholder="Email address" type="email" size="20" autocomplete="on" autoFocus/>
                                                 </div>
                                                 <div className="has-feedback form-group floating-label" data-toggle="label">
                                                     <label for="password" className="hidden">Password</label>

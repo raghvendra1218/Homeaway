@@ -11,7 +11,6 @@ const details = (props) => {
                             <hr></hr>
                         </div>
                             <div>
-                                <div></div>
                                 <form role="form">
                                     <div><span>Start out with a descriptive headline and a detailed summary of your property.</span></div>
                                     <div className="row headline-container out-of-limits">
@@ -34,7 +33,8 @@ const details = (props) => {
                                     <div className="row">
                                         <div className="col-xs-12 col-lg-6">
                                             <div className="form-group floating-label not-empty"><label>Property type</label>
-                                                <div className="FormSelect__wrapper"><select aria-label="Property type" name="propertyType"
+                                                <div className="FormSelect__wrapper">
+                                                <select aria-label="Property type" name="propertyType"
                                                     className="form-control FormSelect__select">
                                                     <option value="apartment">Apartment</option>
                                                     <option value="barn">Barn</option>
@@ -100,11 +100,14 @@ const details = (props) => {
                             </div>
                         </div>
                         <hr></hr>
-                            <div className="panel-control step-footer-wrapper">
+                            <div style ={{paddingTop: '10px', paddingBottom: '25px' , textAlign: 'center'}} className="panel-control step-footer-wrapper">
                                 <div className="row">
-                                    <div className="col-xs-6"><a className="btn btn-default btn-rounded btn-sm" label="Back" href="/pob/checklist/121.7360001.6717288/location"
-                                        type="button"><span className="btn__label">Back</span></a></div>
-                                    <div className="col-xs-6"><a className="btn btn-primary btn-rounded btn-sm" label="Next" href="/pob/checklist/121.7360001.6717288/booking"
+                                    <div id = "back-de" className="col-xs-6">
+                                        <a className="btn btn-default btn-rounded btn-sm" data-toggle="tab" label="Back" href="#location"
+                                        type="button"><span className="btn__label">Back</span></a>
+                                    </div>
+                                    <div id="next-de" className="col-xs-6">
+                                    <a className="btn btn-primary btn-rounded btn-sm" label="Next" data-toggle="tab" href="#photos"
                                         type="button"><span className="btn__label">Next</span></a></div>
                                 </div>
                             </div>

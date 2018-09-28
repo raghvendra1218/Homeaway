@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import LoginNavbar from '../LoginNavbar/LoginNavbar';
 import axios from 'axios';
-import cookie from 'react-cookies';
 import {Redirect} from 'react-router';
 import './login.css'
 
@@ -66,10 +65,7 @@ class TravelerLogin extends Component{
         e.preventDefault();
         const data = {
             userDetails: {
-                ...this.state.userDetails,
-                email : this.state.userDetails.email,
-                password : this.state.userDetails.password,
-                isTraveler: true
+                ...this.state.userDetails
             }
         }
         //set the with credentials to true
@@ -79,58 +75,65 @@ class TravelerLogin extends Component{
             .then(response2 => {
                 console.log("Status Code for post: ",response2.status);
                 if(response2.status === 200){
-                    axios.get('http://localhost:3001/userdetail',{ params: {email:this.state.userDetails.email, isTraveler: this.state.userDetails.isTraveler}})
-                    .then((response) => {
-                        console.log("Status code for get: ", response.status);
-                        if(response.status === 200) {
-                            //update the state with the response data
-                                const userFirstName = response.data[0].FIRST_NAME;
-                                const userLastName = response.data[0].LAST_NAME;
-                                const userID = response.data[0].ID;
-                                const aboutMe = response.data[0].ABOUT_ME;
-                                const city = response.data[0].CITY;
-                                const country = response.data[0].COUNTRY;
-                                const school = response.data[0].SCHOOL;
-                                const company = response.data[0].COMPANY;
-                                const hometown = response.data[0].HOMETOWN;
-                                const languages = response.data[0].LANGUAGES;
-                                const gender = response.data[0].GENDER;
-                                const phoneNumber = response.data[0].PHONE_NUMBER;
-                                var userEmail = this.state.userDetails.email;
-                                sessionStorage.setItem('userEmail', userEmail);
-                                sessionStorage.setItem('userFirstName', userFirstName);
-                                sessionStorage.setItem('userLastName', userLastName);
-                                sessionStorage.setItem('userID', userID);
-                                sessionStorage.setItem('aboutMe', aboutMe);
-                                sessionStorage.setItem('city', city);
-                                sessionStorage.setItem('country', country);
-                                sessionStorage.setItem('school', school);
-                                sessionStorage.setItem('company', company);
-                                sessionStorage.setItem('hometown', hometown);
-                                sessionStorage.setItem('languages', languages);
-                                sessionStorage.setItem('gender', gender);
-                                sessionStorage.setItem('phoneNumber', phoneNumber);
-                                this.setState({
-                                    userDetails: {
-                                        ...this.state.userDetails,
-                                        firstName : userFirstName,
-                                        lastName : userLastName
-                                    }
-                                });
-                                // console.log("Value of State", JSON.stringify(this.state.userDetails));
-                                // console.log(`Response Data: ${response.data}`);
-                                // console.log(`Response Data FirstName : ${response.data[0].FIRST_NAME}`);
-                                // console.log(`FirstName: ${this.state.userDetails.firstName}`);
-                        }
-                    });
-                    console.log("Value of State after: ", JSON.stringify(this.state.userDetails));
-                    // this.setState({
-                    //     ...this.state.userDetails,
-                    //     authFlag : true
+                    // axios.get('http://localhost:3001/userdetail',{ params: {email:this.state.userDetails.email, isTraveler: this.state.userDetails.isTraveler}})
+                    // .then((response) => {
+                    //     console.log("Status code for get: ", response.status);
+                    //     if(response.status === 200) {
+                    //         //update the state with the response data
+                    //             const userFirstName = response.data[0].FIRST_NAME;
+                    //             const userLastName = response.data[0].LAST_NAME;
+                    //             const userID = response.data[0].ID;
+                    //             const aboutMe = response.data[0].ABOUT_ME;
+                    //             const city = response.data[0].CITY;
+                    //             const country = response.data[0].COUNTRY;
+                    //             const school = response.data[0].SCHOOL;
+                    //             const company = response.data[0].COMPANY;
+                    //             const hometown = response.data[0].HOMETOWN;
+                    //             const languages = response.data[0].LANGUAGES;
+                    //             const gender = response.data[0].GENDER;
+                    //             const phoneNumber = response.data[0].PHONE_NUMBER;
+                    //             var userEmail = this.state.userDetails.email;
+                    //             sessionStorage.setItem('userEmail', userEmail);
+                    //             sessionStorage.setItem('userFirstName', userFirstName);
+                    //             sessionStorage.setItem('userLastName', userLastName);
+                    //             sessionStorage.setItem('userID', userID);
+                    //             sessionStorage.setItem('aboutMe', aboutMe);
+                    //             sessionStorage.setItem('city', city);
+                    //             sessionStorage.setItem('country', country);
+                    //             sessionStorage.setItem('school', school);
+                    //             sessionStorage.setItem('company', company);
+                    //             sessionStorage.setItem('hometown', hometown);
+                    //             sessionStorage.setItem('languages', languages);
+                    //             sessionStorage.setItem('gender', gender);
+                    //             sessionStorage.setItem('phoneNumber', phoneNumber);
+                    //             this.setState({
+                    //                 userDetails: {
+                    //                     ...this.state.userDetails,
+                    //                     firstName : userFirstName,
+                    //                     lastName : userLastName
+                    //                 }
+                    //             });
+                    //             // console.log("Value of State", JSON.stringify(this.state.userDetails));
+                    //             // console.log(`Response Data: ${response.data}`);
+                    //             // console.log(`Response Data FirstName : ${response.data[0].FIRST_NAME}`);
+                    //             // console.log(`FirstName: ${this.state.userDetails.firstName}`);
+                    //     }
                     // });
-                    console.log(`value of email ${sessionStorage.getItem('userEmail')}`);
-                    console.log(`value of firstName ${sessionStorage.getItem('userFirstName')}`);
-                }else {
+                    let loggedInUserDetails = JSON.parse(response2.data)[0];
+                    const userEmail = this.state.userDetails.email;
+                    const isTraveler = this.state.userDetails.isTraveler;
+                    const userFirstName = loggedInUserDetails.FIRST_NAME;
+                    const userID = loggedInUserDetails.ID;
+                    sessionStorage.setItem('userEmail',  userEmail);
+                    sessionStorage.setItem('isTraveler',  isTraveler);
+                    sessionStorage.setItem('userFirstName', userFirstName);
+                    sessionStorage.setItem('userID', userID);
+                    this.setState({
+                        ...this.state.userDetails,
+                        firstName: userFirstName,
+                        authFlag : true
+                    });
+                } else {
                     alert(response2.data.message);
                     this.setState({
                         ...this.state.userDetails,
@@ -139,7 +142,7 @@ class TravelerLogin extends Component{
                 }
             })
             .catch(err=>{
-                alert(err.response.data.message);
+                alert(err.response2.data.message);
             });
     }
 
@@ -187,7 +190,7 @@ class TravelerLogin extends Component{
                                                             <div className="has-feedback form-group floating-label" data-toggle="label">
                                                                 <label htmlFor="email" className="hidden">Email</label>
                                                                 <input id="email" name="email" className="form-control input-lg-login" tabIndex="1" type = "text"
-                                                                    placeholder="Email address"  onChange = {this.emailChangeHandler} size="20" autoComplete="on" />
+                                                                    placeholder="Email address"  onChange = {this.emailChangeHandler} size="20" autoComplete="on" autoFocus/>
                                                             </div>
                                                             <div className="has-feedback form-group floating-label" data-toggle="label">
                                                                 <label htmlFor="password" className="hidden">Password</label>

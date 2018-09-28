@@ -7,10 +7,9 @@ const location = (props) => {
                 <div className="panel-body">
                     <div>
                         <form role="form" className="location-form">
-                            <div className="form-group floating-label not-empty"><label>Country</label>
+                            <div className="form-group floating-label not-empty">
                                 <div className="form-group floating-label empty">
-                                    <input className="form-control" aria-label="Unit, Suite, Building, Etc." aria-invalid="false"
-                                        id="address2" name="address2" type="text" />
+                                    <input className="form-control" aria-label="Unit, Suite, Building, Etc." aria-invalid="false" id="address2" name="address2" type="text" />
                                     <label className="" for="address2">Country</label>
                                 </div>
                                 <div className="form-group floating-label empty has-feedback">
@@ -41,13 +40,15 @@ const location = (props) => {
                                     </div>
                                 </div>
                             </div>        
-                        </form>
-                        <div className="panel-control step-footer-wrapper">
+                        </form><hr/>
+                        <div style ={{paddingTop: '10px', paddingBottom: '25px' , textAlign: 'center'}} className="panel-control step-footer-wrapper">
                             <div className="row">
-                                <div className="col-xs-6"><a className="btn btn-default btn-rounded btn-sm" label="Back" href="/pob/checklist/121.7360001.6717288"
+                                <div id = "back-lc" className="col-xs-6">
+                                <a className="btn btn-default btn-rounded btn-sm" label="Back" data-toggle="tab" href="#welcome"
                                         type="button"><span className="btn__label">Back</span></a>
                                 </div>
-                                <div className="col-xs-6"><a className="btn btn-primary btn-rounded btn-sm" label="Next" href="/pob/checklist/121.7360001.6717288/propertyDetails"
+                                <div id = "next-lc" className="col-xs-6">
+                                <a className="btn btn-primary btn-rounded btn-sm" label="Next" data-toggle="tab" href="#details"
                                         type="button"><span className="btn__label">Next</span></a>
                                 </div>
                             </div>
