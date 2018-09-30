@@ -145,13 +145,58 @@ app.post('/login',function(req,res){
     @param : City 
     @param : Arrival Date
     @param : End Date
+    @param : Head Count
 */
-app.get('/search:propid', function(req,res){
+app.get('/searchprop', function(req,res){
     console.log("Inside search Request.");
-    
+    var city = req.query.city;
+    var startDate = req.query.startDate;
+    var endDate = req.query.endDate;
+    var headCount = req.query.headCount;
+
+    var sql = "SELECT *  FROM OWNER_PROPERTY_TABLE" + 
+                                    "WHERE CITY = '" + mysql.escape(city) + "'" +
+                                    "AND PROP_AVAIL_DATE <= '" + mysql.escape(startDate) + "'" +
+                                    "AND PROP_AVAIL_TILL >= '" + mysql.escape(endDate) + "'" +
+                                    "AND PROP_GUEST_COUNT >=" + mysql.escape(headCount);
+
+     //Get a connection from the created SQL pool
+     pool.getConnection(function(err,con){
+        if(err){
+            res.writeHead(400,{
+                'Content-Type' : 'text/plain'
+            })
+            res.end("Could Not Get Connection Object");
+        } else {
+            con.query(sql,function(err,result){
+                if(err){
+                    res.writeHead(400,{
+                        'Content-Type' : 'text/plain'
+                    })
+                    res.end("Invalid Credentials");
+                }else{
+                    res.writeHead(200,{
+                        'Content-Type' : 'text/plain'
+                    })
+                    console.log(`Successful fetched the ${city} details.`);
+                    console.log(`Result of searchprop  route: ${JSON.stringify(result)}`);
+                    res.end(JSON.stringify(result));
+                }
+            });
+        }
+    });
 })
 
 
+//Route to get the Details of a particular Property Id
+/*
+    @param : Property Id 
+*/
+app.get('/propdetail', function(req,res){
+    console.log("Inside Property Detail route");
+    var propertyId = req.query.propId;
+
+}
 
 //Route to Post the Property Details
 // TODO: Check if the the the login is Owner login 

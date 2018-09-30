@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
-import LoginNavbar from '../LoginNavbar/LoginNavbar';
+import Navbar from '../Navbar/Navbar';
 
 class TravelerProfilebar extends Component {
     render(){
         return(
             <div>
-                <LoginNavbar/>
+                <Navbar/>
                 <div className="js-trav-home-header trav-home-header">
                     <section className="header-section">
                         <div className="trav-home-navbar js-trav-home-navbar hidden-xs">

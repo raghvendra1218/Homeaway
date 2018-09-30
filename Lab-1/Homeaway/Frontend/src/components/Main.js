@@ -4,12 +4,12 @@ import {Route} from 'react-router-dom';
 //Import Components
 import Home from './Home/Home';
 import EditProfile from './EditProfile/EditProfile';
-import LoginNavbar from './LoginNavbar/LoginNavbar';
 import OwnerLogin from './OwnerLogin/OwnerLogin';
 import OwnerSignup from './OwnerSignup/OwnerSignup';
 import TravelerLogin from './TravelerLogin/TravelerLogin';
 import TravelerSignup from './TravelerSignup/TravelerSignup';
 import PostProperty from './PostProperty/PostProperty';
+import SearchProperty from './SearchProperty/SearchProperty';
 
 // Create a Main Component
 class Main extends Component {
@@ -24,6 +24,7 @@ class Main extends Component {
                 <Route path="/ownerlogin" component={OwnerLogin}/>
                 <Route path="/editprofile" component={EditProfile}/>
                 <Route path="/postproperty" component={PostProperty}/>
+                <Route path="/searchproperty" component={SearchProperty}/>
                 {/* <Route path="/create" component={Create}/> */}
             </div>
         )

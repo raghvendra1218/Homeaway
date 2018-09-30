@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import {Link} from 'react-router-dom';
+import axios from 'axios';
 import './home.css';
 import $ from 'jquery';
 
@@ -26,6 +27,41 @@ class Home extends Component {
         });
     }
 
+    //Search Property handler to send a request to the node back-end
+    searchProperty = (e) => {
+        //prevent page from refresh
+        e.preventDefault();
+        const data = {
+            propertyDetails: {
+                ...this.state.propertyDetails,
+            }
+        }
+        //Post Call to post Property Details in DB
+        //set the with credentials to true
+        axios.defaults.withCredentials = true;
+        //make a post request with the user data
+        axios.post('http://localhost:3001/postproperty',data)
+        .then(response => {
+            console.log("Status Code : ",response.status);
+            if(response.status === 200){
+                this.setState({
+                    ...this.state.propertyDetails,
+                    propIsPosted : true
+                })
+                console.log("message:", response.data.message);
+                alert("Your property was successfully posted.");
+            }else{
+                this.setState({
+                    ...this.state.propertyDetails,
+                    propIsPosted : false
+                })
+                alert("Your property was not successfully posted.");
+            }
+        })
+        .catch( error =>{
+            console.log("error:", error);
+        });
+    }
 
     render(){
         let userLogin = null;
@@ -155,8 +191,7 @@ class Home extends Component {
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                    </div>   
+                        </div>  
                     <div className="hidden-xs">
                 </div>
                 {/*********/}
@@ -211,8 +246,7 @@ class Home extends Component {
 
                                         <button className="btn btn-primary btn-lg searchbox-submit js-searchSubmit" data-effect="ripple" type="button"
                                             tabindex="5" data-loading-animation="true">
-                                            Search
-                    </button>
+                                            Search</button>
                                     </form>
                                 </div>
                             </div>
@@ -231,6 +265,7 @@ class Home extends Component {
                     </div>
                 </div>
 
+            </div>
             </div>
         </div> 
         )

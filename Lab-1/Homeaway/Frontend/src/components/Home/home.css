@@ -5915,17 +5915,6 @@ screen and (min-width:768px) {
 	}
 }
 
-@media screen and (max-width:767px) and screen and (max-width:767px) {
-	.stab-calendar.stab-calendar-size-large .stab-calendar-event.small-slant.start {
-		width: 150%;
-		right: -50%
-	}
-	.stab-calendar.stab-calendar-size-large .stab-calendar-event.small-slant.end {
-		width: 150%;
-		left: -50%
-	}
-}
-
 .stab-calendar.stab-calendar-size-small {
 	width: 182px
 }

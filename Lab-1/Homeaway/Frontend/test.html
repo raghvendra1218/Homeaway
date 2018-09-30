@@ -1,0 +1,70 @@
+<div className="SearchBar">
+    <div className="SearchBar__expanded hidden-xs">
+        <div className="ExpandedSearchBar" data-wdio="ExpandedSearchBar">
+            <div className="SearchFields SearchFields__gt-dates">
+                <div className="SearchFields__field SearchFields__field--typeahead">
+                    <div role="presentation" className="react-destination-typeahead closed react-destination-typeahead--no-icon">
+                        <div className="search-destination-input">
+                            <div className="sr-only"><span role="status" aria-live="polite" className="sr-only"></span></div>
+                            <div role="presentation" className="search-destination-input__header state--closed">
+                                <div className="search-destination-input__header__inputs form-group has-feedback floating-label not-empty"
+                                    data-toggle="label"><label for="react-destination-typeahead">Where</label>
+                                    <input
+                                        type="text" id="react-destination-typeahead" size="10" placeholder="Destination"
+                                        className="control form-control" value="" autocomplete="off" role="combobox"
+                                        aria-haspopup="listbox" aria-controls="Typeahead__results" aria-autocomplete="both"
+                                        aria-expanded="false"/></div>
+                            </div>
+                            <div></div>
+                        </div>
+                    </div>
+                </div>
+                <div className="SearchFields__field">
+                    <div className="DateRangePicker DateRangePicker--gt date-range form-combined form-combined--dates"><span
+                            className="" style={{display:"block;",outline:"0;",position:"relative"}} role="button" tabindex="0">
+                            <div className="form-combined-row">
+                                <div className="form-group position-relative form-combined__input1">
+                                    <div className="form-group floating-label not-empty has-icon"><label className="has-icon"
+                                            for=""><span className=""></span></label>
+                                            <input type="text" className="form-control form-control--arrival"
+                                            aria-label="[object Object]" name="checkin" value="09/28/18" data-wdio="date-range-input-start"/><span
+                                            className="form-control-icon"><svg width="24" height="24" viewBox="0 0 24 24">
+                                                <path id="a" d="M19.887 3c.323 0 .589.113.798.339.21.226.315.5.315.822v15.726c0 .323-.105.597-.315.823-.21.225-.475.338-.798.338H4.113c-.29 0-.548-.113-.774-.338A1.12 1.12 0 0 1 3 19.887V4.161c0-.322.113-.596.339-.822.226-.226.484-.339.774-.339h1.5v2.274c0 .29.113.549.339.774.225.226.492.34.798.34.306 0 .573-.114.798-.34.226-.225.34-.483.34-.774V3h8.273v2.274c0 .29.105.549.315.774.21.226.468.34.774.34s.573-.114.798-.34c.226-.225.34-.483.34-.774V3h1.5zM8.613 18.387v-3h-3v3h3zm0-5.226v-3h-3v3h3zm4.887 5.226v-3h-3v3h3zm0-5.226v-3h-3v3h3zm4.887 5.226v-3h-3v3h3zm0-5.226v-3h-3v3h3z"></path>
+                                                <g fill="none" fill-rule="evenodd">
+                                                    <use fill="#000"></use>
+                                                    <use fill="#DE0B0B"></use>
+                                                </g>
+                                            </svg></span></div>
+                                    <div className="picker__overlay picker__overlay--selectable"></div>
+                                </div>
+                                <div className="form-group position-relative form-combined__input2">
+                                    <div className="form-group floating-label not-empty has-icon"><label className="has-icon"
+                                            for=""><span className=""></span></label><input type="text" className="form-control form-control--departure DateRangePicker__FormInput-departure form-control--no-arrow"
+                                            aria-label="[object Object]" name="checkout" value="10/03/18" data-wdio="date-range-input-end"/><span
+                                            className="form-control-icon"><svg width="24" height="24" viewBox="0 0 24 24">
+                                                <path id="a" d="M19.887 3c.323 0 .589.113.798.339.21.226.315.5.315.822v15.726c0 .323-.105.597-.315.823-.21.225-.475.338-.798.338H4.113c-.29 0-.548-.113-.774-.338A1.12 1.12 0 0 1 3 19.887V4.161c0-.322.113-.596.339-.822.226-.226.484-.339.774-.339h1.5v2.274c0 .29.113.549.339.774.225.226.492.34.798.34.306 0 .573-.114.798-.34.226-.225.34-.483.34-.774V3h8.273v2.274c0 .29.105.549.315.774.21.226.468.34.774.34s.573-.114.798-.34c.226-.225.34-.483.34-.774V3h1.5zM8.613 18.387v-3h-3v3h3zm0-5.226v-3h-3v3h3zm4.887 5.226v-3h-3v3h3zm0-5.226v-3h-3v3h3zm4.887 5.226v-3h-3v3h3zm0-5.226v-3h-3v3h3z"></path>
+                                                <g fill="none" fill-rule="evenodd">
+                                                    <use fill="#000"></use>
+                                                    <use fill="#DE0B0B"></use>
+                                                </g>
+                                            </svg></span></div>
+                                    <div className="picker__overlay picker__overlay--selectable"></div>
+                                </div>
+                            </div>
+                        </span></div>
+                </div>
+                <div className="SearchFields__field SearchFields__field--guest-picker">
+                    <div className="GuestPicker guest-picker"><span className="" style={{display:"block;", outline:"0;", position:"relative"}}
+                            role="button" tabindex="0">
+                            <div className="position-relative">
+                                <div className="GuestPicker form-group floating-label not-empty"><label className="" for=""><span
+                                            className="">Guests</span></label><input type="text" className="form-control"
+                                        aria-label="[object Object]" name="Guests" value="1 guest" data-wdio="guest-picker-input"/></div>
+                                <div className="picker__overlay picker__overlay--selectable"></div>
+                            </div>
+                        </span></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

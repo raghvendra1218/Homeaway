@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import {Redirect} from 'react-router';
-import LoginNavbar from '../LoginNavbar/LoginNavbar';
 import axios from 'axios';
 import './postproperty.css';
 import $ from 'jquery';
@@ -10,6 +9,7 @@ import Details from './Details';
 import Photos from './Photos';
 import Pricing from './Pricing';
 import Availability from './Availability';
+import Navbar from '../Navbar/Navbar';
 
 class PostProperty extends Component {
     constructor(props) {
@@ -377,7 +377,7 @@ class PostProperty extends Component {
         } else {
             return (
                 <div>
-                    <LoginNavbar/>
+                    <Navbar/>
                     <div className="wrapper">
                         <nav id="sidebar">
                             <div id = "sidebarCollapse" className="sidebar-header" style={{paddingTop:"50px", paddingBottom: "0px"}}>
