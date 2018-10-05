@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import {Link} from 'react-router-dom';
-import axios from 'axios';
 import './home.css';
 import $ from 'jquery';
 
@@ -8,8 +7,55 @@ class Home extends Component {
     constructor(props) {
         super()
         this.state = {
+            city: "",
+            startDate: "",
+            endDate: "",
+            headCount: "",
             isTraveler: JSON.parse(sessionStorage.getItem('isTraveler'))
         }
+
+        // Bind the handlers to this class
+        this.searchCityChangeHandler = this.searchCityChangeHandler.bind(this);
+        this.searchStartDateChangeHandler = this.searchStartDateChangeHandler.bind(this);
+        this.searchEndDateChangeHandler = this.searchEndDateChangeHandler.bind(this);
+        this.searchHeadCountChangeHandler = this.searchHeadCountChangeHandler.bind(this);
+        this.searchHandler = this.searchHandler.bind(this);
+    }
+
+    componentDidMount = () => {
+        $('#login').on('click', function(){
+            $("#login").toggleClass("Dropdown--open");
+            $("#login-ul").toggleClass("--open Dropdown__menu");
+        });
+    }
+
+    //Search City change handler to update state variable with the text entered by the user
+    searchCityChangeHandler = (e) => {
+        this.setState({
+            ...this.state,
+            city : e.target.value
+        })
+    }
+    //Search Start Date change handler to update state variable with the text entered by the user
+    searchStartDateChangeHandler = (e) => {
+        this.setState({
+            ...this.state,
+            startDate : e.target.value
+        })
+    }
+    //Search End Date change handler to update state variable with the text entered by the user
+    searchEndDateChangeHandler = (e) => {
+        this.setState({
+            ...this.state,
+            endDate : e.target.value
+        })
+    }
+    //Search Head Count change handler to update state variable with the text entered by the user
+    searchHeadCountChangeHandler = (e) => {
+        this.setState({
+            ...this.state,
+            headCount : e.target.value
+        })
     }
 
     //handle logout to destroy the cookie
@@ -20,47 +66,19 @@ class Home extends Component {
         console.log("User logged out Successfully.");
     }
 
-    componentDidMount = () => {
-        $('#login').on('click', function(){
-            $("#login").toggleClass("Dropdown--open");
-            $("#login-ul").toggleClass("--open Dropdown__menu");
-        });
-    }
 
     //Search Property handler to send a request to the node back-end
-    searchProperty = (e) => {
+    searchHandler = (e) => {
         //prevent page from refresh
-        e.preventDefault();
-        const data = {
-            propertyDetails: {
-                ...this.state.propertyDetails,
-            }
-        }
-        //Post Call to post Property Details in DB
-        //set the with credentials to true
-        axios.defaults.withCredentials = true;
-        //make a post request with the user data
-        axios.post('http://localhost:3001/postproperty',data)
-        .then(response => {
-            console.log("Status Code : ",response.status);
-            if(response.status === 200){
-                this.setState({
-                    ...this.state.propertyDetails,
-                    propIsPosted : true
-                })
-                console.log("message:", response.data.message);
-                alert("Your property was successfully posted.");
-            }else{
-                this.setState({
-                    ...this.state.propertyDetails,
-                    propIsPosted : false
-                })
-                alert("Your property was not successfully posted.");
-            }
-        })
-        .catch( error =>{
-            console.log("error:", error);
-        });
+        // e.preventDefault();
+        sessionStorage.removeItem('searchBoxCity');
+        sessionStorage.removeItem('searchBoxStartDate');
+        sessionStorage.removeItem('searchBoxEndDate');
+        sessionStorage.removeItem('searchBoxHeadCount');
+        sessionStorage.setItem('searchBoxCity',this.state.city);
+        sessionStorage.setItem('searchBoxStartDate', this.state.startDate);
+        sessionStorage.setItem('searchBoxEndDate',this.state.endDate);
+        sessionStorage.setItem('searchBoxHeadCount',this.state.headCount);
     }
 
     render(){
@@ -135,7 +153,7 @@ class Home extends Component {
                                     </span>
                                 </a>
                                 <div className="site-header-logo">
-                                    <a className="site-header-logo__link flex-item" href="https://www.homeaway.com/" title="HomeAway.com"><img alt="HomeAway logo" className="site-header-logo__img img-responsive" role="presentation"
+                                    <a className="site-header-logo__link flex-item" href="http://localhost:3000" title="HomeAway.com"><img alt="HomeAway logo" className="site-header-logo__img img-responsive" role="presentation"
                                         src={"//csvcus.homeaway.com/rsrcs/cdn-logos/2.11.0/bce/moniker/homeaway_us/logo-bceheader-white.svg"} /></a>
                                 </div>
                                 <div className="site-header__flex-spacer"></div>
@@ -202,7 +220,7 @@ class Home extends Component {
                     and more, worldwide</span></h1>
                                 <div id="stab-searchbox" className="mobile-inline">
                                     <div className="stab-searchbox">
-                                        <form className="js-searchForm " method=" post">
+                                        <form className="js-searchForm ">
                                         <legend>
                                             <span className="searchbox-title">Search</span>
                                             <i className="icon-close icon-white close-form-xs-modal" aria-hidden="true"></i>
@@ -210,7 +228,7 @@ class Home extends Component {
                                         <div className="searchbox-input searchbox-input-where-to form-group has-icon">
                                             <span className="twitter-typeahead" style={{ position: "relative;", display: "inline-block;" }}>
                                                 <input
-                                                    autocomplete="off" type="text" className="form-control js-destination js-launchModal tt-hint"
+                                                    autocomplete="off" type="text" className="form-control js-destination js-launchModal tt-hint" onChange = {this.searchCityChangeHandler}
                                                     tabindex="-1" spellcheck="false" placeholder ="Where do you want to go?" style={{ position: "absolute;", top: "0px;", left: "0px;", borderColor: "transparent;", boxShadow: "none;", opacity: "1;", background: "none 0% 0% auto repeat scroll padding-box border-box rgba(0, 0, 0, 0);" }} dir="ltr" />
                                                 <span role="status" aria-live="polite"
                                                     style={{position: "absolute;", padding: "0px;", border: "0px;", height: "1px;", width: "1px;", marginBottom: "-1px;", marginRight: "-1px;", overflow: "hidden;", clip: "rect(0px, 0px, 0px, 0px);", whiteSpace: "nowrap;"}}></span>
@@ -226,13 +244,13 @@ class Home extends Component {
                                         </div>
                                         <div className="searchbox-input searchbox-input-arrive form-group has-icon">
                                             <input type="date" id="stab-searchbox-start-date" className="form-control js-startDate" name="from-date"
-                                                tabindex="2" placeholder="Arrive" />
+                                                onChange ={this.searchStartDateChangeHandler} tabindex="2" placeholder="Arrive" />
                                             <i className="icon-calendar form-control-icon" aria-hidden="true"></i>
                                             <label className="sr-only" for="stab-searchbox-start-date">Arrive</label>
                                         </div>
                                         <div className="searchbox-input searchbox-input-depart form-group has-icon">
                                             <input type="date" id="stab-searchbox-end-date" className="form-control js-endDate" name="to-date"
-                                                tabindex="3" placeholder="Depart" />
+                                               onChange={this.searchEndDateChangeHandler} tabindex="3" placeholder="Depart" />
                                             <i className="icon-calendar form-control-icon" aria-hidden="true"></i>
                                             <label className="sr-only" for="stab-searchbox-end-date">Depart</label>
                                         </div>
@@ -240,13 +258,11 @@ class Home extends Component {
                                         <div id="pets-search-warning" className="guest-selector-view">
                                             <div id="stab-guest-selector" className="form-group searchbox-input searchbox-select icon-usergroup">
                                                 <input autocomplete="off" type="number" min="0" className="text-centre form-control js-guestSelectorInput"
-                                                    tabindex="4" placeholder="Guests"/>
+                                                   onChange={this.searchHeadCountChangeHandler} tabindex="4" placeholder="Guests"/>
                                             </div>
-                                        </div>
-
-                                        <button className="btn btn-primary btn-lg searchbox-submit js-searchSubmit" data-effect="ripple" type="button"
-                                            tabindex="5" data-loading-animation="true">
-                                            Search</button>
+                                        </div> 
+                                        <button className="btn btn-primary btn-lg searchbox-submit js-searchSubmit"  type="button"
+                                             tabindex="5"><Link to= "/searchproperty" onClick = {this.searchHandler} style= {{color:"#fff"}}>Search</Link></button>
                                     </form>
                                 </div>
                             </div>
@@ -264,7 +280,6 @@ class Home extends Component {
                         </div>
                     </div>
                 </div>
-
             </div>
             </div>
         </div> 

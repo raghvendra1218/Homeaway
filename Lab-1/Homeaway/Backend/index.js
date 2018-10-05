@@ -77,7 +77,7 @@ app.get('/userdetail',function(req,res){
                     req.session.user = result;
                         res.writeHead(200,{
                             'Content-Type' : 'text/plain'
-                        })
+                        });
                     console.log(`Successful fetched the ${EMAIL} details.`);
                     console.log(`Result of userdetail  route: ${JSON.stringify(result)}`);
                     res.end(JSON.stringify(result));
@@ -149,16 +149,16 @@ app.post('/login',function(req,res){
 */
 app.get('/searchprop', function(req,res){
     console.log("Inside search Request.");
-    var city = req.query.city;
+    var city = req.query.city.toLowerCase();
     var startDate = req.query.startDate;
     var endDate = req.query.endDate;
     var headCount = req.query.headCount;
 
-    var sql = "SELECT *  FROM OWNER_PROPERTY_TABLE" + 
-                                    "WHERE CITY = '" + mysql.escape(city) + "'" +
-                                    "AND PROP_AVAIL_DATE <= '" + mysql.escape(startDate) + "'" +
-                                    "AND PROP_AVAIL_TILL >= '" + mysql.escape(endDate) + "'" +
-                                    "AND PROP_GUEST_COUNT >=" + mysql.escape(headCount);
+    var sql = "SELECT *  FROM OWNER_PROPERTY_TABLE " + 
+                                    "WHERE PROP_CITY = " + mysql.escape(city) +
+                                    " AND PROP_AVAIL_DATE <= " + mysql.escape(startDate) +
+                                    " AND PROP_AVAIL_TILL >= " + mysql.escape(endDate) +
+                                    " AND PROP_GUEST_COUNT >=" + mysql.escape(headCount)+";"
 
      //Get a connection from the created SQL pool
      pool.getConnection(function(err,con){
@@ -196,18 +196,18 @@ app.get('/propdetail', function(req,res){
     console.log("Inside Property Detail route");
     var propertyId = req.query.propId;
 
-}
+})
 
 //Route to Post the Property Details
 // TODO: Check if the the the login is Owner login 
 // if yes then allow the Property post else throw error , handle that in front-end with suitable Message
 app.post('/postproperty', function(req,res){
     console.log("Inside the Post property Handler");
-    var PROP_COUNTRY = req.body.propertyDetails.propCountry;
-    var PROP_ST_ADDRESS = req.body.propertyDetails.propStreetAddress;
+    var PROP_COUNTRY = req.body.propertyDetails.propCountry.toUpperCase();
+    var PROP_ST_ADDRESS = req.body.propertyDetails.propStreetAddress.toUpperCase();
     var PROP_APT = req.body.propertyDetails.propApartment;
-    var PROP_CITY = req.body.propertyDetails.propCity;
-    var PROP_STATE = req.body.propertyDetails.propState;
+    var PROP_CITY = req.body.propertyDetails.propCity.toLowerCase();
+    var PROP_STATE = req.body.propertyDetails.propState.toUpperCase();
     var PROP_ZIP = req.body.propertyDetails.propZip;
     var PROP_HEADLINE = req.body.propertyDetails.propHeadline;
     var PROP_DESC = req.body.propertyDetails.propDescription;
@@ -224,7 +224,7 @@ app.post('/postproperty', function(req,res){
     var PROP_BASE_RATE = req.body.propertyDetails.propBaseRate;
     var PROP_AVAIL_DATE = req.body.propertyDetails.propStartDate;
     var PROP_AVAIL_TILL = req.body.propertyDetails.propEndDate;
-    var EMAIL = req.body.propertyDetails.email;
+    var EMAIL = req.body.propertyDetails.email.toLowerCase();
 
     //SQL Query to update the parameters received
     var sql = "INSERT INTO OWNER_PROPERTY_TABLE (PROP_COUNTRY, PROP_ST_ADDRESS, PROP_APT, PROP_CITY, " +
