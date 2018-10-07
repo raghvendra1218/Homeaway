@@ -10,12 +10,14 @@ import Photos from './Photos';
 import Pricing from './Pricing';
 import Availability from './Availability';
 import Navbar from '../Navbar/Navbar';
+import * as Validate from '../../Validations/Validation';
 
 class PostProperty extends Component {
     constructor(props) {
         super(props);
         this.state = {
             propertyDetails : {
+                ownerId: sessionStorage.getItem('ownerId'),
                 email: sessionStorage.getItem('userEmail'),
                 propCountry: "",
                 propStreetAddress: "",
@@ -38,8 +40,9 @@ class PostProperty extends Component {
                 propBaseRate: "",
                 propStartDate: "",
                 propEndDate: "",
-                propIsPosted: false
-            }
+                propIsPosted: false,
+            },
+            messagediv:""
 
         }
         // Bind the handlers to this class
@@ -330,42 +333,63 @@ class PostProperty extends Component {
     }
 
     //Post Property handler to send a request to the node back-end
-    postProperty = (e) => {
+    postProperty = (event) => {
         //prevent page from refresh
-        e.preventDefault();
-        const data = {
-            propertyDetails: {
-                ...this.state.propertyDetails,
+        event.preventDefault();
+        let valid = Validate.postproperty(this.state);
+        if(valid === '') {
+            const data = {
+                propertyDetails: {
+                    ...this.state.propertyDetails,
+                }
             }
+            //Post Call to post Property Details in DB
+            //set the with credentials to true
+            axios.defaults.withCredentials = true;
+            //make a post request with the user data
+            axios.post('http://localhost:3001/postproperty',data)
+            .then(response => {
+                console.log("Status Code : ",response.status);
+                if(response.status === 200){
+                    this.setState({
+                        ...this.state.propertyDetails,
+                        propIsPosted : true
+                    })
+                    console.log("message:", response.data.message);
+                    alert("Your property was successfully posted.");
+                }else{
+                    this.setState({
+                        ...this.state.propertyDetails,
+                        propIsPosted : false
+                    })
+                    alert("Your property was not successfully posted.");
+                }
+            })
+            .catch( error =>{
+                console.log("error:", error);
+            });
+        } else {
+            this.setState({
+                ...this.state,
+                messagediv: valid
+            });
+            event.preventDefault();
         }
-        //Post Call to post Property Details in DB
-        //set the with credentials to true
-        axios.defaults.withCredentials = true;
-        //make a post request with the user data
-        axios.post('http://localhost:3001/postproperty',data)
-        .then(response => {
-            console.log("Status Code : ",response.status);
-            if(response.status === 200){
-                this.setState({
-                    ...this.state.propertyDetails,
-                    propIsPosted : true
-                })
-                console.log("message:", response.data.message);
-                alert("Your property was successfully posted.");
-            }else{
-                this.setState({
-                    ...this.state.propertyDetails,
-                    propIsPosted : false
-                })
-                alert("Your property was not successfully posted.");
-            }
-        })
-        .catch( error =>{
-            console.log("error:", error);
-        });
     }
 
     render() {
+        let message = null;
+        if(this.state.messagediv !== ''){
+            message = (
+                <div className="clearfix">
+                    <div className="alert alert-info text-center" role="alert">{this.state.messagediv}</div>
+                </div>
+            );
+        } else {
+            message = (
+                <div></div>
+            );
+        }
         // redirect based on successful login
         let redirectVar = null;
         if (sessionStorage.getItem("userEmail") === null) {
@@ -378,6 +402,9 @@ class PostProperty extends Component {
             return (
                 <div>
                     <Navbar/>
+                    <div className = "row">
+                        {message}
+                    </div>
                     <div className="wrapper">
                         <nav id="sidebar">
                             <div id = "sidebarCollapse" className="sidebar-header" style={{paddingTop:"50px", paddingBottom: "0px"}}>

@@ -454,6 +454,7 @@ toolbar::after, .clearfix::after, .container::after, .container-fluid::after, .d
 ul, ol {
   margin: 0 0 16px 16px;
   padding: 0;
+  list-style: none;
 }
 .nav-underline>li:first-child {
   padding-left: 0;
@@ -476,7 +477,4 @@ ul, ol {
 }
 .js-th-nav-settings{
   padding-top :5px;
-}
-.ownerlogin-image{
-  background-image: url("https://csvcus.homeaway.com/rsrcs/stab-cms-resources/0.10.35/images/cas/login-banner-sept16-1.png") !important;
 }

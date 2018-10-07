@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import {Link} from 'react-router-dom';
 import './home.css';
 import $ from 'jquery';
-
+import * as Validate from '../../Validations/Validation';
 class Home extends Component {
     constructor(props) {
         super()
@@ -11,6 +11,7 @@ class Home extends Component {
             startDate: "",
             endDate: "",
             headCount: "",
+            messagediv: "",
             isTraveler: JSON.parse(sessionStorage.getItem('isTraveler'))
         }
 
@@ -68,20 +69,41 @@ class Home extends Component {
 
 
     //Search Property handler to send a request to the node back-end
-    searchHandler = (e) => {
+    searchHandler = (event) => {
         //prevent page from refresh
         // e.preventDefault();
-        sessionStorage.removeItem('searchBoxCity');
-        sessionStorage.removeItem('searchBoxStartDate');
-        sessionStorage.removeItem('searchBoxEndDate');
-        sessionStorage.removeItem('searchBoxHeadCount');
-        sessionStorage.setItem('searchBoxCity',this.state.city);
-        sessionStorage.setItem('searchBoxStartDate', this.state.startDate);
-        sessionStorage.setItem('searchBoxEndDate',this.state.endDate);
-        sessionStorage.setItem('searchBoxHeadCount',this.state.headCount);
+        let valid = Validate.search(this.state);
+        if(valid === '') {
+            sessionStorage.removeItem('searchBoxCity');
+            sessionStorage.removeItem('searchBoxStartDate');
+            sessionStorage.removeItem('searchBoxEndDate');
+            sessionStorage.removeItem('searchBoxHeadCount');
+            sessionStorage.setItem('searchBoxCity',this.state.city);
+            sessionStorage.setItem('searchBoxStartDate', this.state.startDate);
+            sessionStorage.setItem('searchBoxEndDate',this.state.endDate);
+            sessionStorage.setItem('searchBoxHeadCount',this.state.headCount);
+        } else {
+            this.setState({
+                ...this.state,
+                messagediv: valid
+            });
+            event.preventDefault();
+        }
     }
 
     render(){
+        let message = null;
+        if(this.state.messagediv !== ''){
+            message = (
+                <div className="clearfix">
+                    <div className="alert alert-info text-center" role="alert">{this.state.messagediv}</div>
+                </div>
+            );
+        } else {
+            message = (
+                <div></div>
+            );
+        }
         let userLogin = null;
         if(sessionStorage.getItem('userEmail') !== null && this.state.isTraveler){
             console.log('Able to read session.');
@@ -94,7 +116,7 @@ class Home extends Component {
                 <div class="dropdown-menu" aria-labelledby="site-header__login">
                     <ul>
                         <li class="dropdown-item"><Link to="/inbox"><span className="glyphicon glyphicon-envelope"></span>&nbsp;&nbsp;&nbsp;Inbox </Link></li>
-                        <li class="dropdown-item"><Link to="/trips"><span className="glyphicon glyphicon-briefcase"></span>&nbsp;&nbsp;&nbsp;My trips</Link></li>
+                        <li class="dropdown-item"><Link to="/travelertrips"><span className="glyphicon glyphicon-briefcase"></span>&nbsp;&nbsp;&nbsp;My trips</Link></li>
                         <li class="dropdown-item"><Link to="/editprofile"><span className="glyphicon glyphicon-user"></span>&nbsp;&nbsp;&nbsp;My profile</Link></li>
                         <li class="dropdown-item"><Link to="/account"><span className="glyphicon glyphicon-cog"></span>&nbsp;&nbsp;&nbsp;Account</Link></li>
                         <li class="dropdown-item"><Link to="/" onClick = {this.handleLogout}><span className="glyphicon glyphicon-log-out"></span>&nbsp;&nbsp;&nbsp;Logout</Link></li>
@@ -113,7 +135,7 @@ class Home extends Component {
                 <div class="dropdown-menu" aria-labelledby="site-header__login">
                     <ul>
                         <li class="dropdown-item"><Link to="/inbox"><span className="glyphicon glyphicon-envelope"></span>&nbsp;&nbsp;&nbsp;Inbox </Link></li>
-                        <li class="dropdown-item"><Link to="/postings"><span className="glyphicon glyphicon-tent"></span>&nbsp;&nbsp;&nbsp;My postings</Link></li>
+                        <li class="dropdown-item"><Link to="/ownerpostings"><span className="glyphicon glyphicon-tent"></span>&nbsp;&nbsp;&nbsp;My postings</Link></li>
                         <li class="dropdown-item"><Link to="/editprofile"><span className="glyphicon glyphicon-user"></span>&nbsp;&nbsp;&nbsp;My profile</Link></li>
                         <li class="dropdown-item"><Link to="/account"><span className="glyphicon glyphicon-cog"></span>&nbsp;&nbsp;&nbsp;Account</Link></li>
                         <li class="dropdown-item"><Link to="/" onClick = {this.handleLogout}><span className="glyphicon glyphicon-log-out"></span>&nbsp;&nbsp;&nbsp;Logout</Link></li>
@@ -140,6 +162,9 @@ class Home extends Component {
         }
         return(
             <div>
+                <div className = "row">
+                    {message}
+                </div>
                 <div className ="HeroImage" style={{backgroundImage: "url('http://csvcus.homeaway.com/rsrcs/stab-cms-resources/0.10.30/images/homepage/jumbotron/ptaHpNextHeroImage/large.jpg')", height: "100%", backgroundPosition: "center", backgroundRepeat: "no-repeat", backgroundSize: "cover"}}>
                     <div class="HeroImage__content">
                         <div style={{ transition: "opacity 300ms ease-in-out 0s;", opacity: "1;" }}>

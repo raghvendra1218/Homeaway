@@ -10,6 +10,9 @@ import TravelerLogin from './TravelerLogin/TravelerLogin';
 import TravelerSignup from './TravelerSignup/TravelerSignup';
 import PostProperty from './PostProperty/PostProperty';
 import SearchProperty from './SearchProperty/SearchProperty';
+import PropertyDetail from './PropertyDetail/PropertyDetail';
+import TravelerBookedProperties from './TravelerBookedProperties/TravelerBookedProperties';
+import OwnerPostedProperties from './OwnerPostedProperties/OwnerPostedProperties';
 
 // Create a Main Component
 class Main extends Component {
@@ -25,7 +28,9 @@ class Main extends Component {
                 <Route path="/editprofile" component={EditProfile}/>
                 <Route path="/postproperty" component={PostProperty}/>
                 <Route path="/searchproperty" component={SearchProperty}/>
-                {/* <Route path="/create" component={Create}/> */}
+                <Route path="/propertydetail" component={PropertyDetail}/>
+                <Route path="/travelertrips" component={TravelerBookedProperties}/>
+                <Route path="/ownerpostings" component={OwnerPostedProperties}/>
             </div>
         )
     }

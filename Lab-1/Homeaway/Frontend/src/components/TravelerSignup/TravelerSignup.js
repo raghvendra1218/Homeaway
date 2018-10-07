@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import axios from 'axios';
 import {Redirect} from 'react-router';
 import LoginNavbar from '../LoginNavbar/LoginNavbar';
+import * as Validate from '../../Validations/Validation';
 
 class TravelerSignup extends Component{
     constructor(props) {
@@ -12,7 +13,8 @@ class TravelerSignup extends Component{
             email: "",
             password: "",
             isTraveler: true,
-            isRegistered: false
+            isRegistered: false,
+            messagediv: ''
         }
         //Bind the handlers to this class
         this.firstNameChangeHandler = this.firstNameChangeHandler.bind(this);
@@ -53,36 +55,57 @@ class TravelerSignup extends Component{
     signUp =(event)=>{
         //prevent page from refresh
         event.preventDefault();
-
-        let data = {
-            firstName: this.state.firstName,
-            lastName: this.state.lastName,
-            email: this.state.email,
-            password: this.state.password,
-            isTraveler: true
-        }
-
-        axios.post('http://localhost:3001/signup',data)
-        .then(response => {
-            console.log("Status Code : ",response.status);
-            if(response.status === 200){
-                this.setState({
-                    ...this.state,
-                    isRegistered : true
-                })
-            }else{
-                this.setState({
-                    ...this.state,
-                    isRegistered : false
-                })
+        let valid = Validate.signup(this.state);
+        if(valid ===''){
+            let data = {
+                firstName: this.state.firstName,
+                lastName: this.state.lastName,
+                email: this.state.email,
+                password: this.state.password,
+                isTraveler: true
             }
-        })
-        .catch( error =>{
-            console.log("error:", error);
-        });
+    
+            axios.post('http://localhost:3001/signup',data)
+            .then(response => {
+                console.log("Status Code : ",response.status);
+                if(response.status === 200){
+                    this.setState({
+                        ...this.state,
+                        isRegistered : true
+                    })
+                }else{
+                    this.setState({
+                        ...this.state,
+                        isRegistered : false
+                    })
+                }
+            })
+            .catch( error =>{
+                console.log("error:", error);
+            });
+        } else {
+            this.setState({
+                ...this.state,
+                messagediv: valid
+            });
+            event.preventDefault();
+        }
     }
 
+
     render(){
+        let message = null;
+        if(this.state.messagediv !== ''){
+            message = (
+                <div className="clearfix">
+                    <div className="alert alert-info text-center" role="alert">{this.state.messagediv}</div>
+                </div>
+            );
+        } else {
+            message = (
+                <div></div>
+            );
+        }
         // redirect based on successful login
         let redirectVar = null;
         // if(cookie.load('cookie')){
@@ -94,6 +117,9 @@ class TravelerSignup extends Component{
                 <div>
                     {/* {redirectVar} */}
                     <LoginNavbar/>
+                    <div className = "row">
+                        {message}
+                    </div>
                     <div id = "container-login" className ="container">
                         <div id="login-container" className="row">
                             <div className="login-header text-center traveler">

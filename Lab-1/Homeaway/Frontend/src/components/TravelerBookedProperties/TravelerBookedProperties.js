@@ -1,60 +1,46 @@
 import React, { Component } from 'react';
-import SearchNavbar from './SearchNavbar';
 import axios from 'axios';
-import Navbar from '../Navbar/Navbar';
-import './searchProperty.css'
+import TravelerProfilebar from '../TravelerProfilebar/TravelerProfilebar';
+import "../SearchProperty/searchProperty.css"
 import {capitalizeFirstLetter} from '../../utility';
+import {usaDateFormat} from '../../utility';
 
-
-class SearchProperty extends Component {
-    constructor (props) {
+class TravelerBookedProperties extends Component {
+    constructor(props) {
         super();
-        this.state = {
-            searchResults:[],
-            searchBoxCity: sessionStorage.getItem('searchBoxCity'),
-            searchBoxStartDate: sessionStorage.getItem('searchBoxStartDate'),
-            searchBoxEndDate: sessionStorage.getItem('searchBoxEndDate'),
-            searchBoxHeadCount : sessionStorage.getItem('searchBoxHeadCount'),
-            isSearched: false
+        this.state= {
+            bookingResults:[],
+            travelerId: sessionStorage.getItem('travelerId'),
+            isFetched: false
         }
-        // Bind the handlers to this class
-        this.propertyDetailHandler = this.propertyDetailHandler.bind(this);
     }
-    
     //get the user details from Back-end  
     componentDidMount(){
-        axios.get('http://localhost:3001/searchprop', { params: {city:this.state.searchBoxCity, startDate: this.state.searchBoxStartDate, endDate: this.state.searchBoxEndDate, headCount: this.state.searchBoxHeadCount}})
+        axios.get('http://localhost:3001/travelerbookings', { params: {travelerId:this.state.travelerId}})
             .then((response) => {
             //Update the state with the response data    
             this.setState({
                     ...this.state,
-                    searchResults: this.state.searchResults.concat(response.data),
-                    isSearched : true
+                    bookingResults: this.state.bookingResults.concat(response.data),
+                    isFetched : true
             });
-            console.log("State result: "+ JSON.stringify(this.state.searchResults));
+            console.log("Booking Result : "+ JSON.stringify(this.state.bookingResults));
         })
         .catch( error =>{
             console.log("error:", error);
         });
     }
 
-    propertyDetailHandler =(e,propertyId) =>{
-        console.log(`Inside Property detail handler of: ${propertyId}`);
-        //Get call to fetch the property detail
-        sessionStorage.removeItem('propertyDetailId');
-        sessionStorage.setItem('propertyDetailId', propertyId);
-    }
-
     render() {
         //iterate over the searched result data to display each result in the below html skeleton
-        let results = this.state.searchResults;
+        let results = this.state.bookingResults;
         let eachResult = null;
-        if(results.length === 0 && this.state.isSearched) {
+        if(results.length === 0 && this.state.isFetched) {
             eachResult = (
                 <div>
                     <br/>
                     <div className="alert alert-info" role="alert" style={{paddingLeft: '25px'}}>
-                        <p>Please try different City or Dates.</p>
+                        <p>No Bookings as of now.</p>
                         <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
@@ -63,7 +49,6 @@ class SearchProperty extends Component {
             )
         } else {
             eachResult = results.map(result => {
-                // console.log("Each Result Array: ", result);
                 return(
                     <div>
                         <div className="Application__resultsColumn">
@@ -113,8 +98,8 @@ class SearchProperty extends Component {
                                                     <div className="HitInfo HitInfo--desktop">
                                                         <div className="HitInfo__content">
                                                             <div className="HitInfo__viewedUrgency hidden-xs" data-wdio="viewed-urgency-message"><small>Viewed
-                                                            46 times in the last 48 hours</small></div>
-                                                            <h4 className="HitInfo__headline hover-text hidden-xs" href="/vacation-rental/p455355vb">
+                                                            46 times in the last 48 hours</small><span style={{float:"right"}}><strong>Dates: </strong><small>{usaDateFormat(result.BOOK_START_DATE.substring(0, 10))} to {usaDateFormat(result.BOOK_END_DATE.substring(0, 10))} </small></span></div>
+                                                            <h4 className="HitInfo__headline hover-text hidden-xs">
                                                             {capitalizeFirstLetter(result.PROP_HEADLINE)}</h4>
                                                             <div className="HitInfo__distance hidden-xs">
                                                                 <div className="GeoDistance"><svg aria-hidden="true" className="GeoDistance__icon"
@@ -170,20 +155,17 @@ class SearchProperty extends Component {
         }
         return(
             <div>
-                <Navbar/>
-                <SearchNavbar
-                    city = {this.state.searchBoxCity}
-                    startDate = {this.state.searchBoxStartDate}
-                    endDate = {this.state.searchBoxEndDate}
-                    headCount = {this.state.searchBoxHeadCount}
-                />
+                <TravelerProfilebar/>
+                <div style ={{padding:"50px"}}>
+                <h1 >Welcome! {capitalizeFirstLetter(sessionStorage.getItem('userFirstName'))}</h1>
+                <p>Your Trips till Date are...</p>
+                <br /><br /><br />
+                </div>
                 {eachResult}
-                {/* <SearchResult
-                    results = {this.state.searchResults}
-                /> */}
             </div>
         )
     }
+
 }
 
-export default SearchProperty;
+export default TravelerBookedProperties;

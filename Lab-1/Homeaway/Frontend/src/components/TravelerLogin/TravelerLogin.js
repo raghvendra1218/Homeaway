@@ -3,6 +3,7 @@ import LoginNavbar from '../LoginNavbar/LoginNavbar';
 import axios from 'axios';
 import {Redirect} from 'react-router';
 import './login.css'
+import * as Validate from '../../Validations/Validation';
 
 //Define a Login Component
 class TravelerLogin extends Component{
@@ -18,8 +19,9 @@ class TravelerLogin extends Component{
                 email : "",
                 password : "",
                 isTraveler: true,
-                authFlag : false
-            }
+                authFlag : false,
+            },
+            messagediv: ''
         }
         // Bind the handlers to this class
         this.passwordChangeHandler = this.passwordChangeHandler.bind(this);
@@ -59,94 +61,115 @@ class TravelerLogin extends Component{
     }
     
     //submit Login handler to send a request to the node backend
-    submitLogin = (e) => {
+    submitLogin = (event) => {
         // var headers = new Headers();
         //prevent page from refresh
-        e.preventDefault();
-        const data = {
-            userDetails: {
-                ...this.state.userDetails
-            }
-        }
-        //set the with credentials to true
-        axios.defaults.withCredentials = true;
-        //make a post request with the user data
-        axios.post('http://localhost:3001/login',data)
-            .then(response2 => {
-                console.log("Status Code for post: ",response2.status);
-                if(response2.status === 200){
-                    // axios.get('http://localhost:3001/userdetail',{ params: {email:this.state.userDetails.email, isTraveler: this.state.userDetails.isTraveler}})
-                    // .then((response) => {
-                    //     console.log("Status code for get: ", response.status);
-                    //     if(response.status === 200) {
-                    //         //update the state with the response data
-                    //             const userFirstName = response.data[0].FIRST_NAME;
-                    //             const userLastName = response.data[0].LAST_NAME;
-                    //             const userID = response.data[0].ID;
-                    //             const aboutMe = response.data[0].ABOUT_ME;
-                    //             const city = response.data[0].CITY;
-                    //             const country = response.data[0].COUNTRY;
-                    //             const school = response.data[0].SCHOOL;
-                    //             const company = response.data[0].COMPANY;
-                    //             const hometown = response.data[0].HOMETOWN;
-                    //             const languages = response.data[0].LANGUAGES;
-                    //             const gender = response.data[0].GENDER;
-                    //             const phoneNumber = response.data[0].PHONE_NUMBER;
-                    //             var userEmail = this.state.userDetails.email;
-                    //             sessionStorage.setItem('userEmail', userEmail);
-                    //             sessionStorage.setItem('userFirstName', userFirstName);
-                    //             sessionStorage.setItem('userLastName', userLastName);
-                    //             sessionStorage.setItem('userID', userID);
-                    //             sessionStorage.setItem('aboutMe', aboutMe);
-                    //             sessionStorage.setItem('city', city);
-                    //             sessionStorage.setItem('country', country);
-                    //             sessionStorage.setItem('school', school);
-                    //             sessionStorage.setItem('company', company);
-                    //             sessionStorage.setItem('hometown', hometown);
-                    //             sessionStorage.setItem('languages', languages);
-                    //             sessionStorage.setItem('gender', gender);
-                    //             sessionStorage.setItem('phoneNumber', phoneNumber);
-                    //             this.setState({
-                    //                 userDetails: {
-                    //                     ...this.state.userDetails,
-                    //                     firstName : userFirstName,
-                    //                     lastName : userLastName
-                    //                 }
-                    //             });
-                    //             // console.log("Value of State", JSON.stringify(this.state.userDetails));
-                    //             // console.log(`Response Data: ${response.data}`);
-                    //             // console.log(`Response Data FirstName : ${response.data[0].FIRST_NAME}`);
-                    //             // console.log(`FirstName: ${this.state.userDetails.firstName}`);
-                    //     }
-                    // });
-                    let loggedInUserDetails = JSON.parse(response2.data)[0];
-                    const userEmail = this.state.userDetails.email;
-                    const isTraveler = this.state.userDetails.isTraveler;
-                    const userFirstName = loggedInUserDetails.FIRST_NAME;
-                    const userID = loggedInUserDetails.ID;
-                    sessionStorage.setItem('userEmail',  userEmail);
-                    sessionStorage.setItem('isTraveler',  isTraveler);
-                    sessionStorage.setItem('userFirstName', userFirstName);
-                    sessionStorage.setItem('userID', userID);
-                    this.setState({
-                        ...this.state.userDetails,
-                        firstName: userFirstName,
-                        authFlag : true
-                    });
-                } else {
-                    alert(response2.data.message);
-                    this.setState({
-                        ...this.state.userDetails,
-                        authFlag : false
-                    })
+        event.preventDefault();
+        let valid = Validate.login(this.state.userDetails);
+        if(valid ===''){
+            const data = {
+                userDetails: {
+                    ...this.state.userDetails
                 }
-            })
-            .catch(err=>{
-                alert(err.response2.data.message);
+            }
+            //set the with credentials to true
+            axios.defaults.withCredentials = true;
+            //make a post request with the user data
+            axios.post('http://localhost:3001/login',data)
+                .then(response2 => {
+                    console.log("Status Code for post: ",response2.status);
+                    if(response2.status === 200){
+                        // axios.get('http://localhost:3001/userdetail',{ params: {email:this.state.userDetails.email, isTraveler: this.state.userDetails.isTraveler}})
+                        // .then((response) => {
+                        //     console.log("Status code for get: ", response.status);
+                        //     if(response.status === 200) {
+                        //         //update the state with the response data
+                        //             const userFirstName = response.data[0].FIRST_NAME;
+                        //             const userLastName = response.data[0].LAST_NAME;
+                        //             const userID = response.data[0].ID;
+                        //             const aboutMe = response.data[0].ABOUT_ME;
+                        //             const city = response.data[0].CITY;
+                        //             const country = response.data[0].COUNTRY;
+                        //             const school = response.data[0].SCHOOL;
+                        //             const company = response.data[0].COMPANY;
+                        //             const hometown = response.data[0].HOMETOWN;
+                        //             const languages = response.data[0].LANGUAGES;
+                        //             const gender = response.data[0].GENDER;
+                        //             const phoneNumber = response.data[0].PHONE_NUMBER;
+                        //             var userEmail = this.state.userDetails.email;
+                        //             sessionStorage.setItem('userEmail', userEmail);
+                        //             sessionStorage.setItem('userFirstName', userFirstName);
+                        //             sessionStorage.setItem('userLastName', userLastName);
+                        //             sessionStorage.setItem('userID', userID);
+                        //             sessionStorage.setItem('aboutMe', aboutMe);
+                        //             sessionStorage.setItem('city', city);
+                        //             sessionStorage.setItem('country', country);
+                        //             sessionStorage.setItem('school', school);
+                        //             sessionStorage.setItem('company', company);
+                        //             sessionStorage.setItem('hometown', hometown);
+                        //             sessionStorage.setItem('languages', languages);
+                        //             sessionStorage.setItem('gender', gender);
+                        //             sessionStorage.setItem('phoneNumber', phoneNumber);
+                        //             this.setState({
+                        //                 userDetails: {
+                        //                     ...this.state.userDetails,
+                        //                     firstName : userFirstName,
+                        //                     lastName : userLastName
+                        //                 }
+                        //             });
+                        //             // console.log("Value of State", JSON.stringify(this.state.userDetails));
+                        //             // console.log(`Response Data: ${response.data}`);
+                        //             // console.log(`Response Data FirstName : ${response.data[0].FIRST_NAME}`);
+                        //             // console.log(`FirstName: ${this.state.userDetails.firstName}`);
+                        //     }
+                        // });
+                        let loggedInUserDetails = JSON.parse(response2.data)[0];
+                        const userEmail = this.state.userDetails.email;
+                        const isTraveler = this.state.userDetails.isTraveler;
+                        const userFirstName = loggedInUserDetails.FIRST_NAME;
+                        const travelerId = loggedInUserDetails.TRAVELER_ID;
+                        sessionStorage.setItem('userEmail',  userEmail);
+                        sessionStorage.setItem('isTraveler',  isTraveler);
+                        sessionStorage.setItem('userFirstName', userFirstName);
+                        sessionStorage.setItem('travelerId', travelerId);
+                        this.setState({
+                            ...this.state.userDetails,
+                            firstName: userFirstName,
+                            authFlag : true
+                        });
+                    } else {
+                        alert(response2.data.message);
+                        this.setState({
+                            ...this.state.userDetails,
+                            authFlag : false
+                        })
+                    }
+                })
+                .catch(err=>{
+                    alert(err.response2.data.message);
+                });
+        } else {
+            this.setState({
+                ...this.state,
+                messagediv: valid
             });
+            event.preventDefault();
+        }
     }
 
     render(){
+        let message = null;
+        if(this.state.messagediv !== ''){
+            message = (
+                <div className="clearfix">
+                    <div className="alert alert-info text-center" role="alert">{this.state.messagediv}</div>
+                </div>
+            );
+        } else {
+            message = (
+                <div></div>
+            );
+        }
         // redirect based on successful login
         let redirectVar = null;
         // if(cookie.load('cookie')){
@@ -159,6 +182,9 @@ class TravelerLogin extends Component{
                 <div>
                     {redirectVar}
                     <LoginNavbar/>
+                    <div className = "row">
+                        {message}
+                    </div>
                     <div id="container-login" className="container" >
                         <div id="login-container" className="row">
                             <div className="login-header text-center col-md-12 traveler">

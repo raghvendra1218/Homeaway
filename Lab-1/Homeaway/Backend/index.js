@@ -129,8 +129,7 @@ app.post('/login',function(req,res){
                         req.session.user = result;
                         console.log(`Result of login route: ${JSON.stringify(result)}`);
                         res.status(200).json(JSON.stringify(result));
-                    }
-                    else{
+                    } else {
                         res.status(401).json({"message":"incorrect username or password"});
                     }
                 }
@@ -187,15 +186,209 @@ app.get('/searchprop', function(req,res){
     });
 })
 
-
 //Route to get the Details of a particular Property Id
 /*
     @param : Property Id 
 */
-app.get('/propdetail', function(req,res){
+app.get('/propertydetail', function(req,res){
     console.log("Inside Property Detail route");
-    var propertyId = req.query.propId;
+    var propertyId = req.query.propertyId;
 
+    var sql = "SELECT *  FROM OWNER_PROPERTY_TABLE " + 
+                        "WHERE PROP_ID = " + mysql.escape(propertyId) +";"
+
+                        
+        //Get a connection from the created SQL pool
+        pool.getConnection(function(err,con){
+        if(err){
+            res.writeHead(400,{
+                'Content-Type' : 'text/plain'
+            })
+            res.end("Could Not Get Connection Object");
+        } else {
+            con.query(sql,function(err,result){
+                if(err){
+                    res.writeHead(400,{
+                        'Content-Type' : 'text/plain'
+                    })
+                    res.end("Invalid Credentials");
+                }else {
+                    if(result.length > 0) {
+                        res.writeHead(200,{
+                            'Content-Type' : 'text/plain'
+                        })
+                        console.log(`Successful fetched the ${propertyId} details.`);
+                        console.log(`Result of propertydetail  route: ${JSON.stringify(result)}`);
+                        res.end(JSON.stringify(result));
+                    } else {
+                        res.status(401).json({"message":"Property not found"});
+                    }
+                }
+            });
+        }
+    });
+})
+
+//Route to book a particular Property
+app.post('/bookproperty', function(req,res){
+    console.log("Inside Property Detail route");
+    var PROP_ID = req.body.propertyId;
+    var OWNER_ID = req.body.propertyDetails[0].OWNER_ID;
+    var TRAVELER_ID = req.body.travelerId;
+    var BOOK_START_DATE = req.body.propertyBookStartDate;
+    var BOOK_END_DATE = req.body.propertyBookEndDate;
+
+    var sql = "INSERT INTO PR_BOOKING_TABLE (PROP_ID, OWNER_ID, TRAVELER_ID, BOOK_START_DATE, BOOK_END_DATE )" +
+                            "VALUES (" + PROP_ID +" ," +
+                                         OWNER_ID +" ," +
+                                         TRAVELER_ID +" ," + "'"+
+                                         BOOK_START_DATE +"' ," + "'"+
+                                         BOOK_END_DATE +"' );"
+
+    //Get a connection from the created SQL pool
+    pool.getConnection(function(err,con){
+        if(err){
+            res.writeHead(400,{
+                'Content-Type' : 'text/plain'
+            })
+            res.end("Could Not Get Connection Object");
+        } else {
+            con.query(sql,function(err,result){
+                if(err){
+                    res.writeHead(400,{
+                        'Content-Type' : 'text/plain'
+                    })
+                    res.end("some error occurred while executing sql query");
+                }else{
+                    res.writeHead(200,{
+                        'Content-Type' : 'text/plain'
+                    })
+                    console.log(`Property with ID: ${PROP_ID} Booked Successfully`);
+                    res.end('Property Booked Successfully');
+                }
+            });
+        }
+    });
+})
+
+//Route to get Traveler bookings
+/*
+    @param: Traveler_Id
+*/
+
+app.get('/travelerbookings', function(req,res){
+    console.log("Inside the Traveler Bookings route.");
+    var travelerId = req.query.travelerId;
+    var sql =   "SELECT PT.PROP_ID, PT.PROP_TYPE, PT.PROP_GUEST_COUNT, PT.PROP_BATH, PT.PROP_BASE_RATE, PT.PROP_HEADLINE, BT.BOOK_START_DATE, BT.BOOK_END_DATE " +
+                "FROM PR_BOOKING_TABLE AS BT " +
+                "LEFT JOIN OWNER_PROPERTY_TABLE AS PT " +
+                "ON BT.PROP_ID = PT.PROP_ID " +
+                "WHERE BT.TRAVELER_ID =" + mysql.escape(travelerId) +";"
+
+        //Get a connection from the created SQL pool
+        pool.getConnection(function(err,con){
+        if(err){
+            res.writeHead(400,{
+                'Content-Type' : 'text/plain'
+            })
+            res.end("Could Not Get Connection Object");
+        } else {
+            con.query(sql,function(err,result){
+                if(err){
+                    res.writeHead(400,{
+                        'Content-Type' : 'text/plain'
+                    })
+                    res.end("Invalid Credentials");
+                }else{
+                    res.writeHead(200,{
+                        'Content-Type' : 'text/plain'
+                    })
+                    console.log(`Successful fetched the ${travelerId} details.`);
+                    console.log(`Result of Traveler properties route: ${JSON.stringify(result)}`);
+                    res.end(JSON.stringify(result));
+                }
+            });
+        }
+    });
+
+})
+
+//Route to get Owner Properties bookings
+/*
+    @param: owner_Id
+*/
+
+app.get ('/ownerpropsbooking', function(req,res) {
+    console.log("Inside the owner Property bookings route.");
+    var ownerId = req.query.ownerId;
+    var sql =   "SELECT PT.PROP_ID, PT.PROP_TYPE, PT.PROP_GUEST_COUNT, PT.PROP_BATH, PT.PROP_BASE_RATE, PT.PROP_HEADLINE, BT.BOOK_START_DATE, BT.BOOK_END_DATE " +
+                "FROM PR_BOOKING_TABLE AS BT " +
+                "LEFT JOIN OWNER_PROPERTY_TABLE AS PT " +
+                "ON BT.PROP_ID = PT.PROP_ID " +
+                "WHERE BT.OWNER_ID =" + mysql.escape(ownerId) +";"
+
+        //Get a connection from the created SQL pool
+        pool.getConnection(function(err,con){
+        if(err){
+            res.writeHead(400,{
+                'Content-Type' : 'text/plain'
+            })
+            res.end("Could Not Get Connection Object");
+        } else {
+            con.query(sql,function(err,result){
+                if(err){
+                    res.writeHead(400,{
+                        'Content-Type' : 'text/plain'
+                    })
+                    res.end("Invalid Credentials");
+                }else{
+                    res.writeHead(200,{
+                        'Content-Type' : 'text/plain'
+                    })
+                    console.log(`Successful fetched the ${ownerId} details.`);
+                    console.log(`Result of Owner properties bookings route: ${JSON.stringify(result)}`);
+                    res.end(JSON.stringify(result));
+                }
+            });
+        }
+    });
+})
+
+//Route to get Owner Properties owned by a particular Owner
+/*
+    @param: owner_Id
+*/
+
+app.get('/ownerprops', function(req,res){
+    console.log("Inside the owner Property bookings route.");
+    var ownerId = req.query.ownerId;
+    var sql =   "SELECT * FROM OWNER_PROPERTY_TABLE WHERE OWNER_ID = " + mysql.escape(ownerId) +";"
+
+        //Get a connection from the created SQL pool
+        pool.getConnection(function(err,con){
+        if(err){
+            res.writeHead(400,{
+                'Content-Type' : 'text/plain'
+            })
+            res.end("Could Not Get Connection Object");
+        } else {
+            con.query(sql,function(err,result){
+                if(err){
+                    res.writeHead(400,{
+                        'Content-Type' : 'text/plain'
+                    })
+                    res.end("Invalid Credentials");
+                }else{
+                    res.writeHead(200,{
+                        'Content-Type' : 'text/plain'
+                    })
+                    console.log(`Successful fetched the ${ownerId} details.`);
+                    console.log(`Result of Owner properties route: ${JSON.stringify(result)}`);
+                    res.end(JSON.stringify(result));
+                }
+            });
+        }
+    });
 })
 
 //Route to Post the Property Details
@@ -225,11 +418,12 @@ app.post('/postproperty', function(req,res){
     var PROP_AVAIL_DATE = req.body.propertyDetails.propStartDate;
     var PROP_AVAIL_TILL = req.body.propertyDetails.propEndDate;
     var EMAIL = req.body.propertyDetails.email.toLowerCase();
+    var OWNER_ID = req.body.propertyDetails.ownerId;
 
     //SQL Query to update the parameters received
     var sql = "INSERT INTO OWNER_PROPERTY_TABLE (PROP_COUNTRY, PROP_ST_ADDRESS, PROP_APT, PROP_CITY, " +
      "PROP_STATE, PROP_ZIP, PROP_HEADLINE, PROP_DESC, PROP_TYPE, PROP_NO_BEDROOM, PROP_GUEST_COUNT, PROP_BATH, PROP_PHOTO_1, " +
-     "PROP_PHOTO_2, PROP_PHOTO_3, PROP_PHOTO_4, PROP_PHOTO_5, PROP_CURRENCY, PROP_BASE_RATE, PROP_AVAIL_DATE, PROP_AVAIL_TILL, EMAIL) " +
+     "PROP_PHOTO_2, PROP_PHOTO_3, PROP_PHOTO_4, PROP_PHOTO_5, PROP_CURRENCY, PROP_BASE_RATE, PROP_AVAIL_DATE, PROP_AVAIL_TILL, EMAIL, OWNER_ID) " +
                                             "VALUES (" + "'" +
                                             PROP_COUNTRY + "' ," + "'" +
                                             PROP_ST_ADDRESS + "' ," + "'" +
@@ -252,7 +446,8 @@ app.post('/postproperty', function(req,res){
                                             PROP_BASE_RATE + " ," + "'" +
                                             PROP_AVAIL_DATE + "' ," + "'" +
                                             PROP_AVAIL_TILL + "' ," + "'" +
-                                            EMAIL + "');";
+                                            EMAIL + "'" +
+                                            OWNER_ID + "');";
     //Get a connection from the created SQL pool
     pool.getConnection(function(err,con){
         if(err){

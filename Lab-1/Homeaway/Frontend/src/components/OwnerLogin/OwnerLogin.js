@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import axios from 'axios';
 import {Redirect} from 'react-router';
 import LoginNavbar from '../LoginNavbar/LoginNavbar';
-
+import * as Validate from '../../Validations/Validation';
 
 class OwnerLogin extends Component {
     constructor(props){
@@ -17,7 +17,8 @@ class OwnerLogin extends Component {
                 password : "",
                 isTraveler: false,
                 authFlag : false
-            }
+            },
+            messagediv: ''
         }
         // Bind the handlers to this class
         this.passwordChangeHandler = this.passwordChangeHandler.bind(this);
@@ -59,77 +60,98 @@ class OwnerLogin extends Component {
     }
     
     //submit Login handler to send a request to the node backend
-    submitLogin = (e) => {
+    submitLogin = (event) => {
     // var headers = new Headers();
     //prevent page from refresh
-    e.preventDefault();
-    const data = {
-        userDetails: {
-            ...this.state.userDetails,
-            email : this.state.userDetails.email,
-            password : this.state.userDetails.password,
-            isTraveler: false
-        }
-    }
-    //set the with credentials to true
-    axios.defaults.withCredentials = true;
-    //make a post request with the user data
-    axios.post('http://localhost:3001/login',data)
-        .then(response2 => {
-            console.log("Status Code for post: ",response2.status);
-            if(response2.status === 200){
-            //     axios.get('http://localhost:3001/userdetail',{ params: {email:this.state.userDetails.email, isTraveler: this.state.userDetails.isTraveler}})
-            //     .then((response) => {
-            //         console.log("Status code for get: ", response.status);
-            //         if(response.status === 200) {
-            //             //update the state with the response data
-            //             const userFirstName = response.data[0].FIRST_NAME;
-            //             const userLastName = response.data[0].LAST_NAME;
-            //             const userID = response.data[0].ID;
-            //             const phoneNumber = response.data[0].PHONE_NUMBER;
-            //             const userEmail = this.state.userDetails.email;
-            //             sessionStorage.setItem('userEmail', userEmail);
-            //             sessionStorage.setItem('userFirstName', userFirstName);
-            //             sessionStorage.setItem('userLastName', userLastName);
-            //             sessionStorage.setItem('userID', userID);
-            //             sessionStorage.setItem('phoneNumber', phoneNumber);
-            //             this.setState({
-            //                 userDetails: {
-            //                     ...this.state.userDetails,
-            //                     firstName : userFirstName,
-            //                     lastName : userLastName
-            //                 }
-            //             });
-            //         }
-            //     });
-            let loggedInUserDetails = JSON.parse(response2.data)[0];
-            const userEmail = this.state.userDetails.email;
-            const isTraveler = this.state.userDetails.isTraveler;
-            const userFirstName = loggedInUserDetails.FIRST_NAME;
-            const userID = loggedInUserDetails.ID;
-            sessionStorage.setItem('userEmail',  userEmail);
-            sessionStorage.setItem('isTraveler',  isTraveler);
-            sessionStorage.setItem('userFirstName', userFirstName);
-            sessionStorage.setItem('userID', userID);
-            this.setState({
+    event.preventDefault();
+    let valid = Validate.login(this.state.userDetails);
+    if(valid ==='') {
+        const data = {
+            userDetails: {
                 ...this.state.userDetails,
-                firstName: userFirstName,
-                authFlag : true
-            });
-            } else {
-                alert(response2.data.message);
+                email : this.state.userDetails.email,
+                password : this.state.userDetails.password,
+                isTraveler: false
+            }
+        }
+        //set the with credentials to true
+        axios.defaults.withCredentials = true;
+        //make a post request with the user data
+        axios.post('http://localhost:3001/login',data)
+            .then(response2 => {
+                console.log("Status Code for post: ",response2.status);
+                if(response2.status === 200){
+                //     axios.get('http://localhost:3001/userdetail',{ params: {email:this.state.userDetails.email, isTraveler: this.state.userDetails.isTraveler}})
+                //     .then((response) => {
+                //         console.log("Status code for get: ", response.status);
+                //         if(response.status === 200) {
+                //             //update the state with the response data
+                //             const userFirstName = response.data[0].FIRST_NAME;
+                //             const userLastName = response.data[0].LAST_NAME;
+                //             const userID = response.data[0].ID;
+                //             const phoneNumber = response.data[0].PHONE_NUMBER;
+                //             const userEmail = this.state.userDetails.email;
+                //             sessionStorage.setItem('userEmail', userEmail);
+                //             sessionStorage.setItem('userFirstName', userFirstName);
+                //             sessionStorage.setItem('userLastName', userLastName);
+                //             sessionStorage.setItem('userID', userID);
+                //             sessionStorage.setItem('phoneNumber', phoneNumber);
+                //             this.setState({
+                //                 userDetails: {
+                //                     ...this.state.userDetails,
+                //                     firstName : userFirstName,
+                //                     lastName : userLastName
+                //                 }
+                //             });
+                //         }
+                //     });
+                let loggedInUserDetails = JSON.parse(response2.data)[0];
+                const userEmail = this.state.userDetails.email;
+                const isTraveler = this.state.userDetails.isTraveler;
+                const userFirstName = loggedInUserDetails.FIRST_NAME;
+                const ownerId = loggedInUserDetails.OWNER_ID;
+                sessionStorage.setItem('userEmail',  userEmail);
+                sessionStorage.setItem('isTraveler',  isTraveler);
+                sessionStorage.setItem('userFirstName', userFirstName);
+                sessionStorage.setItem('ownerId', ownerId);
                 this.setState({
                     ...this.state.userDetails,
-                    authFlag : false
-                })
-            }
-        })
-        .catch(err=>{
-            alert(err.response2.data.message);
+                    firstName: userFirstName,
+                    authFlag : true
+                });
+                } else {
+                    alert(response2.data.message);
+                    this.setState({
+                        ...this.state.userDetails,
+                        authFlag : false
+                    })
+                }
+            })
+            .catch(err=>{
+                alert(err.response2.data.message);
+            });
+    } else {
+        this.setState({
+            ...this.state,
+            messagediv: valid
         });
+        event.preventDefault();
     }
+}
 
     render(){
+        let message = null;
+        if(this.state.messagediv !== ''){
+            message = (
+                <div className="clearfix">
+                    <div className="alert alert-info text-center" role="alert">{this.state.messagediv}</div>
+                </div>
+            );
+        } else {
+            message = (
+                <div></div>
+            );
+        }
         // redirect based on successful login
         let redirectVar = null;
         // if(cookie.load('cookie')){
@@ -141,10 +163,14 @@ class OwnerLogin extends Component {
                 <div>
                     {redirectVar}
                     <LoginNavbar/>
+                    <div className = "row">
+                        {message}
+                    </div>
                     <div id="container-login" className="container">
                         <div id="login-container" className="row" style={{height: "340px"}}>
-                            <div className="col-md-6 col-sm-6 hidden-xs">
-                                <a id="personyzeContent" className ="ownerlogin-image"style={{backgroundImage: "url('https://csvcus.homeaway.com/rsrcs/stab-cms-resources/0.10.35/images/cas/login-banner-sept16-1.png')", backgroundRepeat: "no-repeat"}}></a></div>
+                            <div className="col-md-6 col-sm-6 hidden-xs center" style= {{paddingTop: '5px', paddingLeft:"12%"}}>
+                                <img id="personyzeContent"  className ="ownerlogin-image" src= "https://csvcus.homeaway.com/rsrcs/stab-cms-resources/0.10.35/images/cas/login-banner-sept16-1.png"/>
+                            </div>
                             <div id="formContainer" className="col-lg-4 col-md-5 col-sm-6 col-xs-12">
                                 <span id="loginBannerURL" style={{display:"none"}}></span>
                                 <div className="login-form panel panel-dashboard personyze">

@@ -1,70 +1,275 @@
-<div className="SearchBar">
-    <div className="SearchBar__expanded hidden-xs">
-        <div className="ExpandedSearchBar" data-wdio="ExpandedSearchBar">
-            <div className="SearchFields SearchFields__gt-dates">
-                <div className="SearchFields__field SearchFields__field--typeahead">
-                    <div role="presentation" className="react-destination-typeahead closed react-destination-typeahead--no-icon">
-                        <div className="search-destination-input">
-                            <div className="sr-only"><span role="status" aria-live="polite" className="sr-only"></span></div>
-                            <div role="presentation" className="search-destination-input__header state--closed">
-                                <div className="search-destination-input__header__inputs form-group has-feedback floating-label not-empty"
-                                    data-toggle="label"><label for="react-destination-typeahead">Where</label>
-                                    <input
-                                        type="text" id="react-destination-typeahead" size="10" placeholder="Destination"
-                                        className="control form-control" value="" autocomplete="off" role="combobox"
-                                        aria-haspopup="listbox" aria-controls="Typeahead__results" aria-autocomplete="both"
-                                        aria-expanded="false"/></div>
-                            </div>
-                            <div></div>
-                        </div>
+<div className="pdp-container margin-bottom-sm shadow-bottom-s">
+    <div className="pdp-body-wrapper">
+        <div id="fb-root" className=" fb_reset">
+            <script type="text/javascript" async="true" src="//connect.facebook.net/en_US/sdk.js"></script>
+            <div style={{position: "absolute;", top: "-10000px;", height: "0px;", width: "0px;"}}>
+                <div><iframe name="fb_xdm_frame_https" frameborder="0" allowtransparency="true" allowfullscreen="true"
+                        scrolling="no" allow="encrypted-media" id="fb_xdm_frame_https" aria-hidden="true" title="Facebook Cross Domain Communication Frame"
+                        tabindex="-1" src="https://staticxx.facebook.com/connect/xd_arbiter/r/jeGFvz3E6vx.js?version=42#channel=f392ce402dc3b2c&amp;origin=https%3A%2F%2Fwww.homeaway.com"
+                        style={{border: "none;"}}></iframe></div>
+            </div>
+            <div style={{"position: "absolute;", top: "-10000px;", height: "0px;", width: "0px;"}}>
+                <div></div>
+            </div>
+        </div>
+        <div className="pdp-headline-container container hidden-xs js-headlineContainer">
+            <ul className="nav property-back-nav">
+                <li>
+                    <button href="javascript:void(0)" className="js-backToSearch btn-back-to-search btn btn-sm btn-default ">
+                        <span><i className="icon-chevron-left"></i>Back to Search</span>
+                    </button>
+                </li>
+            </ul>
+            <ol itemscope="" itemtype="http://data-vocabulary.org/Breadcrumb" className="breadcrumb breadcrumb-gt-header hidden-xs js-breadcrumb">
+                <li className="last">
+                    <a href="/results/keywords:Grant+Hill,+San+Diego,+CA,+USA" className="js-breadcrumbLink">Grant Hill,
+                        San Diego, CA, USA</a>
+                    &nbsp;<span className="divider">&gt;</span>
+                </li>
+                <li className="unlinked">
+                    Rental 1210873vb
+                </li>
+            </ol>
+            <div className="headline-messages">
+                <span className="premier-badge js-premierBadge"><span className="premier-badge-label">Premier Partner</span></span>
+                <div className="headline-message">
+                    <div className="superlative-reviews-summary " data-wdio="reviews-summary-pdp-container">
+                        <a href="#reviews">
+                            <span><strong>Wonderful!</strong></span>
+                            <span><strong>4.9/5 - </strong></span>
+                            <div className="rating rating-5" title="Average Rating: 4.9"></div>
+                            <span className="review-count">
+                                (7 traveler reviews)
+                            </span>
+                        </a>
                     </div>
                 </div>
-                <div className="SearchFields__field">
-                    <div className="DateRangePicker DateRangePicker--gt date-range form-combined form-combined--dates"><span
-                            className="" style={{display:"block;",outline:"0;",position:"relative"}} role="button" tabindex="0">
-                            <div className="form-combined-row">
-                                <div className="form-group position-relative form-combined__input1">
-                                    <div className="form-group floating-label not-empty has-icon"><label className="has-icon"
-                                            for=""><span className=""></span></label>
-                                            <input type="text" className="form-control form-control--arrival"
-                                            aria-label="[object Object]" name="checkin" value="09/28/18" data-wdio="date-range-input-start"/><span
-                                            className="form-control-icon"><svg width="24" height="24" viewBox="0 0 24 24">
-                                                <path id="a" d="M19.887 3c.323 0 .589.113.798.339.21.226.315.5.315.822v15.726c0 .323-.105.597-.315.823-.21.225-.475.338-.798.338H4.113c-.29 0-.548-.113-.774-.338A1.12 1.12 0 0 1 3 19.887V4.161c0-.322.113-.596.339-.822.226-.226.484-.339.774-.339h1.5v2.274c0 .29.113.549.339.774.225.226.492.34.798.34.306 0 .573-.114.798-.34.226-.225.34-.483.34-.774V3h8.273v2.274c0 .29.105.549.315.774.21.226.468.34.774.34s.573-.114.798-.34c.226-.225.34-.483.34-.774V3h1.5zM8.613 18.387v-3h-3v3h3zm0-5.226v-3h-3v3h3zm4.887 5.226v-3h-3v3h3zm0-5.226v-3h-3v3h3zm4.887 5.226v-3h-3v3h3zm0-5.226v-3h-3v3h3z"></path>
-                                                <g fill="none" fill-rule="evenodd">
-                                                    <use fill="#000"></use>
-                                                    <use fill="#DE0B0B"></use>
-                                                </g>
-                                            </svg></span></div>
-                                    <div className="picker__overlay picker__overlay--selectable"></div>
-                                </div>
-                                <div className="form-group position-relative form-combined__input2">
-                                    <div className="form-group floating-label not-empty has-icon"><label className="has-icon"
-                                            for=""><span className=""></span></label><input type="text" className="form-control form-control--departure DateRangePicker__FormInput-departure form-control--no-arrow"
-                                            aria-label="[object Object]" name="checkout" value="10/03/18" data-wdio="date-range-input-end"/><span
-                                            className="form-control-icon"><svg width="24" height="24" viewBox="0 0 24 24">
-                                                <path id="a" d="M19.887 3c.323 0 .589.113.798.339.21.226.315.5.315.822v15.726c0 .323-.105.597-.315.823-.21.225-.475.338-.798.338H4.113c-.29 0-.548-.113-.774-.338A1.12 1.12 0 0 1 3 19.887V4.161c0-.322.113-.596.339-.822.226-.226.484-.339.774-.339h1.5v2.274c0 .29.113.549.339.774.225.226.492.34.798.34.306 0 .573-.114.798-.34.226-.225.34-.483.34-.774V3h8.273v2.274c0 .29.105.549.315.774.21.226.468.34.774.34s.573-.114.798-.34c.226-.225.34-.483.34-.774V3h1.5zM8.613 18.387v-3h-3v3h3zm0-5.226v-3h-3v3h3zm4.887 5.226v-3h-3v3h3zm0-5.226v-3h-3v3h3zm4.887 5.226v-3h-3v3h3zm0-5.226v-3h-3v3h3z"></path>
-                                                <g fill="none" fill-rule="evenodd">
-                                                    <use fill="#000"></use>
-                                                    <use fill="#DE0B0B"></use>
-                                                </g>
-                                            </svg></span></div>
-                                    <div className="picker__overlay picker__overlay--selectable"></div>
-                                </div>
-                            </div>
-                        </span></div>
+                <div className="headline-message hidden-xs ">
+                    <div className="js-freeCancellationComponent free-cancellation-component" style={{display:"none"}}>
+                        <i className="icon-check"></i>
+                        <span><strong>Free Cancellation</strong> until</span>
+                        <strong className="js-freeCancellationDate"></strong>
+                    </div>
+                    <div className="js-freeCancellationPopoverContent" style={{display:"none"}}>
+                        <div className="js-refundPolicies">Reservation must be cancelled by 11:59 AM (property's local
+                            time) on to receive 100% refund. A 50% refund will be given if cancelled by 11:59 AM
+                            (property's local time) on .</div>
+                        Service Fee fully refunded on cancellations that qualify for 100% refund.
+                    </div>
                 </div>
-                <div className="SearchFields__field SearchFields__field--guest-picker">
-                    <div className="GuestPicker guest-picker"><span className="" style={{display:"block;", outline:"0;", position:"relative"}}
-                            role="button" tabindex="0">
-                            <div className="position-relative">
-                                <div className="GuestPicker form-group floating-label not-empty"><label className="" for=""><span
-                                            className="">Guests</span></label><input type="text" className="form-control"
-                                        aria-label="[object Object]" name="Guests" value="1 guest" data-wdio="guest-picker-input"/></div>
-                                <div className="picker__overlay picker__overlay--selectable"></div>
-                            </div>
-                        </span></div>
+            </div>
+        </div>
+        <div id="summary" className="page-anchor"></div>
+        <div className="pdp-cap js-pdpCap gt-navbar hidden-xs affix-top">
+            <div className="pdp-cap-inner with-hearting">
+                <div className="pdp-cap-container container">
+                    <div className="row">
+                        <div className="hidden-xs">
+                            <ul className="nav nav-underline section-nav js-propertyNav" role="tablist" data-wdio="pdp-navbar">
+                                <li className="js-sectionNavPill">
+                                    <a href="#summary" data-navtitle="property-summary" data-wdio="navbar-property-summary">
+                                        <i className="icon-home"></i>
+                                        Overview
+                                    </a>
+                                </li>
+                                <li className="js-sectionNavPill">
+                                    <a href="#amenities" data-navtitle="amenities" data-wdio="navbar-amenties">
+                                        <i className="icon-list"></i>
+                                        Amenities
+                                    </a>
+                                </li>
+                                <li className="js-sectionNavPill">
+                                    <a href="#reviews" data-navtitle="reviews" data-wdio="navbar-reviews">
+                                        <i className="icon-star"></i>
+                                        Reviews
+                                    </a>
+                                </li>
+                                <li className="js-sectionNavPill">
+                                    <a href="#map" data-navtitle="map" data-wdio="navbar-map">
+                                        <i className="icon-location"></i>
+                                        Map
+                                    </a>
+                                </li>
+                                <li className="js-sectionNavPill">
+                                    <a href="#photos" data-navtitle="gallery" data-wdio="navbar-gallery">
+                                        <i className="icon-picture"></i>
+                                        Photos
+                                    </a>
+                                </li>
+                                <li className="js-sectionNavPill">
+                                    <a href="#ratesAnchor" data-navtitle="payment" data-wdio="navbar-payment">
+                                        <i className="icon-creditcard"></i>
+                                        Rates &amp; Availability
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                        <div className="visible-md visible-lg">
+                            <ul className="pull-right nav pdp-fav-share-nav js-pdpFavShareNav nav-icon-links with-hearting">
+                                <li className="js-shareComponent">
+                                    <a className="share-button js-shareMenuToggle btn-link hidden-sm hidden-xs" data-toggle="popover"
+                                        href="javascript:void(0)">
+                                        <span>
+                                            Share
+                                        </span>
+                                        <i className="icon-share hidden-sm clickable"></i>
+                                    </a>
+                                    <div className="share-menu js-shareMenu" style="display:none">
+                                        <button type="button" className="share-menu-close js-shareMenuToggle">×</button>
+                                        <div className="share-form">
+                                            <div className="property-preview-container">
+                                                <div className="share-menu-photo" style={{"backgroundImage:url('https://odis.homeaway.com/odis/listing/5721861f-d727-4027-bf49-ffbacf490a1d.c5.jpg')"}}></div>
+                                                <div className="property-details">
+                                                    <h4>Beautifully Upgraded Victorian Property on Slope above Downtown
+                                                        San Diego.</h4>
+                                                    <p>Located in a Historic District on the Slope above Downtown San
+                                                        Diego, this beautiful Queen Ann Victorian accommodates up to 6
+                                                        guests. This unit is completely private with a separate entry,
+                                                        living space, 2 bedrooms, 2 bathrooms, full kitchen, living
+                                                        room, kitchen nook, living area and patio with private BBQ and
+                                                        patio table and chairs. No expense was spared in the design of
+                                                        this highly upgraded unit which features views of the Ocean,
+                                                        Coronado Bridge and the islands off the coast from the
+                                                        property's front porch. No expense was spared in the layout and
+                                                        design of this unit which is modern classNameic. The living area
+                                                        features a Queen size leather pull-out sofa bed, large LED
+                                                        smart TV, dining table and chairs and ceiling fan. The kitchen
+                                                        is beautifully upgraded complete with everything you will need
+                                                        to cook your own meals during your stay with us. The bathrooms
+                                                        are brand new and equipped with plenty of plush towels,
+                                                        shampoo, conditioner, body wash and a blow dryer. There are
+                                                        Queen size beds in each of 2 separate bedrooms. Both Queen beds
+                                                        have memory foam mattresses which are very comfortable. Each
+                                                        bedroom also has a vertical fan, in-wall air conditioner and a
+                                                        high definition LED smart TV with cable access and streaming
+                                                        capability. All 3 televisions have free Netflix access provided
+                                                        free to our Guests. Our property is located just minutes
+                                                        driving distance to the Convention Center, Gas Lamp district,
+                                                        Ball Park, Coronado Island, the Airport, Balboa Park and the
+                                                        Zoo. Freeway access is located around the corner and bus stop
+                                                        transits to and from downtown can be found within a block. All
+                                                        local beaches are within easy driving distance of the property.
+                                                        Some of Golden Hill’s most popular spots such as the Turf Club,
+                                                        Panchitas Bakery, Krakatoa Coffee Shop, Luigi's Pizza and
+                                                        Golden Hill Park are all within easy walking distance. Enjoy a
+                                                        morning cup of coffee and Coronado Bay Bridge views from the
+                                                        patio table and chairs provided on the front porch or BBQ on
+                                                        your own private patio. There is an on-site laundry so check
+                                                        for the coins, laundry detergent and fabric softener tissues we
+                                                        provide in the unit as a complimentary gift and our way of
+                                                        saying thank you. Enjoy these beautiful and unique
+                                                        accommodations while experiencing all the best that San Diego
+                                                        has to offer.
+                                                        Instant Booking - This unit has a Queen size bed in each of 2
+                                                        separate bedrooms. Both beds have memory foam mattresses. There
+                                                        is additionally a Queen size pull out sofa bed in the living
+                                                        area. While this unit is designed to accommodate 6 Guests, it
+                                                        could be a bit challenging if they are all adults. We want to
+                                                        be sure this arrangement will be comfortably accommodate your
+                                                        group.</p>
+                                                </div>
+                                            </div>
+                                            <div className="share-button-container ">
+                                                <div className="row">
+                                                    <div className="col-xs-6">
+                                                        <a href="http://www.facebook.com/" className="js-facebookShare social-share-link"
+                                                            onclick="popUp=window.open('http://www.facebook.com/sharer.php?u=https://www.homeaway.com/vacation-rental/p1210873vb','popupwindow','width=670,height=340');popUp.focus();return false">
+                                                            <div className="custom-social-button facebook">
+                                                                <i className="icon-facebook" aria-hidden="true"></i>
+                                                            </div>
+                                                            <span className="social-text">Share on Facebook</span>
+                                                        </a>
+                                                    </div>
+                                                    <div className="col-xs-6">
+                                                        <a href="http://www.pinterest.com/" className="js-pinterestShare social-share-link"
+                                                            onclick="popUp=window.open('http://pinterest.com/pin/create/button/?url=https://www.homeaway.com/vacation-rental/p1210873vb&amp;media=https://odis.homeaway.com/odis/listing/5721861f-d727-4027-bf49-ffbacf490a1d.c5.jpg&amp;description=Beautifully Upgraded Victorian Property on Slope above Downtown San Diego.','popupwindow','width=750,height=642');popUp.focus();return false">
+                                                            <div className="custom-social-button pinterest">
+                                                                <i className="icon-pinterest" aria-hidden="true"></i>
+                                                            </div>
+                                                            <span className="social-text">Save to Pinterest</span>
+                                                        </a>
+                                                    </div>
+                                                </div>
+                                                <div className="row">
+                                                    <div className="col-xs-6">
+                                                        <a href="http://twitter.com/share" className="js-twitterShare social-share-link"
+                                                            onclick="popUp=window.open('https://twitter.com/intent/tweet?text=Check out this awesome property I found on @HomeAway!&amp;url=https://www.homeaway.com/vacation-rental/p1210873vb','popupwindow','width=550,height=420');popUp.focus();return false">
+                                                            <div className="custom-social-button twitter">
+                                                                <i className="icon-twitter" aria-hidden="true"></i>
+                                                            </div>
+                                                            <span className="social-text">Tweet about it</span>
+                                                        </a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div className="copy-link-container js-copyLinkComponent">
+                                                <label for="property-url" className="copy-this-link-label">Copy this link
+                                                    to share</label>
+                                                <div className="form-group">
+                                                    <div className="input-group">
+                                                        <div className="input-group-wrapper">
+                                                            <input className="form-control js-copyLinkInput" type="text"
+                                                                value="https://www.homeaway.com/vacation-rental/p1210873vb"
+                                                                readonly=""/>
+                                                        </div>
+                                                        <span className="input-group-btn">
+                                                            <label for="copy-link-button" className="link-copied-button-label">Copied
+                                                                to clipboard</label>
+                                                            <button id="copy-link-button" className="btn btn-default js-copyLinkButton"
+                                                                type="button" data-effect="ripple"
+                                                                data-clipboard-target=".js-copyLinkInput">
+                                                                <span className="copy-button-text">Copy</span>
+                                                                <span className="success-button-text"><i className="icon-check"></i></span>
+                                                            </button>
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li id="heart-button-nav" className="heart-button-parent">
+                                    <div className="heart-button-container js-heartButtonPDP heart-button-sunset"><button
+                                            data-reactroot="" className="react-trip-board-button react-trip-board-button__outline"
+                                            tabindex="-1">
+                                            <div className="react-trip-board-button__heart-core" tabindex="0"><svg height="15px"
+                                                    viewBox="-1 -1 18 15" width="17px">
+                                                    <path className="react-trip-board-button__heart-core__heart-icon unhearted"
+                                                        d="M14.1294135,7.57785915 L9.1813451,12.5257519 C8.40187017,13.3051991 7.13698698,13.3040721 6.35866678,12.5257519 L1.41077405,7.57785915 C0.543404248,6.78002342 -8.8817842e-16,5.63564613 -8.8817842e-16,4.3646175 C-8.8817842e-16,1.9541783 1.95395254,0 4.3646175,0 C5.60449125,0 6.72403494,0.517216091 7.51825852,1.3473355 C7.60675643,1.43944557 7.69073914,1.53539356 7.76998089,1.63472794 C7.84989992,1.53539356 7.93365686,1.43944557 8.02170325,1.3473355 C8.81615259,0.517216091 9.93569628,0 11.1753443,0 C13.5860092,8.02060533e-16 15.5399618,1.9541783 15.5399618,4.3646175 C15.5399618,5.63564613 14.9965575,6.78024918 14.1294135,7.57785915 Z"></path>
+                                                </svg></div>
+                                        </button></div>
+                                    <div className="heart-popover js-heartPopover"></div>
+                                    <div className="hidden js-heartPopoverContent">
+                                        <div className="heart-popover-content">
+                                            <button className="heart-popover-close-button card__close hidden-mini js-closeHeartTooltip">
+                                                <svg className="inline-svg heart-popover-close-button__svg" viewBox="0 0 18 18">
+                                                    <g transform="translate(1.000000, 1.000000)">
+                                                        <path d="M0.444444444,0.444444444 L15.5293891,15.5293891"></path>
+                                                        <path d="M15.5293891,0.444444444 L0.444444444,15.5293891"></path>
+                                                    </g>
+                                                </svg>
+                                            </button>
+                                            <div className="heart-popover-title">
+                                                <div className="heart-popover-images js-heart-popover-images">
+                                                </div>
+                                                <div className="heart-popover-text">
+                                                    See more properties you'll love
+                                                </div>
+                                            </div>
+                                            <div className="heart-popover-cta">
+                                                <div className="btn btn-sm btn-default heart-popover-cta-btn">
+                                                    Discover more
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
+    <div className="hidden-xs hidden-sm right-rail-ad-spacer"></div>
 </div>
