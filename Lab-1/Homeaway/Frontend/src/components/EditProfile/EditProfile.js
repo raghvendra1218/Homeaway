@@ -321,7 +321,7 @@ class EditProfile extends Component {
                                                         </button>
                                                     </div>
                                                     <h2 className="user-name">{userFirstName}</h2>
-                                            <p className="text-muted"><span className="user-location"></span>Member since September 30, 2018</p>
+                                            <p className="text-muted"><span className="user-location"></span>Member since October 07, 2018</p>
                                         </div>
                                     </header>
                                     <div className="col-xs-12 col-sm-8">

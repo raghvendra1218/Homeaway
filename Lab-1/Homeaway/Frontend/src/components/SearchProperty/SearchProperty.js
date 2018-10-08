@@ -7,6 +7,7 @@ import {capitalizeFirstLetter} from '../../utility';
 
 
 class SearchProperty extends Component {
+    imageArr = []
     constructor (props) {
         super();
         this.state = {
@@ -15,10 +16,12 @@ class SearchProperty extends Component {
             searchBoxStartDate: sessionStorage.getItem('searchBoxStartDate'),
             searchBoxEndDate: sessionStorage.getItem('searchBoxEndDate'),
             searchBoxHeadCount : sessionStorage.getItem('searchBoxHeadCount'),
-            isSearched: false
+            isSearched: false,
+            getImage: false
         }
         // Bind the handlers to this class
         this.propertyDetailHandler = this.propertyDetailHandler.bind(this);
+        this.handleGetPhoto = this.handleGetPhoto.bind(this);
     }
     
     //get the user details from Back-end  
@@ -31,11 +34,28 @@ class SearchProperty extends Component {
                     searchResults: this.state.searchResults.concat(response.data),
                     isSearched : true
             });
+            for(var i=0; i<response.data.length;i++){
+                var photoD = response.data[i].PROP_IMAGES ;
+                var photoArray = JSON.parse(photoD);
+                this.handleGetPhoto(photoArray[0]);
+            }
             console.log("State result: "+ JSON.stringify(this.state.searchResults));
         })
         .catch( error =>{
             console.log("error:", error);
         });
+    }
+
+    handleGetPhoto = (fileName) => {
+        axios.post('http://localhost:3001/download/' + fileName)
+            .then(response => {
+                console.log("Image Res : ", response);
+                let imagePreview = 'data:image/jpg;base64, ' + response.data;
+                this.imageArr.push(imagePreview)
+                this.setState({
+                    getImage: true
+                })
+            });
     }
 
     propertyDetailHandler =(e,propertyId) =>{
@@ -62,7 +82,7 @@ class SearchProperty extends Component {
                 </div>
             )
         } else {
-            eachResult = results.map(result => {
+            eachResult = results.map((result, index) => {
                 // console.log("Each Result Array: ", result);
                 return(
                     <div>
@@ -85,9 +105,9 @@ class SearchProperty extends Component {
                                                         </button>
                                                     </div>
                                                     <a aria-label="View property" className="SimpleImageCarousel" data-imgsrcurl="https://odis.homeaway.com/odis/listing/acec066f-9d31-4aed-9e32-9f06406edba3.c6.jpg"
-                                                        data-index="0" data-wdio="SimpleImageCarousel--main" role="button" tabindex="0" style={{ backgroundImage: "url('https://odis.homeaway.com/odis/listing/acec066f-9d31-4aed-9e32-9f06406edba3.c6.jpg');" }}>
+                                                        data-index="0"   data-wdio="SimpleImageCarousel--main" role="button" tabindex="0" style={{ backgroundImage: "url('https://odis.homeaway.com/odis/listing/acec066f-9d31-4aed-9e32-9f06406edba3.c6.jpg');" }}>
                                                         <div className="SimpleImageCarousel__image SimpleImageCarousel__image--cur" role="img"
-                                                            aria-label="" style={{ backgroundImage: "url('http:/odis.homeaway.com/odis/listing/acec066f-9d31-4aed-9e32-9f06406edba3.c6.jpg&quot')" }}></div>
+                                                            aria-label="" style={{ backgroundImage: "url('http:/odis.homeaway.com/odis/listing/acec066f-9d31-4aed-9e32-9f06406edba3.c6.jpg')" }}></div>
                                                         <div className="SimpleImageCarousel__image SimpleImageCarousel__image--next-slide" style={{ backgroundImage: "url('https://odis.homeaway.com/odis/listing/33f61678-ce3f-4603-997f-5f838173fdbc.c6.jpg')" }}></div>
                                                         <div className="SimpleImageCarousel__image SimpleImageCarousel__image--prev-slide"></div>
                                                         <div className="SimpleImageCarousel__preloader"></div>
@@ -107,6 +127,8 @@ class SearchProperty extends Component {
                                                                     <path fill="none" stroke-linecap="round" stroke-linejoin="round" d="M8 23l11-11L8 1"></path>
                                                                 </svg></span>
                                                         </button>
+
+                                                        <img src={this.imageArr[index]}/>
                                                     </a>
                                                 </div>
                                                 <div className="Hit__info"><a key = {result.PROP_ID} className="a--plain-link Hit__infoLink" onClick ={(event) => {this.propertyDetailHandler(event,result.PROP_ID)}} href={'http://localhost:3000/propertydetail/'+ result.PROP_ID} >

@@ -6,13 +6,17 @@ import {capitalizeFirstLetter} from '../../utility';
 import {usaDateFormat} from '../../utility';
 
 class TravelerBookedProperties extends Component {
+    imageArr = []
     constructor(props) {
         super();
         this.state= {
             bookingResults:[],
             travelerId: sessionStorage.getItem('travelerId'),
-            isFetched: false
+            isFetched: false,
+            getImage: false
         }
+        // Bind the handlers to this class
+        this.handleGetPhoto = this.handleGetPhoto.bind(this);
     }
     //get the user details from Back-end  
     componentDidMount(){
@@ -24,11 +28,28 @@ class TravelerBookedProperties extends Component {
                     bookingResults: this.state.bookingResults.concat(response.data),
                     isFetched : true
             });
+            for(var i=0; i<response.data.length;i++){
+                var photoD = response.data[i].PROP_IMAGES ;
+                var photoArray = JSON.parse(photoD);
+                this.handleGetPhoto(photoArray[0]);
+            }
             console.log("Booking Result : "+ JSON.stringify(this.state.bookingResults));
         })
         .catch( error =>{
             console.log("error:", error);
         });
+    }
+
+    handleGetPhoto = (fileName) => {
+        axios.post('http://localhost:3001/download/' + fileName)
+            .then(response => {
+                console.log("Image Res : ", response);
+                let imagePreview = 'data:image/jpg;base64, ' + response.data;
+                this.imageArr.push(imagePreview)
+                this.setState({
+                    getImage: true
+                })
+            });
     }
 
     render() {
@@ -48,7 +69,7 @@ class TravelerBookedProperties extends Component {
                 </div>
             )
         } else {
-            eachResult = results.map(result => {
+            eachResult = results.map((result, index) => {
                 return(
                     <div>
                         <div className="Application__resultsColumn">
@@ -92,6 +113,7 @@ class TravelerBookedProperties extends Component {
                                                                     <path fill="none" stroke-linecap="round" stroke-linejoin="round" d="M8 23l11-11L8 1"></path>
                                                                 </svg></span>
                                                         </button>
+                                                        <img src={this.imageArr[index]}/>
                                                     </a>
                                                 </div>
                                                 <div className="Hit__info"><a key = {result.PROP_ID} className="a--plain-link Hit__infoLink" onClick ={(event) => {this.propertyDetailHandler(event,result.PROP_ID)}} href={'http://localhost:3000/propertydetail/'+ result.PROP_ID} >

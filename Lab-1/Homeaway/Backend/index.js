@@ -9,6 +9,9 @@ app.set('view engine', 'ejs');
 var mysql = require('mysql');
 var pool = require('./pool');
 var morgan = require('morgan');
+var multer = require('multer');
+const path = require('path');
+const fs = require('fs');
 
 //use cors to allow cross origin resource sharing
 app.use(cors({origin:'http://localhost:3000', credentials: true}));
@@ -29,6 +32,16 @@ app.use(session({
 //   }));
 app.use(bodyParser.json());
 
+var storage = multer.diskStorage({
+    destination: function (req, file, callback) {
+        callback(null, './public/upload/images');
+    },
+    filename: function (req, file, callback) {
+        callback(null, file.originalname);
+        //  addPhotosToDB(req.query.uid,file.originalname)
+    }
+});
+var upload = multer({storage: storage}).any();
 //Allow Access Control
 app.use(function(req, res, next) {
     res.setHeader('Access-Control-Allow-Origin', 'http://localhost:3000');
@@ -38,6 +51,31 @@ app.use(function(req, res, next) {
     res.setHeader('Cache-Control', 'no-cache');
     next();
   });
+
+  app.post('/uploadImages', function (req, res) {
+    upload(req, res, function (err) {
+        //console.log(req.body);
+        //console.log(req.files);
+        if (err) {
+            return res.end("Error uploading file.");
+        }
+        res.writeHead(200, {
+            'Content-Type': 'text/plain'
+        })
+        res.end("File is uploaded");
+    });
+});
+
+//Hnadler for fetching the Image Name
+app.post('/download/:file(*)', (req, res) => {
+    console.log("inside download file");
+    var file = req.params.file;
+    var fileLocation = path.join(__dirname + '/public/upload/images', file);
+    var img = fs.readFileSync(fileLocation);
+    var base64img = new Buffer(img).toString('base64');
+    res.writeHead(200, {'Content-Type': 'image/jpg'});
+    res.end(base64img);
+});
 
 //Route to get the details of the user(Traveler/Owner)
 app.get('/userdetail',function(req,res){
@@ -91,13 +129,13 @@ app.get('/userdetail',function(req,res){
 app.post('/login',function(req,res){
 
     console.log("Inside Login Post Request");
-    var EMAIL = req.body.userDetails.email;
-    var PASSWORD = req.body.userDetails.password;
-    console.log("Req Body : ",req.body.userDetails);
+    var EMAIL = req.body.email;
+    var PASSWORD = req.body.password;
+    // console.log("Req Body : ",req.body.userDetails);
 
-    if(req.body.userDetails.isTraveler) {
+    if(req.body.isTraveler) {
 
-        console.log("Inside Traveler Login Request");
+        // console.log("Inside Traveler Login Request");
         //QUERY TRAVELER_INFO_TABLE to get the email and password
         var sql = "SELECT *  FROM TRAVELER_INFO_TABLE WHERE EMAIL = " + 
         mysql.escape(EMAIL) + "and password = " + mysql.escape(PASSWORD);
@@ -127,7 +165,7 @@ app.post('/login',function(req,res){
                     if (result.length > 0){
                         res.cookie('cookie',"admin",{maxAge: 900000, httpOnly: false, path : '/'});
                         req.session.user = result;
-                        console.log(`Result of login route: ${JSON.stringify(result)}`);
+                        // console.log(`Result of login route: ${JSON.stringify(result)}`);
                         res.status(200).json(JSON.stringify(result));
                     } else {
                         res.status(401).json({"message":"incorrect username or password"});
@@ -408,11 +446,7 @@ app.post('/postproperty', function(req,res){
     var PROP_NO_BEDROOM = req.body.propertyDetails.propNoBedroom;
     var PROP_GUEST_COUNT = req.body.propertyDetails.propGuestCount;
     var PROP_BATH = req.body.propertyDetails.propNoBathroom;
-    var PROP_PHOTO_1 = req.body.propertyDetails.propPhoto1;
-    var PROP_PHOTO_2 = req.body.propertyDetails.propPhoto2;
-    var PROP_PHOTO_3 = req.body.propertyDetails.propPhoto3;
-    var PROP_PHOTO_4 = req.body.propertyDetails.propPhoto4;
-    var PROP_PHOTO_5 = req.body.propertyDetails.propPhoto5;
+    var PROP_IMAGES = JSON.stringify(req.body.propertyDetails.propPhotosArr);
     var PROP_CURRENCY = req.body.propertyDetails.propCurrency;
     var PROP_BASE_RATE = req.body.propertyDetails.propBaseRate;
     var PROP_AVAIL_DATE = req.body.propertyDetails.propStartDate;
@@ -422,8 +456,8 @@ app.post('/postproperty', function(req,res){
 
     //SQL Query to update the parameters received
     var sql = "INSERT INTO OWNER_PROPERTY_TABLE (PROP_COUNTRY, PROP_ST_ADDRESS, PROP_APT, PROP_CITY, " +
-     "PROP_STATE, PROP_ZIP, PROP_HEADLINE, PROP_DESC, PROP_TYPE, PROP_NO_BEDROOM, PROP_GUEST_COUNT, PROP_BATH, PROP_PHOTO_1, " +
-     "PROP_PHOTO_2, PROP_PHOTO_3, PROP_PHOTO_4, PROP_PHOTO_5, PROP_CURRENCY, PROP_BASE_RATE, PROP_AVAIL_DATE, PROP_AVAIL_TILL, EMAIL, OWNER_ID) " +
+     "PROP_STATE, PROP_ZIP, PROP_HEADLINE, PROP_DESC, PROP_TYPE, PROP_NO_BEDROOM, PROP_GUEST_COUNT, PROP_BATH, PROP_IMAGES, " +
+     "PROP_CURRENCY, PROP_BASE_RATE, PROP_AVAIL_DATE, PROP_AVAIL_TILL, EMAIL, OWNER_ID) " +
                                             "VALUES (" + "'" +
                                             PROP_COUNTRY + "' ," + "'" +
                                             PROP_ST_ADDRESS + "' ," + "'" +
@@ -437,17 +471,13 @@ app.post('/postproperty', function(req,res){
                                             PROP_NO_BEDROOM + " ," +
                                             PROP_GUEST_COUNT + " ," +
                                             PROP_BATH + " ," + "'" +
-                                            PROP_PHOTO_1 + "' ," + "'" +
-                                            PROP_PHOTO_2 + "' ," + "'" +
-                                            PROP_PHOTO_3 + "' ," + "'" +
-                                            PROP_PHOTO_4 + "' ," + "'" +
-                                            PROP_PHOTO_5 + "' ," + "'" +
+                                            PROP_IMAGES + "' ," + "'" +
                                             PROP_CURRENCY + "' ," +
                                             PROP_BASE_RATE + " ," + "'" +
                                             PROP_AVAIL_DATE + "' ," + "'" +
                                             PROP_AVAIL_TILL + "' ," + "'" +
-                                            EMAIL + "'" +
-                                            OWNER_ID + "');";
+                                            EMAIL + "'" + " ," +
+                                            OWNER_ID + ");";
     //Get a connection from the created SQL pool
     pool.getConnection(function(err,con){
         if(err){

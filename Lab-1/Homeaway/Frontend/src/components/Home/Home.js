@@ -21,6 +21,7 @@ class Home extends Component {
         this.searchEndDateChangeHandler = this.searchEndDateChangeHandler.bind(this);
         this.searchHeadCountChangeHandler = this.searchHeadCountChangeHandler.bind(this);
         this.searchHandler = this.searchHandler.bind(this);
+        this.notOwnerHnadler = this.notOwnerHnadler.bind(this);
     }
 
     componentDidMount = () => {
@@ -68,6 +69,10 @@ class Home extends Component {
     }
 
 
+    notOwnerHnadler =(event) => {
+        event.preventDefault();
+        alert("You need to be logged in as Owner.");
+    }
     //Search Property handler to send a request to the node back-end
     searchHandler = (event) => {
         //prevent page from refresh
@@ -215,7 +220,7 @@ class Home extends Component {
                                         <a className="site-header-list-your-property btn btn-default btn-inverse" data-bypass="true" href="http://localhost:3000/postproperty">Post your property</a>
                                     </div> : 
                                     <div>
-                                        <a className="site-header-list-your-property btn btn-default btn-inverse"  data-bypass="true" href="http://localhost:3000">Post your property</a>
+                                        <a className="site-header-list-your-property btn btn-default btn-inverse" onClick= {this.notOwnerHnadler} data-bypass="true" href="http://localhost:3000">Post your property</a>
                                     </div>
                                 }
                                 <div className="site-header-birdhouse">

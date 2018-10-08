@@ -1,0 +1,101 @@
+commit 1ac8e037bef51d9a549f821be040597b310bc8c9
+Author: raghvendra1218 <raghvendra.dixit@sjsu.edu>
+Date:   Sun Oct 7 05:41:10 2018 -0700
+
+    Add Dashboards, Validations
+
+commit 79a5bb5c4613cc451f070dde42aaba9f39867bbf
+Author: raghvendra1218 <raghvendra.dixit@sjsu.edu>
+Date:   Sun Oct 7 05:39:17 2018 -0700
+
+    Add Dashboards, Validations
+
+commit 1b2e0975c83406404316e24aecea8341d6b66cf1
+Author: raghvendra1218 <raghvendra.dixit@sjsu.edu>
+Date:   Thu Oct 4 18:32:42 2018 -0700
+
+    Add Search property Logic and handler
+
+commit cb01ba3d5a485c290292548e74e03e6da264fe4a
+Author: raghvendra1218 <raghvendra.dixit@sjsu.edu>
+Date:   Sun Sep 30 04:33:53 2018 -0700
+
+    Add Search result UI and Handler
+
+commit 715ae18a64bba6ec84e626278579521e3b90bc9c
+Author: raghvendra1218 <raghvendra.dixit@sjsu.edu>
+Date:   Fri Sep 28 15:41:00 2018 -0700
+
+    Add Post Property route and Final UI
+
+commit 29de21a9b57033bb550ea9ba204eb7260b3008d5
+Author: raghvendra1218 <raghvendra.dixit@sjsu.edu>
+Date:   Fri Sep 28 02:27:31 2018 -0700
+
+    modified Edit Profile Add post property UI
+
+commit 70da8f7d9526f32bd242fe6c5081feeab5c0fe9d
+Author: raghvendra1218 <raghvendra.dixit@sjsu.edu>
+Date:   Tue Sep 25 13:20:18 2018 -0700
+
+    Add Post Property UI and it's Integration at UI end
+
+commit 9ce7e84af039a3e6616a1be47c45ac74b9649325
+Author: raghvendra1218 <raghvendra.dixit@sjsu.edu>
+Date:   Mon Sep 24 04:22:53 2018 -0700
+
+    Add Integration and edit profile
+
+commit 4de678fc08742cfb0939f2ae011883f620c351e6
+Author: raghvendra1218 <raghvendra.dixit@sjsu.edu>
+Date:   Sat Sep 22 14:26:34 2018 -0700
+
+    add Home and other routes
+
+commit f27e579fbdee51cf606f8e015e6f90113cfc2bf3
+Author: raghvendra1218 <raghvendra.dixit@sjsu.edu>
+Date:   Fri Sep 21 02:05:49 2018 -0700
+
+    add login and signup routes
+
+commit 3fcaba83bfb1005120a14a7df459211c40b16100
+Author: raghvendra1218 <raghvendra.dixit@sjsu.edu>
+Date:   Tue Sep 18 00:55:32 2018 -0700
+
+    add inital index file
+
+commit 7942e8baa01ca8c08c9b261bdcc45fdc3286f8a2
+Author: raghvendra1218 <raghvendra.dixit@sjsu.edu>
+Date:   Mon Sep 17 23:28:59 2018 -0700
+
+    add Login and Navbar components
+
+commit 806f7c7aa2ddc64c9e165882d72eeee303680ac2
+Author: raghvendra1218 <raghvendra.dixit@sjsu.edu>
+Date:   Sat Sep 15 03:17:50 2018 -0700
+
+    add calculator backend and frontend
+
+commit e02fadc4ebf72be185dd09124b9a138642745b23
+Author: raghvendra1218 <raghvendra.dixit@sjsu.edu>
+Date:   Sat Sep 15 02:09:04 2018 -0700
+
+    add calculator backend and frontend
+
+commit 7a9e55b74696c1bbf347fe6467f261b7447b86d9
+Author: raghvendra1218 <raghvendra.dixit@sjsu.edu>
+Date:   Fri Sep 14 01:26:24 2018 -0700
+
+    create project scaffolding
+
+commit 942e800200c8fa8112a4c6080c572096302a55f2
+Author: raghvendra1218 <raghvendra.dixit@sjsu.edu>
+Date:   Fri Sep 14 01:22:54 2018 -0700
+
+    create project scaffolding
+
+commit 63764ed16a3e59d21f21aea615822dc5a44232e6
+Author: raghvendra1218 <raghvendra.dixit@sjsu.edu>
+Date:   Thu Sep 13 19:25:58 2018 -0700
+
+    Add Folder structure

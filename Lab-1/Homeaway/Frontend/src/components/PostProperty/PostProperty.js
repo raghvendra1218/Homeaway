@@ -31,11 +31,7 @@ class PostProperty extends Component {
                 propNoBedroom: "",
                 propGuestCount: "",
                 propNoBathroom: "",
-                propPhoto1: "",
-                propPhoto2: "",
-                propPhoto3: "",
-                propPhoto4: "",
-                propPhoto5: "",
+                propPhotosArr : [],
                 propCurrency: "",
                 propBaseRate: "",
                 propStartDate: "",
@@ -58,7 +54,7 @@ class PostProperty extends Component {
         this.propBedroomChangeHandler = this.propBedroomChangeHandler.bind(this);
         this.propGuestCountChangeHandler = this.propGuestCountChangeHandler.bind(this);
         this.propBathroomsChangeHandler = this.propBathroomsChangeHandler.bind(this);
-        this.propPhotoChangeHandler = this.propPhotoChangeHandler.bind(this);
+        this.propPhotohandleDrop = this.propPhotohandleDrop.bind(this);
         this.propStartDateChangeHandler = this.propStartDateChangeHandler.bind(this);
         this.propEndDateChangeHandler = this.propEndDateChangeHandler.bind(this);
         this.propCurrencyChangeHandler = this.propCurrencyChangeHandler.bind(this);
@@ -277,15 +273,40 @@ class PostProperty extends Component {
         })
     }
     //Property Photo change handler to update state variable with the text entered by the user
-    propPhotoChangeHandler = (e) => {
-        const ownerPropPhoto = e.target.value;
-        this.setState({
-            propertyDetails:{
-                ...this.state.propertyDetails,
-                // ...this.state,
-                propPhoto1 : ownerPropPhoto
-            }
-        })
+    propPhotohandleDrop = files => {
+        // Push all the axios request promise into a single array
+        const uploaders = files.map(file => {
+            // Initial FormData
+            const formData = new FormData();
+            formData.append("file", file);
+            this.uid = new Date().valueOf();
+            formData.append("imagename", file.name);
+            this.state.propertyDetails.propPhotosArr.push(file.name);
+
+            console.log(file.name);
+
+
+            formData.append("timestamp", (Date.now() / 1000) | 0);
+
+            return axios.post('http://localhost:3001/uploadImages', formData, {
+                params: {
+                    imagename: file.name
+                }
+            })
+                .then(response => {
+                    const data = response.data;
+                    // const fileURL = data.secure_url // You should store this URL for future references in your app
+                    console.log(data);
+                    if (response.status === 200) {
+                        console.log("Photo uploaded successfully.")
+                    }
+                })
+        });
+
+        // Once all the files are uploaded
+        axios.all(uploaders).then(() => {
+            // ... perform after upload is successful operation
+        });
     }
     //Property Start Date change handler to update state variable with the text entered by the user
     propStartDateChangeHandler = (e) => {
@@ -475,11 +496,8 @@ class PostProperty extends Component {
                                 </div>
                                 <div id="photos" className="tab-pane fade" >
                                     <Photos 
-                                    photoOneChange = {this.propPhotoChangeHandler}/>
-                                    {/* photoTwoChange = {this.propPhotoChangeHandler}
-                                    photoThreeChange = {this.propPhotoChangeHandler}
-                                    photoFourChange = {this.propPhotoChangeHandler}
-                                    photoFiveChange = {this.propPhotoChangeHandler}/> */}
+                                    photoOneChange = {this.propPhotohandleDrop}
+                                    />
                                 </div>
                                 <div id="availability" className="tab-pane fade">
                                     <Availability 

@@ -1,5 +1,7 @@
 import React from 'react';
 import './postproperty.css';
+import Dropzone from 'react-dropzone';
+
 const photos =(props)=> {
     return (
         <div className="col-md-7 content-panel-container ">
@@ -21,6 +23,12 @@ const photos =(props)=> {
                                                 <h2 className="photo-drop-title text-muted">Drop photos here</h2>
                                                 <h2 className="photo-drop-OR text-muted">or</h2>
                                                 <h2 className="photo-drop-error text-muted">Only JPEG images are supported</h2>
+                                                <Dropzone onDrop={props.photoOneChange}
+                                                        multiple
+                                                        accept="image/*"
+                                                        type="file">
+                                                    <div>Drop files to upload.</div>
+                                                </Dropzone>
                                             </div><br />
                                             <div>
                                                 <label style={{ textAlign: 'center' }} for="uploadPhotoInput" className="photo-drop-button btn btn-primary btn-rounded btn-sm">SELECT PHOTOS</label>

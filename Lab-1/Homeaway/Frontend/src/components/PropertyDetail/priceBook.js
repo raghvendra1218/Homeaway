@@ -133,25 +133,9 @@ const priceBook =(props)=> {
                                         <div className="carousel-visible-area js-carouselVisibleArea ">
                                             <div className="carousel-full-width-area js-carouselItems" style={{ width: "13045.4px;", left: "-632.188px;" }}>
                                                 <div className="carousel-item" data-index="23">
-                                                    <img src={"https://odis.homeaway.com/odis/listing/62cf6792-d1d0-464e-8b15-34d000719f34.c10.jpg"}
+                                                    <img src={props.imageArray[0]}
                                                         alt="Views of Ocean, Mexican Islands and Coronado Island &amp; Bridge from Front Porch."
                                                         style={{ height: "480px;", width: "640.625px;" }} />
-                                                </div>
-                                                <div className="carousel-item activeCarouselItem" data-index="0">
-                                                    <img src={"https://odis.homeaway.com/odis/listing/5721861f-d727-4027-bf49-ffbacf490a1d.c10.jpg"}
-                                                        alt="Queen Anne Victorian on Slope Above Downtown." style={{ height: "480px;", width: "640.625px;" }} />
-                                                </div>
-                                                <div className="carousel-item" data-index="1">
-                                                    <img src={"https://odis.homeaway.com/odis/listing/3ab4c042-c7fa-462f-9497-0a11687e3965.c10.jpg"}
-                                                        alt="Located in Historic District. Built in 1880's. " style={{ height: "480px;", width: "640.625px;" }} />
-                                                </div>
-                                                <div className="carousel-item" data-index="2">
-                                                    <img src={"https://csvcus.homeaway.com/rsrcs/32/5472601571F31E1BF00674C368D335-t.gif"} data-src={"https://odis.homeaway.com/odis/listing/83e26e71-24e8-496d-b0ee-695aaa7d7d6f.c10.jpg"}
-                                                        alt="Relax and enjoy a Coffee and Views from the Front Porch." style={{ height: "480px;", width: "318.75px;" }} />
-                                                </div>
-                                                <div className="carousel-item" data-index="3">
-                                                    <img src={"https://csvcus.homeaway.com/rsrcs/32/5472601571F31E1BF00674C368D335-t.gif"} data-src={"https://odis.homeaway.com/odis/listing/cfc201b7-66ad-42db-a025-135a0dcaa897.c10.jpg"}
-                                                        alt="This Unit Features its own private patio with Table/Chairs and BBQ." style={{ height: "480px;", width: "640.625px;" }} />
                                                 </div>
                                             </div>
                                         </div>
