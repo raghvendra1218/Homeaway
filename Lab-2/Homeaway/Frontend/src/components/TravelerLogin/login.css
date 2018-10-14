@@ -1,0 +1,36 @@
+#container-login {
+    background-color: #f4f4f4;
+    padding-top: 40px;
+  }
+  
+.btn-primarylogin {
+    background-color: #ff8a00;
+    color: #fff;
+    text-shadow: none;
+    border-color: #ff8a00;
+  }
+
+  .input-lg-login {
+    height: 40px;
+    padding: 9px 14px;
+    font-size: 18px;
+    line-height: 1.33;
+    border-radius: 0;
+}
+
+@media (min-width: 992px){
+    .col-md-6 {
+        width: 50%;
+    }
+}
+
+@media screen and (min-width: 768px)
+{
+    .btn-cas-primary {
+        max-width: 318px;
+        display: block;
+        margin: 0 auto;
+    }
+}
+
+

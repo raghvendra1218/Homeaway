@@ -129,13 +129,13 @@ app.get('/userdetail',function(req,res){
 app.post('/login',function(req,res){
 
     console.log("Inside Login Post Request");
-    var EMAIL = req.body.email;
-    var PASSWORD = req.body.password;
+    var EMAIL = req.body.userDetails.email;
+    var PASSWORD = req.body.userDetails.password;
     // console.log("Req Body : ",req.body.userDetails);
 
-    if(req.body.isTraveler) {
+    if(req.body.userDetails.isTraveler) {
 
-        // console.log("Inside Traveler Login Request");
+        console.log("Inside Traveler Login Request");
         //QUERY TRAVELER_INFO_TABLE to get the email and password
         var sql = "SELECT *  FROM TRAVELER_INFO_TABLE WHERE EMAIL = " + 
         mysql.escape(EMAIL) + "and password = " + mysql.escape(PASSWORD);
