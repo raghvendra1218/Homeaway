@@ -3,6 +3,9 @@ import axios from 'axios';
 import {Redirect} from 'react-router';
 import LoginNavbar from '../LoginNavbar/LoginNavbar';
 import * as Validate from '../../Validations/Validation';
+import {loginData} from '../../actions/index';
+import {connect} from 'react-redux';
+import { withRouter } from 'react-router-dom';
 
 class OwnerLogin extends Component {
     constructor(props){
@@ -81,44 +84,30 @@ class OwnerLogin extends Component {
             .then(response2 => {
                 console.log("Status Code for post: ",response2.status);
                 if(response2.status === 200){
-                //     axios.get('http://localhost:3001/userdetail',{ params: {email:this.state.userDetails.email, isTraveler: this.state.userDetails.isTraveler}})
-                //     .then((response) => {
-                //         console.log("Status code for get: ", response.status);
-                //         if(response.status === 200) {
-                //             //update the state with the response data
-                //             const userFirstName = response.data[0].FIRST_NAME;
-                //             const userLastName = response.data[0].LAST_NAME;
-                //             const userID = response.data[0].ID;
-                //             const phoneNumber = response.data[0].PHONE_NUMBER;
-                //             const userEmail = this.state.userDetails.email;
-                //             sessionStorage.setItem('userEmail', userEmail);
-                //             sessionStorage.setItem('userFirstName', userFirstName);
-                //             sessionStorage.setItem('userLastName', userLastName);
-                //             sessionStorage.setItem('userID', userID);
-                //             sessionStorage.setItem('phoneNumber', phoneNumber);
-                //             this.setState({
-                //                 userDetails: {
-                //                     ...this.state.userDetails,
-                //                     firstName : userFirstName,
-                //                     lastName : userLastName
-                //                 }
-                //             });
-                //         }
-                //     });
-                let loggedInUserDetails = JSON.parse(response2.data)[0];
-                const userEmail = this.state.userDetails.email;
-                const isTraveler = this.state.userDetails.isTraveler;
-                const userFirstName = loggedInUserDetails.FIRST_NAME;
-                const ownerId = loggedInUserDetails.OWNER_ID;
-                sessionStorage.setItem('userEmail',  userEmail);
-                sessionStorage.setItem('isTraveler',  isTraveler);
-                sessionStorage.setItem('userFirstName', userFirstName);
-                sessionStorage.setItem('ownerId', ownerId);
-                this.setState({
-                    ...this.state.userDetails,
-                    firstName: userFirstName,
-                    authFlag : true
-                });
+                    let loggedInUserDetails = JSON.parse(response2.data);
+                    let user = {
+                        userEmail:this.state.userDetails.email,
+                        userFirstName:loggedInUserDetails.firtsname,
+                        travelerId:loggedInUserDetails._id,
+                        isTraveler:this.state.userDetails.isTraveler
+
+                    }
+                    this.props.loginData(true, user);
+                    this.props.history.push('/');
+                // let loggedInUserDetails = JSON.parse(response2.data)[0];
+                // const userEmail = this.state.userDetails.email;
+                // const isTraveler = this.state.userDetails.isTraveler;
+                // const userFirstName = loggedInUserDetails.FIRST_NAME;
+                // const ownerId = loggedInUserDetails.OWNER_ID;
+                // sessionStorage.setItem('userEmail',  userEmail);
+                // sessionStorage.setItem('isTraveler',  isTraveler);
+                // sessionStorage.setItem('userFirstName', userFirstName);
+                // sessionStorage.setItem('ownerId', ownerId);
+                // this.setState({
+                //     ...this.state.userDetails,
+                //     firstName: userFirstName,
+                //     authFlag : true
+                // });
                 } else {
                     alert(response2.data.message);
                     this.setState({
@@ -128,7 +117,7 @@ class OwnerLogin extends Component {
                 }
             })
             .catch(err=>{
-                alert(err.response2.data.message);
+                alert(err.message);
             });
     } else {
         this.setState({
@@ -155,7 +144,7 @@ class OwnerLogin extends Component {
         // redirect based on successful login
         let redirectVar = null;
         // if(cookie.load('cookie')){
-        if(sessionStorage.getItem("userEmail") !== null){
+        if(this.props.loginData.isLogged){
             redirectVar = <Redirect to= "/"/>
             return(redirectVar);
         } else {
@@ -242,4 +231,16 @@ class OwnerLogin extends Component {
     }
 }
 
-export default OwnerLogin;
+function mapDispatchToProps(dispatch) {
+    return {
+        loginData: (flag,user) => dispatch(loginData(flag, user)),
+    };
+}
+
+function mapStateToProps(state) {
+    return{
+        loginData : state.loginData,
+    };
+}
+const ownerLogin = withRouter(connect(mapStateToProps, mapDispatchToProps)(OwnerLogin));
+export default ownerLogin;

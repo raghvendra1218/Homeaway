@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
 import {Link} from 'react-router-dom';
 import '../Home/home.css';
+import {connect} from 'react-redux';
+import { withRouter } from 'react-router-dom';
+import { logoutData } from '../../actions/index';
 
 class Navbar extends Component {
     constructor(props) {
@@ -11,20 +14,24 @@ class Navbar extends Component {
     }
     //handle logout to destroy the session
     handleLogout = () => {
-        let loggedInUser = sessionStorage.getItem('userEmail');
-        sessionStorage.clear();
+        // let loggedInUser = sessionStorage.getItem('userEmail');
+        // sessionStorage.clear();
+        let loggedInUser = this.props.loginData.loginData.userFirstName;
+        let user = {}
+        this.props.logoutData(false, user);
+        this.props.history.push('/');
         alert(`${loggedInUser} logged out successfully.`);
         console.log("User logged out Successfully.");
     }
     render() {
         let userLogin = null;
-        if(sessionStorage.getItem('userEmail') !== null && this.state.isTraveler){
+        if(this.props.loginData.isLogged && this.props.loginData.loginData.isTraveler){
             console.log('Able to read session.');
             userLogin = (
                 <div className="dropdown" tabindex="-1" role="presentation">
                 <button aria-haspopup="true" aria-expanded="false" className="site-header-nav__toggle Dropdown__toggle" id="dropdownMenuButton"
                     label="Login" data-toggle="dropdown">
-                    {sessionStorage.getItem('userFirstName').toUpperCase()}<span aria-hidden="true" className="caret"></span>
+                    {this.props.loginData.loginData.userFirstName.toUpperCase()}<span aria-hidden="true" className="caret"></span>
                 </button>
                 <div class="dropdown-menu" aria-labelledby="site-header__login">
                     <ul>
@@ -37,13 +44,13 @@ class Navbar extends Component {
                 </div>
             </div>
             );
-        } else if(sessionStorage.getItem('userEmail') !== null && !this.state.isTraveler) {
+        } else if(this.props.loginData.isLogged === true && !this.props.loginData.loginData.isTraveler) {
             console.log('Able to read session.');
             userLogin = (
                 <div className="dropdown" tabindex="-1" role="presentation">
                 <button aria-haspopup="true" aria-expanded="false" className="site-header-nav__toggle Dropdown__toggle" id="dropdownMenuButton"
                     label="Login" data-toggle="dropdown">
-                    {sessionStorage.getItem('userFirstName').toLocaleUpperCase()}<span aria-hidden="true" className="caret"></span>
+                    {this.props.loginData.loginData.userFirstName.toLocaleUpperCase()}<span aria-hidden="true" className="caret"></span>
                 </button>
                 <div class="dropdown-menu" aria-labelledby="site-header__login">
                     <ul>
@@ -118,7 +125,7 @@ class Navbar extends Component {
                             </ul>
                         </div>
                     </div>
-                    {(!this.state.isTraveler) ?
+                    {(!this.props.loginData.loginData.isTraveler) ?
                         <div>
                             <a className="site-header-list-your-property btn btn-default" data-bypass="true" href="http://localhost:3000/postproperty">Post your property</a>
                         </div> :
@@ -148,4 +155,17 @@ class Navbar extends Component {
     }
 }
 
-export default Navbar;
+function mapDispatchToProps(dispatch) {
+    return {
+        logoutData: (flag,user) => dispatch(logoutData(flag, user)),
+    };
+}
+
+function mapStateToProps(state) {
+    return{
+        loginData : state.loginData,
+    };
+}
+const navbar = withRouter(connect(mapStateToProps, mapDispatchToProps)(Navbar));
+export default navbar;
+// export default Navbar;

@@ -13,8 +13,8 @@ const path = require('path');
 const fs = require('fs');
 
 //include dependent files of mongo and models
-var {Travelers} = require('./models/traveler');
-var {Owners} = require('./models/owner');
+var travelerModel = require('./models/traveler');
+var ownerModel = require('./models/owner');
 var {mongoose} = require('./db/mongoose');
 
 //include dependencies for mysql to work
@@ -75,7 +75,7 @@ app.use(function(req, res, next) {
     });
 });
 
-//Hnadler for fetching the Image Name
+//Handler for fetching the Image Name
 app.post('/download/:file(*)', (req, res) => {
     console.log("inside download file");
     var file = req.params.file;
@@ -523,54 +523,121 @@ app.post('/login', (req,res) => {
 // })
 
 //Route to handle Post Request Call for SignUp
-// app.post('/signup',function(req,res){
-//     console.log("Inside Signup Request Handler");
-//     var FIRST_NAME = req.body.firstName;
-//     var LAST_NAME = req.body.lastName;
-//     var EMAIL = req.body.email;
-//     var PASSWORD = req.body.password;
+app.post('/signup',function(req,res){
+    console.log("Inside Signup Request Handler");
 
-//     if(req.body.isTraveler) {
+    if(req.body.isTraveler) {
         
-//         //If Traveler, Insert the record in TRAVELER_INFO_TABLE
-//         console.log("Inside Traveler Signup request");
-//         var sql = "INSERT INTO TRAVELER_INFO_TABLE (FIRST_NAME, LAST_NAME, EMAIL, PASSWORD) VALUES ( " + 
-//         mysql.escape(FIRST_NAME) + " , " + mysql.escape(LAST_NAME) + " , "+
-//         mysql.escape(EMAIL) + " ," +  mysql.escape(PASSWORD) + ")";
-//     } else {
+        //If Traveler, Insert the record in TRAVELER_INFO_TABLE
+        console.log("Inside Traveler Signup request");
+        // var sql = "INSERT INTO TRAVELER_INFO_TABLE (FIRST_NAME, LAST_NAME, EMAIL, PASSWORD) VALUES ( " + 
+        // mysql.escape(FIRST_NAME) + " , " + mysql.escape(LAST_NAME) + " , "+
+        // mysql.escape(EMAIL) + " ," +  mysql.escape(PASSWORD) + ")";
+        var newTraveler = new travelerModel();
+        travelerModel.findOne({email: req.body.email}, function(err,traveler){
+            console.log("Checking if the email already exists");
+            if(traveler) {
+                console.log("user already exists");
+                res.send(400);
+            } else {
+                console.log("email not found, creating new user");
+                // newTraveler = {
+                    newTraveler.firstname = req.body.firstName;
+                    newTraveler.lastname = req.body.lastName;
+                    newTraveler.email = req.body.email;
+                    newTraveler.password = req.body.password;
+                    newTraveler.phonenumber =req.body.phonenumber||"";
+                    newTraveler.profileimage =req.body.profileimage||"";
+                    newTraveler.aboutme = req.body.aboutme||"";
+                    newTraveler.city =req.body.city||"";
+                    newTraveler.country =req.body.country||"";
+                    newTraveler.company =req.body.company||"";
+                    newTraveler.school =req.body.school||"";
+                    newTraveler.hometown =req.body.hometown||"";
+                    newTraveler.languages =req.body.languages||"";
+                    newTraveler.gender =req.body.gender||"";
+                    newTraveler.memberSince= req.body.memberSince||Date.now();
+                // };
+                newTraveler.save()
+                .then(traveler=>{
+                    console.log("Traveler record created: ", traveler);
+                    res.sendStatus(200).end();
+                })
+                .catch(err => {
+                    console.log(err);
+                    res.sendStatus(400).end();
+                });
+            }
+        })
 
-//         //If Owner, Insert the record in the OWNER_INFO_TABLE 
-//         console.log("Inside Owner Signup request"); 
-//         var sql = "INSERT INTO OWNER_INFO_TABLE (FIRST_NAME, LAST_NAME, EMAIL, PASSWORD) VALUES ( " + 
-//         mysql.escape(FIRST_NAME) + " , " + mysql.escape(LAST_NAME) + " , "+
-//         mysql.escape(EMAIL) + " ," +  mysql.escape(PASSWORD) + ")";
-//     }
-
-//     pool.getConnection(function(err,con){
-//         if(err){
-//             res.writeHead(400,{
-//                 'Content-Type' : 'text/plain'
-//             })
-//             res.end("Could Not Get Connection Object");
-//         } else {
-//             con.query(sql,function(err,result){
-//                 if(err){
-//                     res.writeHead(400,{
-//                         'Content-Type' : 'text/plain'
-//                     })
-//                     console.log("Error while creating the new (traveler/owner) record.");
-//                     res.end("Error While Creating record");
-//                 }else{
-//                     res.writeHead(200,{
-//                         'Content-Type' : 'text/plain'
-//                     })
-//                     console.log(`Record with Name: ${FIRST_NAME} Created Successfully`);
-//                     res.end('Record Created Successfully');
-//                 }
-//             });
-//         }
-//     });
-// });
+    } else {
+        //If Owner, Insert the record in the OWNER_INFO_TABLE 
+        console.log("Inside Owner Signup request"); 
+        // var sql = "INSERT INTO OWNER_INFO_TABLE (FIRST_NAME, LAST_NAME, EMAIL, PASSWORD) VALUES ( " + 
+        // mysql.escape(FIRST_NAME) + " , " + mysql.escape(LAST_NAME) + " , "+
+        // mysql.escape(EMAIL) + " ," +  mysql.escape(PASSWORD) + ")";
+        var newOwner = new ownerModel();
+        ownerModel.findOne({email: req.body.email}, function(err,owner){
+            console.log("Checking if the email already exists");
+            if(owner) {
+                console.log("user already exists");
+                res.send(400);
+            } else {
+                console.log("email not found, creating new user");
+                // newTraveler = {
+                    newOwner.firstname = req.body.firstName;
+                    newOwner.lastname = req.body.lastName;
+                    newOwner.email = req.body.email;
+                    newOwner.password = req.body.password;
+                    newOwner.phonenumber =req.body.phonenumber||"";
+                    newOwner.profileimage =req.body.profileimage||"";
+                    newOwner.aboutme = req.body.aboutme||"";
+                    newOwner.city =req.body.city||"";
+                    newOwner.country =req.body.country||"";
+                    newOwner.company =req.body.company||"";
+                    newOwner.school =req.body.school||"";
+                    newOwner.hometown =req.body.hometown||"";
+                    newOwner.languages =req.body.languages||"";
+                    newOwner.gender =req.body.gender||"";
+                    newOwner.memberSince= req.body.memberSince||Date.now();
+                // };
+                newOwner.save()
+                .then(owner=>{
+                    console.log("Traveler record created: ", owner);
+                    res.sendStatus(200).end();
+                })
+                .catch(err => {
+                    console.log(err);
+                    res.sendStatus(400).end();
+                });
+            }
+        })
+    }
+    // pool.getConnection(function(err,con){
+    //     if(err){
+    //         res.writeHead(400,{
+    //             'Content-Type' : 'text/plain'
+    //         })
+    //         res.end("Could Not Get Connection Object");
+    //     } else {
+    //         con.query(sql,function(err,result){
+    //             if(err){
+    //                 res.writeHead(400,{
+    //                     'Content-Type' : 'text/plain'
+    //                 })
+    //                 console.log("Error while creating the new (traveler/owner) record.");
+    //                 res.end("Error While Creating record");
+    //             }else{
+    //                 res.writeHead(200,{
+    //                     'Content-Type' : 'text/plain'
+    //                 })
+    //                 console.log(`Record with Name: ${FIRST_NAME} Created Successfully`);
+    //                 res.end('Record Created Successfully');
+    //             }
+    //         });
+    //     }
+    // });
+});
 
 
 //Route to handle update profile for the Traveler

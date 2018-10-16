@@ -4,7 +4,8 @@ import './home.css';
 import $ from 'jquery';
 import * as Validate from '../../Validations/Validation';
 import {connect} from 'react-redux';
-import { loginData } from '../../actions/index';
+import { withRouter } from 'react-router-dom';
+import { logoutData } from '../../actions/index';
 
 class Home extends Component {
     constructor(props) {
@@ -69,8 +70,11 @@ class Home extends Component {
         // let loggedInUser = sessionStorage.getItem('userEmail');
         // sessionStorage.clear();
         let loggedInUser = this.props.loginData.loginData.userFirstName;
-        this.props.loginData.isLogged = false;
-        this.props.loginData.loginData = {};
+        // this.props.loginData.isLogged = false;
+        // this.props.loginData.loginData = {};
+        let user = {}
+        this.props.logoutData(false, user);
+        this.props.history.push('/');
         alert(`${loggedInUser} logged out successfully.`);
         console.log("User logged out Successfully.");
     }
@@ -223,7 +227,7 @@ class Home extends Component {
                                         </ul>
                                     </div>
                                 </div>
-                                { (!this.state.isTraveler) ?
+                                { (!this.props.loginData.loginData.isTraveler) ?
                                     <div>
                                         <a className="site-header-list-your-property btn btn-default btn-inverse" data-bypass="true" href="http://localhost:3000/postproperty">Post your property</a>
                                     </div> : 
@@ -325,10 +329,17 @@ class Home extends Component {
     }
 
 }
+function mapDispatchToProps(dispatch) {
+    return {
+        logoutData: (flag,user) => dispatch(logoutData(flag, user)),
+    };
+}
 
 function mapStateToProps(state) {
     return{
         loginData : state.loginData,
     };
 }
-export default connect(mapStateToProps, {})(Home);
+const home = withRouter(connect(mapStateToProps, mapDispatchToProps)(Home));
+export default home;
+// export default connect(mapStateToProps, {})(Home);

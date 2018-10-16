@@ -64,7 +64,6 @@ class TravelerSignup extends Component{
                 password: this.state.password,
                 isTraveler: true
             }
-    
             axios.post('http://localhost:3001/signup',data)
             .then(response => {
                 console.log("Status Code : ",response.status);
