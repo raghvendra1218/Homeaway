@@ -1,7 +1,7 @@
 var mongoose = require('mongoose');
 var utility = require('../utility');
 
-var ownerSchema = new mongoose.Schema({
+var travelerSchema = new mongoose.Schema({
     firstname :{
         type : String,
         required: true,
@@ -86,11 +86,7 @@ var ownerSchema = new mongoose.Schema({
     memberSince: {
         type: Date,
         default: Date.now
-    },
-    isTraveler : {
-        type : Boolean,
-        default : false
     }
 });
 
-module.exports = mongoose.model("Owners",ownerSchema);
+module.exports = mongoose.model("Travelers",travelerSchema);

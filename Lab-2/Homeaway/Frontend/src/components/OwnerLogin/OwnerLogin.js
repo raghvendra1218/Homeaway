@@ -87,7 +87,7 @@ class OwnerLogin extends Component {
                     let loggedInUserDetails = JSON.parse(response2.data);
                     let user = {
                         userEmail:this.state.userDetails.email,
-                        userFirstName:loggedInUserDetails.firtsname,
+                        userFirstName:loggedInUserDetails.firstname,
                         travelerId:loggedInUserDetails._id,
                         isTraveler:this.state.userDetails.isTraveler
 

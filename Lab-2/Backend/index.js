@@ -2,24 +2,22 @@
 var express = require('express');
 var app = express();
 var bodyParser = require('body-parser');
-// var session = require('express-session');
-// var cookieParser = require('cookie-parser');
-// app.set('view engine', 'ejs');
+var session = require('express-session');
+var cookieParser = require('cookie-parser');
+app.set('view engine', 'ejs');
 // var mysql = require('mysql');
 // var pool = require('./pool');
 var morgan = require('morgan');
 var multer = require('multer');
 const path = require('path');
 const fs = require('fs');
-var bcrypt = require('bcryptjs');
-var jwt = require('jsonwebtoken');
+var bcrypt = require('bcrypt');
 
 //include dependent files of mongo and models
 var travelerModel = require('./models/traveler');
 var ownerModel = require('./models/owner');
 var {mongoose} = require('./db/mongoose');
-const JWT_KEY = "secret";
-const checkAuth = require('./middleware/check-auth');
+
 //include dependencies for mysql to work
 var cors = require('cors');
 //use cors to allow cross origin resource sharing
@@ -29,13 +27,13 @@ app.use(cors({origin:'http://localhost:3000', credentials: true}));
 app.use(morgan('dev'));
 
 //use express session to maintain session data
-// app.use(session({
-//     secret              : 'cmpe273_Homeaway',
-//     resave              : false, // Forces the session to be saved back to the session store, even if the session was never modified during the request
-//     saveUninitialized   : false, // Force to save uninitialized session to db. A session is uninitialized when it is new but not modified.
-//     duration            : 60 * 60 * 1000,    // Overall duration of Session : 30 minutes : 1800 seconds
-//     activeDuration      :  5 * 60 * 1000
-// }));
+app.use(session({
+    secret              : 'cmpe273_Homeaway',
+    resave              : false, // Forces the session to be saved back to the session store, even if the session was never modified during the request
+    saveUninitialized   : false, // Force to save uninitialized session to db. A session is uninitialized when it is new but not modified.
+    duration            : 60 * 60 * 1000,    // Overall duration of Session : 30 minutes : 1800 seconds
+    activeDuration      :  5 * 60 * 1000
+}));
 
 // app.use(bodyParser.urlencoded({
 //     extended: true
@@ -91,7 +89,7 @@ app.post('/download/:file(*)', (req, res) => {
 
 //Route to get the details of the user(Traveler/Owner)
 
-app.get('/userdetail',checkAuth,function(req,res){
+app.get('/userdetail',function(req,res){
     console.log("Inside User Detail Request");
     var EMAIL = req.query.email;
     console.log(`is Traveler ${req.query.isTraveler}`);
@@ -101,135 +99,44 @@ app.get('/userdetail',checkAuth,function(req,res){
     if(isTraveler) {  
         console.log("Inside Traveler Detail Request");
         //QUERY travelers collection to get the traveler details
-        travelerModel.findOne({email:req.query.email})
-        .exec()
-        .then(traveler => {
-            if(traveler.length < 1) {
-                return res.status(401).json({
-                    message: 'Unable to find the user.'
-                })
-            } else {
-                const token = jwt.sign(
-                    {
-                        email: traveler.email,
-                        userId: traveler._id,
-                        firstname: traveler.firstname,
-                        lastname:traveler.lastname,
-                        phonenumber: traveler.phonenumber,
-                        profileimage : traveler.profileimage,
-                        aboutme: traveler.aboutme,
-                        city: traveler.city,
-                        country: traveler.country,
-                        company: traveler.company,
-                        school: traveler.school,
-                        hometown: traveler.hometown,
-                        languages: traveler.languages,
-                        gender: traveler.gender,
-                        memberSince: traveler.memberSince,
-                        isTraveler: traveler.isTraveler
-                    },
-                    JWT_KEY,
-                    {
-                        expiresIn : "1h"
-                    }
-                );
-                return res.status(200).json( {
-                    message: "Auth Successful",
-                    token : token
-                    });
-                }        
-            })
-        .catch(err => {
-            console.log(err);
-            res.status(500).json({
-                error:err
-            });
-        });
-        } else {
-            console.log("Inside Owner Detail Request");
-            //QUERY owners collection to get the owner details
-            ownerModel.findOne({email:req.query.email})
-            .exec()
-            .then(owner => {
-                if(owner.length < 1) {
-                    return res.status(401).json({
-                        message: 'Unable to find the user.'
-                    })
-                } else {
-                    const token = jwt.sign(
-                        {
-                            email: owner.email,
-                            userId: owner._id,
-                            firstname: owner.firstname,
-                            lastname:owner.lastname,
-                            phonenumber: owner.phonenumber,
-                            profileimage : owner.profileimage,
-                            aboutme: owner.aboutme,
-                            city: owner.city,
-                            country: owner.country,
-                            company: owner.company,
-                            school: owner.school,
-                            hometown: owner.hometown,
-                            languages: owner.languages,
-                            gender: owner.gender,
-                            memberSince: owner.memberSince,
-                            isTraveler: owner.isTraveler
-                        },
-                        JWT_KEY,
-                        {
-                            expiresIn : "1h"
-                        }
-                    );
-                return res.status(200).json( {
-                    message: "Auth Successful",
-                    token : token
-                    });
-                } 
-            })
-            .catch(err => {
-                console.log(err);
-                res.status(500).json({
-                    error:err
-                });
-            });
-        }    
-    })
+        travelerModel.findOne({
+            email:req.query.email
+        }, function(err,traveler){
+            if (err) {
+                res.code = "400";
+                res.value = "Unable to find the record.";
+                console.log(`Unable to find record for ${EMAIL}`);
+                res.sendStatus(400).end(); 
+            } else if(traveler){
+                res.code = "200";
+                res.value = traveler;
+                // res.cookie('cookie',"admin",{maxAge: 900000, httpOnly: false, path : '/'});
+                console.log(`Found record for ${EMAIL} .`)
+                res.sendStatus(200).end();
+            }
+        })
+    } else {
 
-        // }, function(err,traveler){
-        //     if (err) {
-        //         res.code = "400";
-        //         res.value = "Unable to find the record.";
-        //         console.log(`Unable to find record for ${EMAIL}`);
-        //         res.sendStatus(400).end(); 
-        //     } else if(traveler){
-        //         res.code = "200";
-        //         res.value = traveler;
-        //         // res.cookie('cookie',"admin",{maxAge: 900000, httpOnly: false, path : '/'});
-        //         console.log(`Found record for ${EMAIL} .`)
-        //         res.sendStatus(200).end();
-        //     }
-        // })
-//     } else {
-//         console.log("Inside Owner Detail Request");
-//         //QUERY owners collection to get the owner details
-//         ownerModel.findOne({
-//             email:req.query.email
-//         }, function(err,owner){
-//             if (err) {
-//                 res.code = "400";
-//                 res.value = "Unable to find the record.";
-//                 console.log(`Unable to find record for ${EMAIL}`);
-//                 res.sendStatus(400).end(); 
-//             } else if(owner){
-//                 res.code = "200";
-//                 res.value = owner;
-//                 // res.cookie('cookie',"admin",{maxAge: 900000, httpOnly: false, path : '/'});
-//                 console.log(`Found record for ${EMAIL} .`)
-//                 res.sendStatus(200).end();
-//             }
-//         })
-//     }
-// })
+        console.log("Inside Owner Detail Request");
+        //QUERY owners collection to get the owner details
+        ownerModel.findOne({
+            email:req.query.email
+        }, function(err,owner){
+            if (err) {
+                res.code = "400";
+                res.value = "Unable to find the record.";
+                console.log(`Unable to find record for ${EMAIL}`);
+                res.sendStatus(400).end(); 
+            } else if(owner){
+                res.code = "200";
+                res.value = owner;
+                // res.cookie('cookie',"admin",{maxAge: 900000, httpOnly: false, path : '/'});
+                console.log(`Found record for ${EMAIL} .`)
+                res.sendStatus(200).end();
+            }
+        })
+    }
+})
 
 //Route to handle Post Request Call for Login
 app.post('/login', (req,res) => {
@@ -243,118 +150,42 @@ app.post('/login', (req,res) => {
 
         console.log("Inside Traveler Login Request");
         //QUERY TRAVELER_INFO Collection to get the email and password
-        travelerModel.findOne({email: req.body.userDetails.email})
-        .exec()
-        .then(traveler => {
-            if(traveler.length < 1) {
-                return res.status(401).json({
-                    message: 'Auth failed'
-                });
+        travelerModel.findOne({
+            email: req.body.userDetails.email
+        }, function (err, traveler) {
+            if (err) {
+                res.code = "400";
+                res.value = "The email and password you entered did not match our records. Please double-check and try again.";
+                console.log(res.value);
+                res.sendStatus(400).end();
+            } else if (traveler && traveler.password == req.body.userDetails.password) {
+                // res.code = "200";
+                res.value = traveler;
+                console.log("Resonse value: ", JSON.stringify((traveler)));
+                res.cookie('cookie', "admin", { maxAge: 900000, httpOnly: false, path: '/' });
+                res.status(200).json(JSON.stringify(traveler));
+                // res.sendStatus(200).end();
             }
-            bcrypt.compare(req.body.userDetails.password, traveler.password, (err,result)=>{
-                if(err) {
-                    return res.status(401).json({
-                        message: 'Auth failed' 
-                    });
-                }
-                if(result) {
-                    const token = jwt.sign(
-                        {
-                            email: traveler.email,
-                            userId: traveler._id,
-                            firstname: traveler.firstname,
-                            lastname:traveler.lastname,
-                            phonenumber: traveler.phonenumber,
-                            profileimage : traveler.profileimage,
-                            aboutme: traveler.aboutme,
-                            city: traveler.city,
-                            country: traveler.country,
-                            company: traveler.company,
-                            school: traveler.school,
-                            hometown: traveler.hometown,
-                            languages: traveler.languages,
-                            gender: traveler.gender,
-                            memberSince: traveler.memberSince,
-                            isTraveler: traveler.isTraveler
-                        },
-                        JWT_KEY,
-                        {
-                            expiresIn : "1h"
-                        }
-                    );
-                    return res.status(200).json( {
-                        message: "Auth Successful",
-                        token : token
-                        });
-                }
-                res.status(401).json({
-                    message: 'Auth failed' 
-                });
         })
-        .catch(err => {
-            console.log(err);
-            res.status(500).json({
-                error:err
-            });
-        });
-    })
     } else {
+
         console.log("Inside Owner Login Request");
         //QUERY OWNER_INFO Collection to get the email and password
-            ownerModel.findOne({email: req.body.userDetails.email})
-            .exec()
-            .then(owner => {
-                if(owner.length < 1) {
-                    return res.status(401).json({
-                        message: 'Auth failed'
-                    });
-                }
-                bcrypt.compare(req.body.userDetails.password, owner.password, (err,result)=>{
-                    if(err) {
-                        return res.status(401).json({
-                            message: 'Auth failed' 
-                        });
-                    }
-                    if(result) {
-                        const token = jwt.sign(
-                            {
-                                email: owner.email,
-                                userId: owner._id,
-                                firstname: owner.firstname,
-                                lastname:owner.lastname,
-                                phonenumber: owner.phonenumber,
-                                profileimage : owner.profileimage,
-                                aboutme: owner.aboutme,
-                                city: owner.city,
-                                country: owner.country,
-                                company: owner.company,
-                                school: owner.school,
-                                hometown: owner.hometown,
-                                languages: owner.languages,
-                                gender: owner.gender,
-                                memberSince: owner.memberSince,
-                                isTraveler: owner.isTraveler
-                            },
-                            JWT_KEY,
-                            {
-                                expiresIn : "1h"
-                            }
-                        );
-                        return res.status(200).json( {
-                            message: "Auth Successful",
-                            token : token
-                        });
-                    }
-                    res.status(401).json({
-                        message: 'Auth failed' 
-                    });
-            })
-            .catch(err => {
-                console.log(err);
-                res.status(500).json({
-                    error:err
-                });
-            });
+        ownerModel.findOne({
+            email: req.body.userDetails.email
+        }, function (err, owner) {
+            if (err) {
+                res.code = "400";
+                res.value = "The email and password you entered did not match our records. Please double-check and try again.";
+                console.log(res.value);
+                res.sendStatus(400).end();
+            } else if (owner && owner.password == req.body.userDetails.password) {
+                res.code = "200";
+                res.value = owner;
+                console.log("Resonse value: ", JSON.stringify((owner)));
+                res.cookie('cookie', "admin", { maxAge: 900000, httpOnly: false, path: '/' });
+                res.status(200).json(JSON.stringify(owner));
+            }
         })
     }
 });
@@ -693,7 +524,7 @@ app.post('/login', (req,res) => {
 // })
 
 //Route to handle Post Request Call for SignUp
-app.post('/signup',checkAuth,function(req,res){
+app.post('/signup',function(req,res){
     console.log("Inside Signup Request Handler");
 
     if(req.body.isTraveler) {
@@ -712,42 +543,33 @@ app.post('/signup',checkAuth,function(req,res){
             } else {
                 console.log("email not found, creating new user");
                 // newTraveler = {
-                    bcrypt.hash(req.body.password,10,(err,hash)=>{
-                        if(err) {
-                            return res.status(500).json({
-                                error: err
-                            });
-                        } else {
-                            newTraveler.firstname = req.body.firstName;
-                            newTraveler.lastname = req.body.lastName;
-                            newTraveler.email = req.body.email;
-                            newTraveler.password = hash;
-                            newTraveler.phonenumber =req.body.phonenumber||"";
-                            newTraveler.profileimage =req.body.profileimage||"preview.jpg";
-                            newTraveler.aboutme = req.body.aboutme||"";
-                            newTraveler.city =req.body.city||"";
-                            newTraveler.country =req.body.country||"";
-                            newTraveler.company =req.body.company||"";
-                            newTraveler.school =req.body.school||"";
-                            newTraveler.hometown =req.body.hometown||"";
-                            newTraveler.languages =req.body.languages||"";
-                            newTraveler.gender =req.body.gender||"";
-                            newTraveler.memberSince= req.body.memberSince||Date.now();
-                            newTraveler.isTraveler = req.body.isTraveler||true;
-                            newTraveler.save()
-                            .then(traveler=>{
-                                console.log("Traveler record created: ", traveler);
-                                res.sendStatus(200).end();
-                            })
-                            .catch(err => {
-                                console.log(err);
-                                res.sendStatus(400).end();
-                            });
-                        }
+                    newTraveler.firstname = req.body.firstName;
+                    newTraveler.lastname = req.body.lastName;
+                    newTraveler.email = req.body.email;
+                    newTraveler.password = req.body.password;
+                    newTraveler.phonenumber =req.body.phonenumber||"";
+                    newTraveler.profileimage =req.body.profileimage||"";
+                    newTraveler.aboutme = req.body.aboutme||"";
+                    newTraveler.city =req.body.city||"";
+                    newTraveler.country =req.body.country||"";
+                    newTraveler.company =req.body.company||"";
+                    newTraveler.school =req.body.school||"";
+                    newTraveler.hometown =req.body.hometown||"";
+                    newTraveler.languages =req.body.languages||"";
+                    newTraveler.gender =req.body.gender||"";
+                    newTraveler.memberSince= req.body.memberSince||Date.now();
                 // };
-            })
-        }
-    })
+                newTraveler.save()
+                .then(traveler=>{
+                    console.log("Traveler record created: ", traveler);
+                    res.sendStatus(200).end();
+                })
+                .catch(err => {
+                    console.log(err);
+                    res.sendStatus(400).end();
+                });
+            }
+        })
 
     } else {
         //If Owner, Insert the record in the OWNER_INFO_TABLE 
@@ -764,43 +586,49 @@ app.post('/signup',checkAuth,function(req,res){
             } else {
                 console.log("email not found, creating new user");
                 // newTraveler = {
-                    bcrypt.hash(req.body.password,10,(err,hash)=>{
-                        if(err) {
-                            return res.status(500).json({
-                                error: err
-                            });
-                        } else {
-                            newOwner.firstname = req.body.firstName;
-                            newOwner.lastname = req.body.lastName;
-                            newOwner.email = req.body.email;
-                            // newOwner.password = req.body.password;
-                            newOwner.password = hash;
-                            newOwner.phonenumber =req.body.phonenumber||"";
-                            newOwner.profileimage =req.body.profileimage||"preview.jpg";
-                            newOwner.aboutme = req.body.aboutme||"";
-                            newOwner.city =req.body.city||"";
-                            newOwner.country =req.body.country||"";
-                            newOwner.company =req.body.company||"";
-                            newOwner.school =req.body.school||"";
-                            newOwner.hometown =req.body.hometown||"";
-                            newOwner.languages =req.body.languages||"";
-                            newOwner.gender =req.body.gender||"";
-                            newOwner.memberSince= req.body.memberSince||Date.now();
-                            newOwner.isTraveler = req.body.isTraveler||false;
-                            newOwner.save()
-                            .then(owner=>{
-                                console.log("Owner record created: ", owner);
-                                res.sendStatus(200).end();
-                                // res.status(201).json({
-                                //     message: 'Owner created'
-                                // });
-                            })
-                            .catch(err => {
-                                console.log(err);
-                                res.sendStatus(400).end();
-                            });
-                        }
+                    newOwner.firstname = req.body.firstName;
+                    newOwner.lastname = req.body.lastName;
+                    newOwner.email = req.body.email;
+                    // newOwner.password = req.body.password;
+                    newOwner.phonenumber =req.body.phonenumber||"";
+                    newOwner.profileimage =req.body.profileimage||"";
+                    newOwner.aboutme = req.body.aboutme||"";
+                    newOwner.city =req.body.city||"";
+                    newOwner.country =req.body.country||"";
+                    newOwner.company =req.body.company||"";
+                    newOwner.school =req.body.school||"";
+                    newOwner.hometown =req.body.hometown||"";
+                    newOwner.languages =req.body.languages||"";
+                    newOwner.gender =req.body.gender||"";
+                    newOwner.memberSince= req.body.memberSince||Date.now();
+                // };
+                // newOwner.save()
+                // .then(owner=>{
+                //     console.log("Traveler record created: ", owner);
+                //     res.sendStatus(200).end();
+                // })
+                // .catch(err => {
+                //     console.log(err);
+                //     res.sendStatus(400).end();
+                // });
+                // bcrypt.genSalt(10,(err,salt)=>{
+                //     if(err) {
+                //         console.log(err);
+                //     }
+                    bcrypt.hash(req.body.password, 10, (err,hash)=>{
+                        if(err) throw err;
+                        newOwner.password = hash;
+                        newOwner.save()
+                        .then(owner=>{
+                            console.log("Owner record created: ", owner);
+                            res.sendStatus(200).end();
+                        })
+                        .catch(err => {
+                            console.log(err);
+                            res.sendStatus(400).end();
+                        });
                     })
+                // })
             }
         })
     }
@@ -836,115 +664,62 @@ app.post('/signup',checkAuth,function(req,res){
     @param : FIRST_NAME, LAST_NAME, EMAIL, PROFILE_IMAGE, PHONE_NUMBER
     @param : ABOUT_ME, CITY, COUNTRY, COMPANY, SCHOOL, HOMETOWN, LANGUAGES, GENDER
 */
-app.put('/editprofile',function(req,res){
-    console.log("Inside Edit profile Request.");
-    var FIRST_NAME = req.body.userDetails.firstName;
-    var LAST_NAME = req.body.userDetails.lastName;
-    var EMAIL = req.body.userDetails.email;
-    // var PROFILE_IMAGE = req.body.userDetails.image;
-    var PHONE_NUMBER = req.body.userDetails.phoneNumber;
-    var ABOUT_ME = req.body.userDetails.aboutMe;
-    var CITY = req.body.userDetails.city;
-    var COUNTRY = req.body.userDetails.country;
-    var COMPANY = req.body.userDetails.company;
-    var SCHOOL = req.body.userDetails.school;
-    var HOMETOWN = req.body.userDetails.hometown;
-    var LANGUAGES = req.body.userDetails.languages;
-    var GENDER = req.body.userDetails.gender;
+// app.put('/editprofile',function(req,res){
+//     console.log("Inside Edit profile Request.");
+//     var FIRST_NAME = req.body.userDetails.firstName;
+//     var LAST_NAME = req.body.userDetails.lastName;
+//     var EMAIL = req.body.userDetails.email;
+//     // var PROFILE_IMAGE = req.body.userDetails.image;
+//     var PHONE_NUMBER = req.body.userDetails.phoneNumber;
+//     var ABOUT_ME = req.body.userDetails.aboutMe;
+//     var CITY = req.body.userDetails.city;
+//     var COUNTRY = req.body.userDetails.country;
+//     var COMPANY = req.body.userDetails.company;
+//     var SCHOOL = req.body.userDetails.school;
+//     var HOMETOWN = req.body.userDetails.hometown;
+//     var LANGUAGES = req.body.userDetails.languages;
+//     var GENDER = req.body.userDetails.gender;
 
-    //SQL Query to update the parameters received
-    if(req.body.userDetails.isTraveler) {
-        travelerModel.update({email : req.body.userDetails.email}, 
-                             {$set: {firstname: req.body.userDetails.firstName,
-                                     lastname: req.body.userDetails.lastName,
-                                     phonenumber: req.body.userDetails.phoneNumber,
-                                     profileimage: req.body.userDetails.profileImage,
-                                     aboutme: req.body.userDetails.aboutMe,
-                                     city: req.body.userDetails.city,
-                                     company: req.body.userDetails.company,
-                                     school: req.body.userDetails.school,
-                                     country: req.body.userDetails.country,
-                                     hometown: req.body.userDetails.hometown,
-                                     languages: req.body.userDetails.languages,
-                                     gender: req.body.userDetails.gender,
-                                    }})
-                    .exec()
-                    .then(result => {
-                        console.log(result);
-                        res.status(200).json(result);
-                    })
-                    .catch(err => {
-                        console.log(err);
-                        res.status(500).json({
-                            error: err
-                        })
-                    })
-    } else {
-        ownerModel.update({email : req.body.userDetails.email}, 
-                            {$set: {firstname: req.body.userDetails.firstName,
-                                    lastname: req.body.userDetails.lastName,
-                                    phonenumber: req.body.userDetails.phoneNumber,
-                                    profileimage: req.body.userDetails.profileImage,
-                                    aboutme: req.body.userDetails.aboutMe,
-                                    city: req.body.userDetails.city,
-                                    company: req.body.userDetails.company,
-                                    school: req.body.userDetails.school,
-                                    country: req.body.userDetails.country,
-                                    hometown: req.body.userDetails.hometown,
-                                    languages: req.body.userDetails.languages,
-                                    gender: req.body.userDetails.gender,
-                                }})
-                    .exec()
-                    .then(result => {
-                        console.log(result);
-                        res.status(200).json(result);
-                    })
-                    .catch(err => {
-                        console.log(err);
-                        res.status(500).json({
-                            error: err
-                        })
-                    })
-    }
-    // var sql = "UPDATE TRAVELER_INFO_TABLE SET FIRST_NAME = '" + FIRST_NAME + "' ," +
-    //                                           "LAST_NAME = '" + LAST_NAME + "'," +
-    //                                         //   "PROFILE_IMAGE ="+ PROFILE_IMAGE + ","
-    //                                           "PHONE_NUMBER ="+ PHONE_NUMBER + "," +
-    //                                           "ABOUT_ME = '"+ ABOUT_ME + "' ," +
-    //                                           "CITY = '"+ CITY + "' ," +
-    //                                           "COUNTRY = '"+ COUNTRY + "' ," +
-    //                                           "COMPANY = '"+ COMPANY + "' ," +
-    //                                           "SCHOOL = '"+ SCHOOL + "' ," +
-    //                                           "HOMETOWN = '"+ HOMETOWN + "' ," +
-    //                                           "LANGUAGES = '"+ LANGUAGES + "' ," +
-    //                                           "GENDER = '"+ GENDER + "' WHERE " +
-    //                                           "EMAIL = '" + EMAIL + "' ;";
-    //     pool.getConnection(function(err,con){
-    //     if(err){
-    //         res.writeHead(400,{
-    //             'Content-Type' : 'text/plain'
-    //         })
-    //         res.end("Could Not Get Connection Object");
-    //     } else {
-    //         con.query(sql,function(err,result){
-    //             if(err){
-    //                 res.writeHead(400,{
-    //                     'Content-Type' : 'text/plain'
-    //                 })
-    //                 console.log(`Error while updating the ${FIRST_NAME} record.`);
-    //                 res.end("Error While updating the record");
-    //             }else{
-    //                 res.writeHead(200,{
-    //                     'Content-Type' : 'text/plain'
-    //                 })
-    //                 console.log(`Record with Name: ${FIRST_NAME} updated Successfully`);
-    //                 res.end('Record updated Successfully');
-    //             }
-    //         });
-    //     }
-    // });
+//     //SQL Query to update the parameters received
+//     var sql = "UPDATE TRAVELER_INFO_TABLE SET FIRST_NAME = '" + FIRST_NAME + "' ," +
+//                                               "LAST_NAME = '" + LAST_NAME + "'," +
+//                                             //   "PROFILE_IMAGE ="+ PROFILE_IMAGE + ","
+//                                               "PHONE_NUMBER ="+ PHONE_NUMBER + "," +
+//                                               "ABOUT_ME = '"+ ABOUT_ME + "' ," +
+//                                               "CITY = '"+ CITY + "' ," +
+//                                               "COUNTRY = '"+ COUNTRY + "' ," +
+//                                               "COMPANY = '"+ COMPANY + "' ," +
+//                                               "SCHOOL = '"+ SCHOOL + "' ," +
+//                                               "HOMETOWN = '"+ HOMETOWN + "' ," +
+//                                               "LANGUAGES = '"+ LANGUAGES + "' ," +
+//                                               "GENDER = '"+ GENDER + "' WHERE " +
+//                                               "EMAIL = '" + EMAIL + "' ;";
+//         pool.getConnection(function(err,con){
+//         if(err){
+//             res.writeHead(400,{
+//                 'Content-Type' : 'text/plain'
+//             })
+//             res.end("Could Not Get Connection Object");
+//         } else {
+//             con.query(sql,function(err,result){
+//                 if(err){
+//                     res.writeHead(400,{
+//                         'Content-Type' : 'text/plain'
+//                     })
+//                     console.log(`Error while updating the ${FIRST_NAME} record.`);
+//                     res.end("Error While updating the record");
+//                 }else{
+//                     res.writeHead(200,{
+//                         'Content-Type' : 'text/plain'
+//                     })
+//                     console.log(`Record with Name: ${FIRST_NAME} updated Successfully`);
+//                     res.end('Record updated Successfully');
+//                 }
+//             });
+//         }
+//     });
 
-});
+// });
 
 //start your server on port 3001
 app.listen(3001);

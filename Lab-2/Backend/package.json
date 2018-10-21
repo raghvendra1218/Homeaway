@@ -10,7 +10,6 @@
   "license": "ISC",
   "dependencies": {
     "bcrypt": "^3.0.2",
-    "bcryptjs": "^2.4.3",
     "body-parser": "^1.18.3",
     "chai": "^4.1.2",
     "chai-http": "^4.2.0",
@@ -20,7 +19,6 @@
     "express": "^4.16.3",
     "express-session": "^1.15.6",
     "express-sessions": "^1.0.6",
-    "jsonwebtoken": "^8.3.0",
     "mocha": "^5.2.0",
     "mongodb": "^3.1.6",
     "mongoose": "^5.3.1",

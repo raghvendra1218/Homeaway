@@ -86,6 +86,10 @@ var travelerSchema = new mongoose.Schema({
     memberSince: {
         type: Date,
         default: Date.now
+    },
+    isTraveler : {
+        type : Boolean,
+        default : true
     }
 });
 
