@@ -4,6 +4,11 @@ import {Redirect} from 'react-router';
 import './editprofile.css';
 import {capitalizeFirstLetter} from '../../utility';
 import TravelerProfilebar from '../TravelerProfilebar/TravelerProfilebar';
+import jwtDecode from 'jwt-decode';
+import {userProfileDateFormat} from '../../utility';
+import {editProfileData} from '../../actions/index';
+import {connect} from 'react-redux';
+import { withRouter } from 'react-router-dom';
 
 class EditProfile extends Component {
     constructor(props) {
@@ -25,8 +30,9 @@ class EditProfile extends Component {
 
                 //Using get api Call through Get Component didmount.
 
-                email: sessionStorage.getItem('userEmail'),
-                isTraveler: sessionStorage.getItem('isTraveler'),
+                email: jwtDecode(localStorage.getItem('token')).email,
+                isTraveler: jwtDecode(localStorage.getItem('token')).isTraveler,
+                userId: jwtDecode(localStorage.getItem('token')).userId,
                 firstName : "",
                 lastName : "",
                 aboutMe: "",
@@ -39,6 +45,7 @@ class EditProfile extends Component {
                 languages:"",
                 gender: "",
                 phoneNumber: "",
+                memberSince: "",
                 isUpdated: false
             }
         }
@@ -60,33 +67,42 @@ class EditProfile extends Component {
 
     //get the user details from Back-end  
     componentDidMount(){
-        axios.get('http://localhost:3001/userdetail', { params: {email:this.state.userDetails.email, isTraveler: this.state.userDetails.isTraveler}})
+        axios.get('http://localhost:3001/userdetail',{
+        params: {email:this.state.userDetails.email, isTraveler: this.state.userDetails.isTraveler},
+        headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json',
+            'Authorization': localStorage.getItem('token')
+        },
+        })
         // axios.get('http://localhost:3001/userdetail', { params: {email:this.state.email, isTraveler: this.state.isTraveler}})
                 .then((response) => {
-                //update the state with the response data
-                const userDetailsFetched = response.data[0];
-                //creating a temporary object to store the values of the response data
-                // let obj1 = new Object(this.state.userDetails);
-                let obj1 = this.state.userDetails;
-                obj1.firstName = userDetailsFetched.FIRST_NAME;
-                obj1.lastName = userDetailsFetched.LAST_NAME;
-                obj1.aboutMe = userDetailsFetched.ABOUT_ME;
-                obj1.profileImage = userDetailsFetched.PROFILE_IMAGE;
-                obj1.city = userDetailsFetched.CITY;
-                obj1.country = userDetailsFetched.COUNTRY;
-                obj1.company = userDetailsFetched.COMPANY;
-                obj1.school = userDetailsFetched.SCHOOL;
-                obj1.hometown = userDetailsFetched.HOMETOWN;
-                obj1.languages = userDetailsFetched.LANGUAGES;
-                obj1.gender = userDetailsFetched.GENDER;
-                obj1.phoneNumber = userDetailsFetched.PHONE_NUMBER;
-                // const UserFirstName = userDetailsFetched.FIRST_NAME;
-                this.setState({
-                        ...this.state,
-                        userDetails: obj1
-                        // firstName: userDetailsFetched.FIRST_NAME,
-
-                });
+                    if(response.status === 200) {
+                        console.log("Decoded Values: ", jwtDecode(response.data.token));
+                        //update the state with the response data
+                        let userDetailsFetched = jwtDecode(localStorage.getItem('token'));
+                        let obj1 = this.state.userDetails;
+                        obj1.userId = userDetailsFetched.userId;
+                        obj1.firstName = userDetailsFetched.firstname;
+                        obj1.lastName = userDetailsFetched.lastname;
+                        obj1.aboutMe = userDetailsFetched.aboutme;
+                        obj1.profileImage = userDetailsFetched.profileimage;
+                        obj1.city = userDetailsFetched.city;
+                        obj1.country = userDetailsFetched.country;
+                        obj1.company = userDetailsFetched.company;
+                        obj1.school = userDetailsFetched.school;
+                        obj1.hometown = userDetailsFetched.hometown;
+                        obj1.languages = userDetailsFetched.languages;
+                        obj1.gender = userDetailsFetched.gender;
+                        obj1.memberSince = userDetailsFetched.memberSince;
+                        obj1.phoneNumber = userDetailsFetched.phonenumber;
+                        this.setState({
+                                ...this.state,
+                                userDetails: obj1
+                        });
+                        this.props.editProfileData(obj1,true,false);
+                        localStorage.setItem('token', response.data.token);
+                    }
             });
     }
     //Call the Will Mount to set the auth Flag to false
@@ -250,14 +266,21 @@ class EditProfile extends Component {
         const data = {
             userDetails: {
                 ...this.state.userDetails,
-                // ...this.state
             }
         }
+        this.props.editProfileData(data,true,false);
         //Put Call to update the Traveler Details
         //set the with credentials to true
         axios.defaults.withCredentials = true;
         //make a put request with the user data
-        axios.put('http://localhost:3001/editprofile',data)
+        axios.put('http://localhost:3001/editprofile',{
+        data,
+        headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json',
+            'Authorization': localStorage.getItem('token')
+        },
+        })
         .then(response => {
             console.log("Status Code : ",response.status);
             if(response.status === 200){
@@ -265,13 +288,18 @@ class EditProfile extends Component {
                     ...this.state,
                     isUpdated : true
                 })
-            }else{
+                this.props.editProfileData(data,true,true);
+                console.log("message:", response.data.message);
+                alert("Your profile was successfully edited");
+            } else {
                 this.setState({
                     ...this.state,
                     isUpdated : false
                 })
+                this.props.editProfileData(data,true,true);
+                console.log("message:", response.data.message);
+                alert("Unable to update the profile");
             }
-            alert("Your profile was successfully edited");
         })
         .catch( error =>{
             console.log("error:", error);
@@ -280,7 +308,7 @@ class EditProfile extends Component {
     render() {
         // redirect based on successful login
         let redirectVar = null;
-        if(!sessionStorage.getItem('userEmail')){
+        if(!localStorage.getItem('token')){
             redirectVar = <Redirect to= "/"/>
         }
 
@@ -321,7 +349,7 @@ class EditProfile extends Component {
                                                         </button>
                                                     </div>
                                                     <h2 className="user-name">{userFirstName}</h2>
-                                            <p className="text-muted"><span className="user-location"></span>Member since October 07, 2018</p>
+                                            <p className="text-muted"><span className="user-location"></span>Member since {userProfileDateFormat(this.state.userDetails.memberSince)}</p>
                                         </div>
                                     </header>
                                     <div className="col-xs-12 col-sm-8">
@@ -489,5 +517,17 @@ class EditProfile extends Component {
         )
     }
 }
+function mapDispatchToProps(dispatch) {
+    return {
+        editProfileData: (profileData, isFetched, isUpdated) => dispatch(editProfileData(profileData, isFetched, isUpdated)),
+    };
+}
 
-export default EditProfile;
+function mapStateToProps(state) {
+    return{
+        profileData : state.profileData,
+    };
+}
+const editprofile = withRouter(connect(mapStateToProps, mapDispatchToProps)(EditProfile));
+export default editprofile;
+// export default EditProfile;

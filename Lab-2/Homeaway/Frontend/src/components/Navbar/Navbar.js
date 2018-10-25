@@ -4,6 +4,8 @@ import '../Home/home.css';
 import {connect} from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import { logoutData } from '../../actions/index';
+import {loginData} from '../../actions/index';
+import jwtDecode from 'jwt-decode';
 
 class Navbar extends Component {
     constructor(props) {
@@ -11,27 +13,53 @@ class Navbar extends Component {
         this.state = {
             isTraveler: JSON.parse(sessionStorage.getItem('isTraveler'))
         }
+        this.notOwnerHandler = this.notOwnerHandler.bind(this);
+        this.handleLogout = this.handleLogout.bind(this);
+    }
+    componentDidMount = () => {
+        if(localStorage.getItem('token')) {
+            let currentUser = jwtDecode(localStorage.getItem('token'));
+            let user = {
+                userEmail:currentUser.email,
+                userFirstName:currentUser.firstname,
+                userId:currentUser.userId,
+                isTraveler:currentUser.isTraveler
+
+            }
+            if(currentUser.isTraveler) {
+                this.props.loginData(true, user, true);
+                // this.props.history.push('/'); 
+            } else {
+                this.props.loginData(true, user, false);
+                // this.props.history.push('/');
+            }
+        }
+    }
+    notOwnerHandler =(event) => {
+        event.preventDefault();
+        alert("You need to be logged in as Owner.");
     }
     //handle logout to destroy the session
     handleLogout = () => {
         // let loggedInUser = sessionStorage.getItem('userEmail');
         // sessionStorage.clear();
-        let loggedInUser = this.props.loginData.loginData.userFirstName;
+        let loggedInUser = this.props.userData.loginData.userFirstName;
+        localStorage.removeItem('token');
         let user = {}
-        this.props.logoutData(false, user);
+        this.props.logoutData(false, user, true);
         this.props.history.push('/');
         alert(`${loggedInUser} logged out successfully.`);
         console.log("User logged out Successfully.");
     }
     render() {
         let userLogin = null;
-        if(this.props.loginData.isLogged && this.props.loginData.loginData.isTraveler){
+        if(this.props.userData.isLogged && this.props.userData.isTraveler){
             console.log('Able to read session.');
             userLogin = (
                 <div className="dropdown" tabindex="-1" role="presentation">
                 <button aria-haspopup="true" aria-expanded="false" className="site-header-nav__toggle Dropdown__toggle" id="dropdownMenuButton"
                     label="Login" data-toggle="dropdown">
-                    {this.props.loginData.loginData.userFirstName.toUpperCase()}<span aria-hidden="true" className="caret"></span>
+                    {this.props.userData.loginData.userFirstName.toUpperCase()}<span aria-hidden="true" className="caret"></span>
                 </button>
                 <div class="dropdown-menu" aria-labelledby="site-header__login">
                     <ul>
@@ -44,13 +72,13 @@ class Navbar extends Component {
                 </div>
             </div>
             );
-        } else if(this.props.loginData.isLogged === true && !this.props.loginData.loginData.isTraveler) {
+        } else if(this.props.userData.isLogged === true && !this.props.userData.isTraveler) {
             console.log('Able to read session.');
             userLogin = (
                 <div className="dropdown" tabindex="-1" role="presentation">
                 <button aria-haspopup="true" aria-expanded="false" className="site-header-nav__toggle Dropdown__toggle" id="dropdownMenuButton"
                     label="Login" data-toggle="dropdown">
-                    {this.props.loginData.loginData.userFirstName.toLocaleUpperCase()}<span aria-hidden="true" className="caret"></span>
+                    {this.props.userData.loginData.userFirstName.toLocaleUpperCase()}<span aria-hidden="true" className="caret"></span>
                 </button>
                 <div class="dropdown-menu" aria-labelledby="site-header__login">
                     <ul>
@@ -125,12 +153,12 @@ class Navbar extends Component {
                             </ul>
                         </div>
                     </div>
-                    {(!this.props.loginData.loginData.isTraveler) ?
+                    {(!this.props.userData.isTraveler) ?
                         <div>
                             <a className="site-header-list-your-property btn btn-default" data-bypass="true" href="http://localhost:3000/postproperty">Post your property</a>
                         </div> :
                         <div>
-                            <a className="site-header-list-your-property btn btn-default" data-bypass="true" href="http://localhost:3000">Post your property</a>
+                            <a className="site-header-list-your-property btn btn-default" onClick= {this.notOwnerHandler} data-bypass="true" href="http://localhost:3000">Post your property</a>
                         </div>
                     }
                     <div className="site-header-birdhouse">
@@ -157,13 +185,14 @@ class Navbar extends Component {
 
 function mapDispatchToProps(dispatch) {
     return {
-        logoutData: (flag,user) => dispatch(logoutData(flag, user)),
+        logoutData: (flag,user,userFlag) => dispatch(logoutData(flag, user,userFlag)),
+        loginData: (flag,user,userFlag) => dispatch(loginData(flag, user,userFlag))
     };
 }
 
 function mapStateToProps(state) {
     return{
-        loginData : state.loginData,
+        userData : state.loginData,
     };
 }
 const navbar = withRouter(connect(mapStateToProps, mapDispatchToProps)(Navbar));

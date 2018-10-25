@@ -6,6 +6,7 @@ import * as Validate from '../../Validations/Validation';
 import {loginData} from '../../actions/index';
 import {connect} from 'react-redux';
 import { withRouter } from 'react-router-dom';
+import jwtDecode from 'jwt-decode';
 
 class OwnerLogin extends Component {
     constructor(props){
@@ -84,15 +85,16 @@ class OwnerLogin extends Component {
             .then(response2 => {
                 console.log("Status Code for post: ",response2.status);
                 if(response2.status === 200){
-                    let loggedInUserDetails = JSON.parse(response2.data);
+                    let loggedInUserDetails = jwtDecode(response2.data.token);
                     let user = {
                         userEmail:this.state.userDetails.email,
                         userFirstName:loggedInUserDetails.firstname,
-                        travelerId:loggedInUserDetails._id,
+                        userId:loggedInUserDetails._id,
                         isTraveler:this.state.userDetails.isTraveler
 
                     }
-                    this.props.loginData(true, user);
+                    localStorage.setItem('token', response2.data.token);
+                    this.props.loginData(true, user, false);
                     this.props.history.push('/');
                 // let loggedInUserDetails = JSON.parse(response2.data)[0];
                 // const userEmail = this.state.userDetails.email;
@@ -144,7 +146,7 @@ class OwnerLogin extends Component {
         // redirect based on successful login
         let redirectVar = null;
         // if(cookie.load('cookie')){
-        if(this.props.loginData.isLogged){
+        if(this.props.userData.isLogged){
             redirectVar = <Redirect to= "/"/>
             return(redirectVar);
         } else {
@@ -233,13 +235,13 @@ class OwnerLogin extends Component {
 
 function mapDispatchToProps(dispatch) {
     return {
-        loginData: (flag,user) => dispatch(loginData(flag, user)),
+        loginData: (flag,user, userFlag) => dispatch(loginData(flag, user, userFlag)),
     };
 }
 
 function mapStateToProps(state) {
     return{
-        loginData : state.loginData,
+        userData : state.loginData,
     };
 }
 const ownerLogin = withRouter(connect(mapStateToProps, mapDispatchToProps)(OwnerLogin));

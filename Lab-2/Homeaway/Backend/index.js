@@ -17,6 +17,7 @@ var jwt = require('jsonwebtoken');
 //include dependent files of mongo and models
 var travelerModel = require('./models/traveler');
 var ownerModel = require('./models/owner');
+var propertyModel = require('./models/property');
 var {mongoose} = require('./db/mongoose');
 const JWT_KEY = "secret";
 const checkAuth = require('./middleware/check-auth');
@@ -619,85 +620,115 @@ app.post('/login', (req,res) => {
 // TODO: Check if the the the login is Owner login 
 // if yes then allow the Property post else throw error , handle that in front-end with suitable Message
 
-// app.post('/postproperty', function(req,res){
-//     console.log("Inside the Post property Handler");
-//     var PROP_COUNTRY = req.body.propertyDetails.propCountry.toUpperCase();
-//     var PROP_ST_ADDRESS = req.body.propertyDetails.propStreetAddress.toUpperCase();
-//     var PROP_APT = req.body.propertyDetails.propApartment;
-//     var PROP_CITY = req.body.propertyDetails.propCity.toLowerCase();
-//     var PROP_STATE = req.body.propertyDetails.propState.toUpperCase();
-//     var PROP_ZIP = req.body.propertyDetails.propZip;
-//     var PROP_HEADLINE = req.body.propertyDetails.propHeadline;
-//     var PROP_DESC = req.body.propertyDetails.propDescription;
-//     var PROP_TYPE = req.body.propertyDetails.propType;
-//     var PROP_NO_BEDROOM = req.body.propertyDetails.propNoBedroom;
-//     var PROP_GUEST_COUNT = req.body.propertyDetails.propGuestCount;
-//     var PROP_BATH = req.body.propertyDetails.propNoBathroom;
-//     var PROP_IMAGES = JSON.stringify(req.body.propertyDetails.propPhotosArr);
-//     var PROP_CURRENCY = req.body.propertyDetails.propCurrency;
-//     var PROP_BASE_RATE = req.body.propertyDetails.propBaseRate;
-//     var PROP_AVAIL_DATE = req.body.propertyDetails.propStartDate;
-//     var PROP_AVAIL_TILL = req.body.propertyDetails.propEndDate;
-//     var EMAIL = req.body.propertyDetails.email.toLowerCase();
-//     var OWNER_ID = req.body.propertyDetails.ownerId;
+app.post('/postproperty',checkAuth,function(req,res){
+    console.log("Inside the Post property Handler");
+    var PROP_COUNTRY = req.body.propertyDetails.propCountry;
+    // var PROP_ST_ADDRESS = req.body.propertyDetails.propStreetAddress.toUpperCase();
+    // var PROP_APT = req.body.propertyDetails.propApartment;
+    // var PROP_CITY = req.body.propertyDetails.propCity.toLowerCase();
+    // var PROP_STATE = req.body.propertyDetails.propState.toUpperCase();
+    // var PROP_ZIP = req.body.propertyDetails.propZip;
+    // var PROP_HEADLINE = req.body.propertyDetails.propHeadline;
+    // var PROP_DESC = req.body.propertyDetails.propDescription;
+    // var PROP_TYPE = req.body.propertyDetails.propType;
+    // var PROP_NO_BEDROOM = req.body.propertyDetails.propNoBedroom;
+    // var PROP_GUEST_COUNT = req.body.propertyDetails.propGuestCount;
+    // var PROP_BATH = req.body.propertyDetails.propNoBathroom;
+    // var PROP_IMAGES = JSON.stringify(req.body.propertyDetails.propPhotosArr);
+    // var PROP_CURRENCY = req.body.propertyDetails.propCurrency;
+    // var PROP_BASE_RATE = req.body.propertyDetails.propBaseRate;
+    // var PROP_AVAIL_DATE = req.body.propertyDetails.propStartDate;
+    // var PROP_AVAIL_TILL = req.body.propertyDetails.propEndDate;
+    // var EMAIL = req.body.propertyDetails.email.toLowerCase();
+    // var OWNER_ID = req.body.propertyDetails.ownerId;
 
-//     //SQL Query to update the parameters received
-//     var sql = "INSERT INTO OWNER_PROPERTY_TABLE (PROP_COUNTRY, PROP_ST_ADDRESS, PROP_APT, PROP_CITY, " +
-//      "PROP_STATE, PROP_ZIP, PROP_HEADLINE, PROP_DESC, PROP_TYPE, PROP_NO_BEDROOM, PROP_GUEST_COUNT, PROP_BATH, PROP_IMAGES, " +
-//      "PROP_CURRENCY, PROP_BASE_RATE, PROP_AVAIL_DATE, PROP_AVAIL_TILL, EMAIL, OWNER_ID) " +
-//                                             "VALUES (" + "'" +
-//                                             PROP_COUNTRY + "' ," + "'" +
-//                                             PROP_ST_ADDRESS + "' ," + "'" +
-//                                             PROP_APT + "' ," + "'" +
-//                                             PROP_CITY + "' ," + "'" +
-//                                             PROP_STATE + "' ," +
-//                                             PROP_ZIP + " ," + "'" +
-//                                             PROP_HEADLINE + "' ," + "'" +
-//                                             PROP_DESC + "' ," + "'" +
-//                                             PROP_TYPE + "' ," +
-//                                             PROP_NO_BEDROOM + " ," +
-//                                             PROP_GUEST_COUNT + " ," +
-//                                             PROP_BATH + " ," + "'" +
-//                                             PROP_IMAGES + "' ," + "'" +
-//                                             PROP_CURRENCY + "' ," +
-//                                             PROP_BASE_RATE + " ," + "'" +
-//                                             PROP_AVAIL_DATE + "' ," + "'" +
-//                                             PROP_AVAIL_TILL + "' ," + "'" +
-//                                             EMAIL + "'" + " ," +
-//                                             OWNER_ID + ");";
-//     //Get a connection from the created SQL pool
-//     pool.getConnection(function(err,con){
-//         if(err){
-//             res.writeHead(400,{
-//                 'Content-Type' : 'text/plain'
-//             })
-//             res.end("Could Not Get Connection Object");
-//         } else {
-//             con.query(sql,function(err,result){
-//                 if(err){
-//                     res.writeHead(400,{
-//                         'Content-Type' : 'text/plain'
-//                     })
-//                     res.end("some error occurred while executing sql query");
-//                 }else{
-//                     res.writeHead(200,{
-//                         'Content-Type' : 'text/plain'
-//                     })
-//                     console.log(`Property with Address: ${PROP_ST_ADDRESS} Created Successfully`);
-//                     res.end('Record Created Successfully');
-//                 }
-//             });
-//         }
-//     });
+    //SQL Query to update the parameters received
+    var newProperty = new propertyModel();
+    newProperty._id = new mongoose.Types.ObjectId();
+    newProperty.propcountry = req.body.propertyDetails.propCountry;
+    newProperty.propstaddress = req.body.propertyDetails.propStreetAddress;
+    newProperty.propapt = req.body.propertyDetails.propApartment;
+    newProperty.propcity = req.body.propertyDetails.propCity;
+    newProperty.propstate = req.body.propertyDetails.propState;
+    newProperty.propzip = req.body.propertyDetails.propZip;
+    newProperty.propheadline = req.body.propertyDetails.propHeadline;
+    newProperty.propdesc = req.body.propertyDetails.propDescription;
+    newProperty.proptype = req.body.propertyDetails.propType;
+    newProperty.propbedroom = req.body.propertyDetails.propNoBedroom;
+    newProperty.propguestcount = req.body.propertyDetails.propGuestCount;
+    newProperty.propbath = req.body.propertyDetails.propNoBathroom;
+    newProperty.propimages = JSON.stringify(req.body.propertyDetails.propPhotosArr);
+    newProperty.propcurrency = req.body.propertyDetails.propCurrency;
+    newProperty.propbaserate = req.body.propertyDetails.propBaseRate;
+    newProperty.propavaildate = req.body.propertyDetails.propStartDate;
+    newProperty.propavailtill = req.body.propertyDetails.propEndDate;
+    newProperty.email = req.body.propertyDetails.email;
+    newProperty.save()
+    .then(property=>{
+        console.log("Property created: ", property);
+        res.status(200).json({
+            message: 'Property posted Successfully'
+        });
+    })
+    .catch(err => {
+        console.log(err);
+        res.sendStatus(400).end();
+    });
+    // var sql = "INSERT INTO OWNER_PROPERTY_TABLE (PROP_COUNTRY, PROP_ST_ADDRESS, PROP_APT, PROP_CITY, " +
+    //  "PROP_STATE, PROP_ZIP, PROP_HEADLINE, PROP_DESC, PROP_TYPE, PROP_NO_BEDROOM, PROP_GUEST_COUNT, PROP_BATH, PROP_IMAGES, " +
+    //  "PROP_CURRENCY, PROP_BASE_RATE, PROP_AVAIL_DATE, PROP_AVAIL_TILL, EMAIL, OWNER_ID) " +
+    //                                         "VALUES (" + "'" +
+    //                                         PROP_COUNTRY + "' ," + "'" +
+    //                                         PROP_ST_ADDRESS + "' ," + "'" +
+    //                                         PROP_APT + "' ," + "'" +
+    //                                         PROP_CITY + "' ," + "'" +
+    //                                         PROP_STATE + "' ," +
+    //                                         PROP_ZIP + " ," + "'" +
+    //                                         PROP_HEADLINE + "' ," + "'" +
+    //                                         PROP_DESC + "' ," + "'" +
+    //                                         PROP_TYPE + "' ," +
+    //                                         PROP_NO_BEDROOM + " ," +
+    //                                         PROP_GUEST_COUNT + " ," +
+    //                                         PROP_BATH + " ," + "'" +
+    //                                         PROP_IMAGES + "' ," + "'" +
+    //                                         PROP_CURRENCY + "' ," +
+    //                                         PROP_BASE_RATE + " ," + "'" +
+    //                                         PROP_AVAIL_DATE + "' ," + "'" +
+    //                                         PROP_AVAIL_TILL + "' ," + "'" +
+    //                                         EMAIL + "'" + " ," +
+    //                                         OWNER_ID + ");";
+    // //Get a connection from the created SQL pool
+    // pool.getConnection(function(err,con){
+    //     if(err){
+    //         res.writeHead(400,{
+    //             'Content-Type' : 'text/plain'
+    //         })
+    //         res.end("Could Not Get Connection Object");
+    //     } else {
+    //         con.query(sql,function(err,result){
+    //             if(err){
+    //                 res.writeHead(400,{
+    //                     'Content-Type' : 'text/plain'
+    //                 })
+    //                 res.end("some error occurred while executing sql query");
+    //             }else{
+    //                 res.writeHead(200,{
+    //                     'Content-Type' : 'text/plain'
+    //                 })
+    //                 console.log(`Property with Address: ${PROP_ST_ADDRESS} Created Successfully`);
+    //                 res.end('Record Created Successfully');
+    //             }
+    //         });
+    //     }
+    // });
 
-// })
+})
 
 //Route to handle Post Request Call for SignUp
 app.post('/signup',checkAuth,function(req,res){
     console.log("Inside Signup Request Handler");
 
     if(req.body.isTraveler) {
-        
         //If Traveler, Insert the record in TRAVELER_INFO_TABLE
         console.log("Inside Traveler Signup request");
         // var sql = "INSERT INTO TRAVELER_INFO_TABLE (FIRST_NAME, LAST_NAME, EMAIL, PASSWORD) VALUES ( " + 
@@ -718,6 +749,7 @@ app.post('/signup',checkAuth,function(req,res){
                                 error: err
                             });
                         } else {
+                            newTraveler._id = new mongoose.Types.ObjectId(),
                             newTraveler.firstname = req.body.firstName;
                             newTraveler.lastname = req.body.lastName;
                             newTraveler.email = req.body.email;
@@ -770,6 +802,7 @@ app.post('/signup',checkAuth,function(req,res){
                                 error: err
                             });
                         } else {
+                            newOwner._id = new mongoose.Types.ObjectId(),
                             newOwner.firstname = req.body.firstName;
                             newOwner.lastname = req.body.lastName;
                             newOwner.email = req.body.email;
@@ -838,35 +871,35 @@ app.post('/signup',checkAuth,function(req,res){
 */
 app.put('/editprofile',function(req,res){
     console.log("Inside Edit profile Request.");
-    var FIRST_NAME = req.body.userDetails.firstName;
-    var LAST_NAME = req.body.userDetails.lastName;
-    var EMAIL = req.body.userDetails.email;
-    // var PROFILE_IMAGE = req.body.userDetails.image;
-    var PHONE_NUMBER = req.body.userDetails.phoneNumber;
-    var ABOUT_ME = req.body.userDetails.aboutMe;
-    var CITY = req.body.userDetails.city;
-    var COUNTRY = req.body.userDetails.country;
-    var COMPANY = req.body.userDetails.company;
-    var SCHOOL = req.body.userDetails.school;
-    var HOMETOWN = req.body.userDetails.hometown;
-    var LANGUAGES = req.body.userDetails.languages;
-    var GENDER = req.body.userDetails.gender;
+    // var FIRST_NAME = req.body.data.userDetails.firstName;
+    // var LAST_NAME = req.body.data.userDetails.lastName;
+    // var EMAIL = req.body.data.userDetails.email;
+    // // var PROFILE_IMAGE = req.body.userDetails.image;
+    // var PHONE_NUMBER = req.body.data.userDetails.phoneNumber;
+    // var ABOUT_ME = req.body.data.userDetails.aboutMe;
+    // var CITY = req.body.data.userDetails.city;
+    // var COUNTRY = req.body.data.userDetails.country;
+    // var COMPANY = req.body.data.userDetails.company;
+    // var SCHOOL = req.body.data.userDetails.school;
+    // var HOMETOWN = req.body.data.userDetails.hometown;
+    // var LANGUAGES = req.body.data.userDetails.languages;
+    // var GENDER = req.body.data.userDetails.gender;
 
     //SQL Query to update the parameters received
-    if(req.body.userDetails.isTraveler) {
-        travelerModel.update({email : req.body.userDetails.email}, 
-                             {$set: {firstname: req.body.userDetails.firstName,
-                                     lastname: req.body.userDetails.lastName,
-                                     phonenumber: req.body.userDetails.phoneNumber,
-                                     profileimage: req.body.userDetails.profileImage,
-                                     aboutme: req.body.userDetails.aboutMe,
-                                     city: req.body.userDetails.city,
-                                     company: req.body.userDetails.company,
-                                     school: req.body.userDetails.school,
-                                     country: req.body.userDetails.country,
-                                     hometown: req.body.userDetails.hometown,
-                                     languages: req.body.userDetails.languages,
-                                     gender: req.body.userDetails.gender,
+    if(req.body.data.userDetails.isTraveler) {
+        travelerModel.update({email : req.body.data.userDetails.email}, 
+                             {$set: {firstname: req.body.data.userDetails.firstName,
+                                     lastname: req.body.data.userDetails.lastName,
+                                     phonenumber: req.body.data.userDetails.phoneNumber,
+                                     profileimage: req.body.data.userDetails.profileImage,
+                                     aboutme: req.body.data.userDetails.aboutMe,
+                                     city: req.body.data.userDetails.city,
+                                     company: req.body.data.userDetails.company,
+                                     school: req.body.data.userDetails.school,
+                                     country: req.body.data.userDetails.country,
+                                     hometown: req.body.data.userDetails.hometown,
+                                     languages: req.body.data.userDetails.languages,
+                                     gender: req.body.data.userDetails.gender,
                                     }})
                     .exec()
                     .then(result => {
@@ -880,19 +913,19 @@ app.put('/editprofile',function(req,res){
                         })
                     })
     } else {
-        ownerModel.update({email : req.body.userDetails.email}, 
-                            {$set: {firstname: req.body.userDetails.firstName,
-                                    lastname: req.body.userDetails.lastName,
-                                    phonenumber: req.body.userDetails.phoneNumber,
-                                    profileimage: req.body.userDetails.profileImage,
-                                    aboutme: req.body.userDetails.aboutMe,
-                                    city: req.body.userDetails.city,
-                                    company: req.body.userDetails.company,
-                                    school: req.body.userDetails.school,
-                                    country: req.body.userDetails.country,
-                                    hometown: req.body.userDetails.hometown,
-                                    languages: req.body.userDetails.languages,
-                                    gender: req.body.userDetails.gender,
+        ownerModel.update({email : req.body.data.userDetails.email}, 
+                            {$set: {firstname: req.body.data.userDetails.firstName,
+                                    lastname: req.body.data.userDetails.lastName,
+                                    phonenumber: req.body.data.userDetails.phoneNumber,
+                                    profileimage: req.body.data.userDetails.profileImage,
+                                    aboutme: req.body.data.userDetails.aboutMe,
+                                    city: req.body.data.userDetails.city,
+                                    company: req.body.data.userDetails.company,
+                                    school: req.body.data.userDetails.school,
+                                    country: req.body.data.userDetails.country,
+                                    hometown: req.body.data.userDetails.hometown,
+                                    languages: req.body.data.userDetails.languages,
+                                    gender: req.body.data.userDetails.gender,
                                 }})
                     .exec()
                     .then(result => {

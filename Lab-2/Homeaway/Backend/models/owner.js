@@ -2,6 +2,7 @@ var mongoose = require('mongoose');
 var utility = require('../utility');
 
 var ownerSchema = new mongoose.Schema({
+    _id: mongoose.Schema.Types.ObjectId,
     firstname :{
         type : String,
         required: true,

@@ -1,6 +1,7 @@
 const loginState = {
     'isLogged' : false,
-    'loginData' : ''
+    'loginData' : '',
+    'isTraveler' : true
 }
 
 export default function (state=loginState,action){
@@ -9,12 +10,12 @@ export default function (state=loginState,action){
         case "LOGIN_DATA":
             // const newState = loginStatusState;
             console.log("at reducer",action.user);
-            newState  = Object.assign({}, state, { isLogged: action.flag , loginData: action.user});
+            newState  = Object.assign({}, state, { isLogged: action.flag, isTraveler: action.userFlag, loginData: action.user});
             console.log("new state",newState);
             return newState;
         case "LOGOUT_DATA" :
             console.log("at reducer", action.user);
-            newState = Object.assign({}, state, {isLogged: action.flag , loginData: action.user})
+            newState = Object.assign({}, state, {isLogged: action.flag, isTraveler: action.userFlag, loginData: action.user})
             console.log("new state",newState); 
             return newState;   
         default :

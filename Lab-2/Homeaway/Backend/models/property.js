@@ -1,60 +1,101 @@
 var mongoose = require('mongoose');
+var utility = require('../utility');
 
-var Properties = mongoose.model('Properties',{
+var propertySchema = new mongoose.Schema({
+// var Properties = mongoose.model('Properties',{
+    _id: mongoose.Schema.Types.ObjectId,
     propcountry :{
-        type : String
+        type : String,
+        required: true,
+        uppercase: true,
+        default : ""
     },
     propstaddress :{
-        type : String
+        type : String,
+        required: true,
+        default : ""
     },
     propapt :{
-        type : String
+        type : String,
+        default : ""
     },
     propcity :{
-        type : Number
+        type : String,
+        set:utility.capitalizeFirstLetter,
+        required: true,
+        default : ""
     },
     propstate : {
-        type : String
+        type : String,
+        set:utility.capitalizeFirstLetter,
+        required: false,
+        default : ""
     },
     propzip :{
-        type : Number
+        type : Number,
+        required: true,
+        default : ""
     },
     propheadline :{
-        type : String
+        type : String,
+        required: false,
+        default : ""
     },
     propdesc :{
-        type : String
+        type : String,
+        required: false,
+        default : ""
     },
     proptype :{
-        type : String
+        type : String,
+        required: false,
+        default : ""
     },
     propbedroom :{
-        type : Number
+        type : Number,
+        required: true,
+        default : ""
     },
     propguestcount :{
-        type : Number
+        type : Number,
+        required: true,
+        default : ""
     },
     propbath :{
-        type : Number
+        type : Number,
+        required: true,
+        default : ""
     },
     propimages :{
-        type : String
+        type : String,
+        required: false,
+        default : ""
     },
     propcurrency :{
-        type : String
+        type : String,
+        required: true,
+        default : ""
     },
     propbaserate :{
-        type : Number
+        type : Number,
+        required: true,
+        default : ""
     },
     propavaildate :{
-        type : String
+        type : Date,
+        required: true,
+        default : ""
     },
     propavailtill :{
-        type : String
+        type : Date,
+        required: false,
+        default : ""
     },
     email :{
-        type : String
+        type : String,
+        required: true,
+        default : ""
     }
 });
 
-module.exports = {Properties};
+module.exports = mongoose.model("Properties",propertySchema);

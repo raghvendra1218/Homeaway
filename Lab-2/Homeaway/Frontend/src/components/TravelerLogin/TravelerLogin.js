@@ -7,6 +7,7 @@ import * as Validate from '../../Validations/Validation';
 import {loginData} from '../../actions/index';
 import {connect} from 'react-redux';
 import { withRouter } from 'react-router-dom';
+import jwtDecode from 'jwt-decode';
 
 //Define a Login Component
 class TravelerLogin extends Component{
@@ -82,15 +83,17 @@ class TravelerLogin extends Component{
                 .then(response2 => {
                     console.log("Status Code for post: ",response2.status);
                     if(response2.status === 200){
-                        let loggedInUserDetails = JSON.parse(response2.data);
+                        console.log("Decoded Values: ", response2.data.token);
+                        let loggedInUserDetails = jwtDecode(response2.data.token);
                         let user = {
                             userEmail:this.state.userDetails.email,
                             userFirstName:loggedInUserDetails.firstname,
-                            travelerId:loggedInUserDetails._id,
+                            userId:loggedInUserDetails.userId,
                             isTraveler:this.state.userDetails.isTraveler
 
                         }
-                        this.props.loginData(true, user);
+                        localStorage.setItem('token', response2.data.token);
+                        this.props.loginData(true, user,true);
                         this.props.history.push('/');
                         
                         // const userEmail = this.state.userDetails.email;
@@ -142,7 +145,7 @@ class TravelerLogin extends Component{
         // redirect based on successful login
         let redirectVar = null;
         // if(cookie.load('cookie')){
-        if(this.props.loginData.isLogged){
+        if(this.props.userData.isLogged){
             redirectVar = <Redirect to= "/"/>
             return(redirectVar);
         }
@@ -255,13 +258,13 @@ class TravelerLogin extends Component{
 }
 function mapDispatchToProps(dispatch) {
     return {
-        loginData: (flag,user) => dispatch(loginData(flag, user)),
+        loginData: (flag,user,userFlag) => dispatch(loginData(flag, user,userFlag)),
     };
 }
 
 function mapStateToProps(state) {
     return{
-        loginData : state.loginData,
+        userData : state.loginData,
     };
 }
 const travelerLogin = withRouter(connect(mapStateToProps, mapDispatchToProps)(TravelerLogin));

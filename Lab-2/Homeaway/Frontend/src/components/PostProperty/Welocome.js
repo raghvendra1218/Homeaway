@@ -1,7 +1,7 @@
 import React from 'react';
-import {Link} from 'react-router-dom';
 import {capitalizeFirstLetter} from '../../utility';
 import './postproperty.css';
+import jwtDecode from 'jwt-decode';
 const welcome = () => {
     return(
     <div id="tab-content" className="container">
@@ -9,7 +9,7 @@ const welcome = () => {
             <div className="checklist-page">
                 <div>
                     <div className="checklist-summary-header ">
-                        <h1><span>Welcome! {capitalizeFirstLetter(sessionStorage.getItem('userFirstName'))}</span> </h1>
+                        <h1><span>Welcome! {capitalizeFirstLetter(jwtDecode(localStorage.getItem('token')).firstname)}</span> </h1>
                         <p><span>Verify the location of your rental</span></p>
                     </div>
                 </div><br/>

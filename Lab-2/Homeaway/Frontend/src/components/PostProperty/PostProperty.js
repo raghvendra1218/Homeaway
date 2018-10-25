@@ -11,14 +11,18 @@ import Pricing from './Pricing';
 import Availability from './Availability';
 import Navbar from '../Navbar/Navbar';
 import * as Validate from '../../Validations/Validation';
+import jwtDecode from 'jwt-decode';
+import {postPropertyData} from '../../actions/index';
+import {connect} from 'react-redux';
+import { withRouter } from 'react-router-dom';
 
 class PostProperty extends Component {
     constructor(props) {
         super(props);
         this.state = {
             propertyDetails : {
-                ownerId: sessionStorage.getItem('ownerId'),
-                email: sessionStorage.getItem('userEmail'),
+                ownerId: jwtDecode(localStorage.getItem('token')).userId,
+                email: jwtDecode(localStorage.getItem('token')).email,
                 propCountry: "",
                 propStreetAddress: "",
                 propApartment: "",
@@ -357,18 +361,27 @@ class PostProperty extends Component {
     postProperty = (event) => {
         //prevent page from refresh
         event.preventDefault();
-        let valid = Validate.postproperty(this.state);
+        let valid = '';
+        // let valid = Validate.postproperty(this.state);
         if(valid === '') {
-            const data = {
-                propertyDetails: {
-                    ...this.state.propertyDetails,
+            const propertyData = {
+                    propertyDetails: {
+                        ...this.state.propertyDetails
+                    }
                 }
-            }
+            this.props.postPropertyData( propertyData,false);
             //Post Call to post Property Details in DB
             //set the with credentials to true
             axios.defaults.withCredentials = true;
             //make a post request with the user data
-            axios.post('http://localhost:3001/postproperty',data)
+            axios.post('http://localhost:3001/postproperty',
+            propertyData,{
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json',
+                'Authorization': localStorage.getItem('token')
+            },
+            })
             .then(response => {
                 console.log("Status Code : ",response.status);
                 if(response.status === 200){
@@ -376,6 +389,7 @@ class PostProperty extends Component {
                         ...this.state.propertyDetails,
                         propIsPosted : true
                     })
+                    this.props.postPropertyData(propertyData,true);
                     console.log("message:", response.data.message);
                     alert("Your property was successfully posted.");
                 }else{
@@ -383,6 +397,7 @@ class PostProperty extends Component {
                         ...this.state.propertyDetails,
                         propIsPosted : false
                     })
+                    this.props.postPropertyData(propertyData,false);
                     alert("Your property was not successfully posted.");
                 }
             })
@@ -413,7 +428,7 @@ class PostProperty extends Component {
         }
         // redirect based on successful login
         let redirectVar = null;
-        if (sessionStorage.getItem("userEmail") === null) {
+        if (!localStorage.getItem('token')) {
             redirectVar = <Redirect to="/ownerlogin" />
             return (redirectVar);
         } else if(this.state.propertyDetails.propIsPosted) {
@@ -520,4 +535,17 @@ class PostProperty extends Component {
     }
 }
 
-export default PostProperty;
+function mapDispatchToProps(dispatch) {
+    return {
+        postPropertyData: (propertyData, isPosted) => dispatch(postPropertyData(propertyData, isPosted)),
+    };
+}
+
+function mapStateToProps(state) {
+    return{
+        propertyData : state.propertyData,
+    };
+}
+const postproperty = withRouter(connect(mapStateToProps, mapDispatchToProps)(PostProperty));
+export default postproperty;
+// export default PostProperty;

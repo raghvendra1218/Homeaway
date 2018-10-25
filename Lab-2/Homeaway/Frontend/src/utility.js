@@ -48,3 +48,28 @@ export const usaDateFormat = (str) => {
     str1 = mm+'/'+dd+'/'+yyyy;
     return str1;
 }
+
+export const userProfileDateFormat = (str) => {
+    if(str === null){
+        return str;
+    }
+    var str1 = new Date(str);
+    var monthNames = [
+        "January", "February", "March",
+        "April", "May", "June", "July",
+        "August", "September", "October",
+        "November", "December"
+    ];
+    
+    var day = str1.getDate();
+    var monthIndex = str1.getMonth();
+    var year = str1.getFullYear();
+    if(day<10) 
+    {
+        day='0'+day;
+    } 
+    str1 = monthNames[monthIndex] + ' ' + day + ',' + ' ' + year;
+    // day + ' ' + monthNames[monthIndex] + ' ' + year;
+    return str1;
+    
+}
