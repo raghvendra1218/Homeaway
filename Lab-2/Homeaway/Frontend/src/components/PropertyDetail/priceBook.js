@@ -36,7 +36,7 @@ const priceBook =(props)=> {
                                                                 <div className="price-from-text-label ">
                                                                 </div>
                                                                 <div className="price-large js-fromPriceValue">
-                                                                    <strong>${(propertyDetailsFetched.PROP_BASE_RATE)*calculateDays()}</strong>
+                                                                    <strong>${(propertyDetailsFetched.propbaserate)*calculateDays()}</strong>
                                                                 </div>
                                                                 <div className="price-from-link-container ">
                                                                     <div className="price-from js-fromPriceLabel">for total nights</div>
@@ -183,7 +183,7 @@ const priceBook =(props)=> {
                             </div>
                             <div className="pdp-listing-headline-container gtPDPMovePropertyHeadlineBelowGalleryTst hidden-xs">
                                 <h2 className="listing-headline ">
-                                    <span className="listing-headline-text">{propertyDetailsFetched.PROP_HEADLINE}</span>
+                                    <span className="listing-headline-text">{propertyDetailsFetched.propheadline}</span>
                                 </h2>
                             </div>
                             <div className="hidden-xs">
@@ -230,7 +230,7 @@ const priceBook =(props)=> {
                                                     Sleeps
                                                 </div>
                                                 <div className="amenity-value">
-                                                    {propertyDetailsFetched.PROP_GUEST_COUNT}
+                                                    {propertyDetailsFetched.propguestcount}
                                                 </div>
                                             </div>
                                             <div className="amenity-detail">
@@ -249,7 +249,7 @@ const priceBook =(props)=> {
                                                     Bedrooms
                                                 </div>
                                                 <div className="amenity-value">
-                                                    {propertyDetailsFetched.PROP_NO_BEDROOM}
+                                                    {propertyDetailsFetched.propbedroom}
                                                 </div>
                                             </div>
                                             <div className="amenity-detail">
@@ -275,7 +275,7 @@ const priceBook =(props)=> {
                                                     Bathrooms
                                                 </div>
                                                 <div className="amenity-value">
-                                                    {propertyDetailsFetched.PROP_BATH}
+                                                    {propertyDetailsFetched.propbath}
                                                 </div>
                                             </div>
                                             <div className="amenity-detail">
@@ -307,10 +307,10 @@ const priceBook =(props)=> {
                                 </div>
                                 <div className="property-description-wrapper  col-sm-10" data-overlay-id="property-description-wrapper-loader">
                                     <div className="property-description js-summarySection ">
-                                        <h3>Completely Private, Highly Upgraded Unit, Minutes to Energy Centers of San Diego</h3>
+                                        <h3>Completely Private, Highly Upgraded Unit, Minutes to Energy Centers of San Jose</h3>
                                         <div className="prop-desc-txt">
                                             <div className="preview">
-                                                <p className= "detailDescription">{propertyDetailsFetched.PROP_DESC}</p>
+                                                <p className= "detailDescription">{propertyDetailsFetched.propdesc}</p>
                                             </div>
                                             <div className="js-descriptionCollapse collapse">
                                                 <p>Instant Booking - This unit has a Queen size bed in each of 2 separate bedrooms. Both beds have

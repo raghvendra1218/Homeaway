@@ -4,6 +4,7 @@ import Navbar from '../Navbar/Navbar';
 import './propertydetail.css';
 import PropertyDetailsNavbar from './PropertyDetailNavbar';
 import PriceBook from './priceBook';
+import jwtDecode from 'jwt-decode';
 
 class PropertyDetail extends Component {
     imageArr = []
@@ -11,8 +12,8 @@ class PropertyDetail extends Component {
         super();
         this.state = {
             propertyDetails: [],
-            travelerId: sessionStorage.getItem('travelerId'),
-            isTraveler: JSON.parse(sessionStorage.getItem('isTraveler')),
+            travelerId: jwtDecode(localStorage.getItem('token')).userId,
+            isTraveler: jwtDecode(localStorage.getItem('token')).isTraveler,
             propertyId: sessionStorage.getItem('propertyDetailId'),
             propertyBookStartDate: sessionStorage.getItem('searchBoxStartDate'),
             searchBoxHeadCount : sessionStorage.getItem('searchBoxHeadCount'),
@@ -32,15 +33,15 @@ class PropertyDetail extends Component {
             //Update the state with the response data    
             this.setState({
                     ...this.state,
-                    propertyDetails: this.state.propertyDetails.concat(response.data)
+                    propertyDetails: this.state.propertyDetails.concat(response.data.result)
             });
-            for(var i=0; i<response.data.length;i++){
-                var photoD = response.data[i].PROP_IMAGES ;
-                var photoArray = JSON.parse(photoD);
+            for(var i=0; i<response.data.result.length;i++){
+                var photoD = response.data.result[i];
+                var photoArray = JSON.parse(photoD.propimages);
                 this.handleGetPhoto(photoArray[0]);
             }
             console.log("State result: "+ JSON.stringify(this.state.propertyDetails));
-            console.log("State result1: "+ JSON.stringify(this.state.propertyDetails[0].PROP_BASE_RATE));
+            console.log("State result1: "+ JSON.stringify(this.state.propertyDetails[0].propbaserate));
         })
         .catch( error =>{
             console.log("error:", error);
@@ -68,28 +69,36 @@ class PropertyDetail extends Component {
                 ...this.state
             }
             //Post call to book the property
-            axios.post('http://localhost:3001/bookproperty', data)
-                .then((response) => {
-                    console.log("Status Code for post: ",response.status);
-                    if(response.status === 200){
-                        //Update the state with the response data    
-                        this.setState({
-                            ...this.state,
-                            isPropertyBooked: true
-                        });
-                        console.log("State result: "+ JSON.stringify(this.state.propertyDetails));
-                        alert("Property Booked successfully.");
-                    } else {
-                        alert("Error: ", response.data.message);
-                        this.setState({
-                            ...this.state,
-                            isPropertyBooked: false
-                        });
-                    };
-                })
-                .catch( error =>{
-                    console.log("error:", error);
-                });
+            axios.post('http://localhost:3001/bookproperty', 
+            data, {
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json',
+                'Authorization': localStorage.getItem('token')
+            },
+            }
+            )
+            .then((response) => {
+                console.log("Status Code for post: ",response.status);
+                if(response.status === 200){
+                    //Update the state with the response data    
+                    this.setState({
+                        ...this.state,
+                        isPropertyBooked: true
+                    });
+                    console.log("State result: "+ JSON.stringify(this.state.propertyDetails));
+                    alert("Property Booked successfully.");
+                } else {
+                    alert("Error: ", response.data.message);
+                    this.setState({
+                        ...this.state,
+                        isPropertyBooked: false
+                    });
+                };
+            })
+            .catch( error =>{
+                console.log("error:", error);
+            });
         } else {
             alert("Please login as a Traveler and then try Booking.");
         }

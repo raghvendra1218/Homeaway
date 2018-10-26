@@ -3,6 +3,7 @@ var mongoose = require('mongoose');
 mongoose.Promise = global.Promise;
 
 var uri = 'mongodb://Raghav:superman1@ds231723.mlab.com:31723/homeaway';
+// var uri = 'mongodb://' +process.env.MONGO_USERNAME +':' + process.env.MONGO_PWD +'@ds231723.mlab.com:31723/homeaway';
 // var uri = 'mongodb://localhost:27017/homeaway';
 
 var options = {

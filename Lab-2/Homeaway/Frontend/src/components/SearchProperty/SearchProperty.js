@@ -31,12 +31,13 @@ class SearchProperty extends Component {
             //Update the state with the response data    
             this.setState({
                     ...this.state,
-                    searchResults: this.state.searchResults.concat(response.data),
+                    searchResults: this.state.searchResults.concat(response.data.result),
                     isSearched : true
             });
-            for(var i=0; i<response.data.length;i++){
-                var photoD = response.data[i].PROP_IMAGES ;
-                var photoArray = JSON.parse(photoD);
+            for(var i=0; i<response.data.result.length;i++){
+                var photoD = response.data.result[i] ;
+                // console.log(JSON.stringify(photoD.propimages));
+                var photoArray = JSON.parse(photoD.propimages);
                 this.handleGetPhoto(photoArray[0]);
             }
             console.log("State result: "+ JSON.stringify(this.state.searchResults));
@@ -131,13 +132,13 @@ class SearchProperty extends Component {
                                                         <img src={this.imageArr[index]}/>
                                                     </a>
                                                 </div>
-                                                <div className="Hit__info"><a key = {result.PROP_ID} className="a--plain-link Hit__infoLink" onClick ={(event) => {this.propertyDetailHandler(event,result.PROP_ID)}} href={'http://localhost:3000/propertydetail/'+ result.PROP_ID} >
+                                                <div className="Hit__info"><a key = {result._id} className="a--plain-link Hit__infoLink" onClick ={(event) => {this.propertyDetailHandler(event,result._id)}} href={'http://localhost:3000/propertydetail/'+ result._id} >
                                                     <div className="HitInfo HitInfo--desktop">
                                                         <div className="HitInfo__content">
                                                             <div className="HitInfo__viewedUrgency hidden-xs" data-wdio="viewed-urgency-message"><small>Viewed
                                                             46 times in the last 48 hours</small></div>
                                                             <h4 className="HitInfo__headline hover-text hidden-xs" href="/vacation-rental/p455355vb">
-                                                            {capitalizeFirstLetter(result.PROP_HEADLINE)}</h4>
+                                                            {capitalizeFirstLetter(result.propheadline)}</h4>
                                                             <div className="HitInfo__distance hidden-xs">
                                                                 <div className="GeoDistance"><svg aria-hidden="true" className="GeoDistance__icon"
                                                                     xmlns="http://www.w3.org/2000/svg" width="10" height="14" viewBox="0 0 10 14">
@@ -148,9 +149,9 @@ class SearchProperty extends Component {
                                                                 </svg><span className="GeoDistance__text">1.4 mi to San Diego center</span></div>
                                                             </div>
                                                             <div className="HitInfo__details">
-                                                                <div className="Details__propertyType Details__item">{capitalizeFirstLetter(result.PROP_TYPE)}</div>
-                                                                <div className="Details__bathrooms text-capitalize Details__label">{result.PROP_NO_BEDROOM} BA</div>
-                                                                <div className="Details__sleeps Details__label">Sleeps {result.PROP_GUEST_COUNT}</div>
+                                                                <div className="Details__propertyType Details__item">{capitalizeFirstLetter(result.proptype)}</div>
+                                                                <div className="Details__bathrooms text-capitalize Details__label">{result.propbedroom} BA</div>
+                                                                <div className="Details__sleeps Details__label">Sleeps {result.propguestcount}</div>
                                                                 <div className="Details__area Details__item Details__label"><span className="Details__value">200</span><span
                                                                     className="text-capitalize">Sq. Ft.</span></div>
                                                             </div>
@@ -165,7 +166,7 @@ class SearchProperty extends Component {
                                                                             <path d="M6.9,8.9l-0.5,5.9c0,0.6,0.2,0.7,0.5,0.2l5.6-7c0.3-0.4,0.2-0.8-0.4-0.8h-3l0.5-5.9 c0-0.6-0.2-0.7-0.5-0.2l-5.6,7C3.1,8.5,3.3,8.9,3.9,8.9H6.9z"></path>
                                                                         </svg>
                                                                     </span></span><span className="Price"><span className="Price__value"
-                                                                        data-wdio="Price" data-price="89">$&nbsp;{result.PROP_BASE_RATE}</span><span className="Price__period">avg/night</span></span></div>
+                                                                        data-wdio="Price" data-price="89">$&nbsp;{result.propbaserate}</span><span className="Price__period">avg/night</span></span></div>
                                                             </div>
                                                             <div className="HitInfo__badgeRatingGroup"><span className="" style={{ display: "inline-block;", outline: "0;", position: "relative" }}
                                                                 role="button" tabindex="0">

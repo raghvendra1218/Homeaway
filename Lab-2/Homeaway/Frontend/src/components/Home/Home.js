@@ -31,11 +31,6 @@ class Home extends Component {
     }
 
     componentDidMount = () => {
-        // $('#login').on('click', function(){
-        //     $("#login").toggleClass("Dropdown--open");
-        //     $("#login-ul").toggleClass("--open Dropdown__menu");
-        // });
-        // let redirectVar = null;
         if(localStorage.getItem('token')) {
             let currentUser = jwtDecode(localStorage.getItem('token'));
             let user = {
@@ -352,7 +347,8 @@ class Home extends Component {
 function mapDispatchToProps(dispatch) {
     return {
         logoutData: (flag,user,userFlag) => dispatch(logoutData(flag, user,userFlag)),
-        loginData: (flag,user,userFlag) => dispatch(loginData(flag, user,userFlag))
+        loginData: (flag,user,userFlag) => dispatch(loginData(flag, user,userFlag)),
+
     };
 }
 

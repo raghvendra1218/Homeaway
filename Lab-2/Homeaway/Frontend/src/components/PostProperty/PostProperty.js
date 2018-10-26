@@ -41,6 +41,8 @@ class PostProperty extends Component {
                 propStartDate: "",
                 propEndDate: "",
                 propIsPosted: false,
+                isBooked: false,
+                travelerId: ""
             },
             messagediv:""
 

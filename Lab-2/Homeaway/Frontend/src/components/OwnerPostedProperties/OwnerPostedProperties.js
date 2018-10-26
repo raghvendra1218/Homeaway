@@ -4,14 +4,17 @@ import TravelerProfilebar from '../TravelerProfilebar/TravelerProfilebar';
 import "../SearchProperty/searchProperty.css"
 import {capitalizeFirstLetter} from '../../utility';
 import {usaDateFormat} from '../../utility';
+import jwtDecode from 'jwt-decode';
 
 class OwnerPostedProperties extends Component {
+    imageArr = [];
+    // imageArr2 = [];
     constructor(props) {
         super();
         this.state= {
             propertiesBookedResult:[],
             propertiesPosted:[],
-            ownerId: sessionStorage.getItem('ownerId'),
+            ownerId: jwtDecode(localStorage.getItem('token')).userId,
             isPropPostedFetched: false,
             isPropBookedFetched: false
         }
@@ -20,33 +23,69 @@ class OwnerPostedProperties extends Component {
     componentDidMount(){
 
         //Get the properties booked under a particular owner
-        axios.get('http://localhost:3001/ownerpropsbooking', { params: {ownerId:this.state.ownerId}})
+        axios.get('http://localhost:3001/ownerpropsbooking', {
+            params: {ownerId:this.state.ownerId},
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json',
+                'Authorization': localStorage.getItem('token')
+            },
+        })
         .then((response) => {
         //Update the state with the response data    
         this.setState({
                 ...this.state,
-                propertiesBookedResult: this.state.propertiesBookedResult.concat(response.data),
+                propertiesBookedResult: this.state.propertiesBookedResult.concat(response.data.result),
                 isPropBookedFetched : true
         });
+        for(var i=0; i<response.data.result.length;i++){
+            var photoD = response.data.result[i];
+            var photoArray = JSON.parse(photoD.propimages);
+            this.handleGetPhoto(photoArray[0]);
+        }
         console.log("Property Booking Result : "+ JSON.stringify(this.state.propertiesBookedResult));
         })
         .catch( error =>{
         console.log("error:", error);
         });
         //Get the properties owned by a particular Owner
-        axios.get('http://localhost:3001/ownerprops', { params: {ownerId:this.state.ownerId}})
+        axios.get('http://localhost:3001/ownerprops', { 
+            params: {ownerId:this.state.ownerId},
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json',
+                'Authorization': localStorage.getItem('token')
+            },
+        })
             .then((response) => {
             //Update the state with the response data    
             this.setState({
                     ...this.state,
-                    propertiesPosted: this.state.propertiesPosted.concat(response.data),
+                    propertiesPosted: this.state.propertiesPosted.concat(response.data.result),
                     isPropPostedFetched : true
             });
+            for(var i=0; i<response.data.result.length;i++){
+                var photoD = response.data.result[i];
+                var photoArray = JSON.parse(photoD.propimages);
+                this.handleGetPhoto(photoArray[0]);
+            }
             console.log("Property Owned Result : "+ JSON.stringify(this.state.propertiesPosted));
         })
         .catch( error =>{
             console.log("error:", error);
         });
+    }
+
+    handleGetPhoto = (fileName) => {
+        axios.post('http://localhost:3001/download/' + fileName)
+            .then(response => {
+                console.log("Image Res : ", response);
+                let imagePreview = 'data:image/jpg;base64, ' + response.data;
+                this.imageArr.push(imagePreview)
+                this.setState({
+                    getImage: true
+                })
+            });
     }
 
     render() {
@@ -68,7 +107,7 @@ class OwnerPostedProperties extends Component {
                 </div>
             )
         } else {
-            eachPropBookedResult = propertiesBookedResults.map(result => {
+            eachPropBookedResult = propertiesBookedResults.map((result, index) => {
                 // console.log("Each Result Array: ", result);
                 return(
                     <div>
@@ -113,15 +152,16 @@ class OwnerPostedProperties extends Component {
                                                                     <path fill="none" stroke-linecap="round" stroke-linejoin="round" d="M8 23l11-11L8 1"></path>
                                                                 </svg></span>
                                                         </button>
+                                                        <img src={this.imageArr[index]}/>
                                                     </a>
                                                 </div>
-                                                <div className="Hit__info"><a key = {result.PROP_ID} className="a--plain-link Hit__infoLink" onClick ={(event) => {this.propertyDetailHandler(event,result.PROP_ID)}} href={'http://localhost:3000/propertydetail/'+ result.PROP_ID} >
+                                                <div className="Hit__info"><a key = {result._id} className="a--plain-link Hit__infoLink" onClick ={(event) => {this.propertyDetailHandler(event,result._id)}} href={'http://localhost:3000/propertydetail/'+ result._id} >
                                                     <div className="HitInfo HitInfo--desktop">
                                                         <div className="HitInfo__content">
                                                             <div className="HitInfo__viewedUrgency hidden-xs" data-wdio="viewed-urgency-message"><small>Viewed
-                                                            46 times in the last 48 hours</small><span style={{float:"right"}}><strong>Booking Dates: </strong><small>{usaDateFormat(result.BOOK_START_DATE.substring(0, 10))} to {usaDateFormat(result.BOOK_END_DATE.substring(0, 10))} </small></span></div>
+                                                            46 times in the last 48 hours</small><span style={{float:"right"}}><strong>Booking Dates: </strong><small>{usaDateFormat(result.bookstartdate.substring(0, 10))} to {usaDateFormat(result.bookenddate.substring(0, 10))} </small></span></div>
                                                             <h4 className="HitInfo__headline hover-text hidden-xs">
-                                                            {capitalizeFirstLetter(result.PROP_HEADLINE)}</h4>
+                                                            {capitalizeFirstLetter(result.propheadline)}</h4>
                                                             <div className="HitInfo__distance hidden-xs">
                                                                 <div className="GeoDistance"><svg aria-hidden="true" className="GeoDistance__icon"
                                                                     xmlns="http://www.w3.org/2000/svg" width="10" height="14" viewBox="0 0 10 14">
@@ -132,9 +172,9 @@ class OwnerPostedProperties extends Component {
                                                                 </svg><span className="GeoDistance__text">1.4 mi to San Diego center</span></div>
                                                             </div>
                                                             <div className="HitInfo__details">
-                                                                <div className="Details__propertyType Details__item">{capitalizeFirstLetter(result.PROP_TYPE)}</div>
-                                                                <div className="Details__bathrooms text-capitalize Details__label">{result.PROP_NO_BEDROOM} BA</div>
-                                                                <div className="Details__sleeps Details__label">Sleeps {result.PROP_GUEST_COUNT}</div>
+                                                                <div className="Details__propertyType Details__item">{capitalizeFirstLetter(result.proptype)}</div>
+                                                                <div className="Details__bathrooms text-capitalize Details__label">{result.propbedroom} BA</div>
+                                                                <div className="Details__sleeps Details__label">Sleeps {result.propguestcount}</div>
                                                                 <div className="Details__area Details__item Details__label"><span className="Details__value">200</span><span
                                                                     className="text-capitalize">Sq. Ft.</span></div>
                                                             </div>
@@ -149,7 +189,7 @@ class OwnerPostedProperties extends Component {
                                                                             <path d="M6.9,8.9l-0.5,5.9c0,0.6,0.2,0.7,0.5,0.2l5.6-7c0.3-0.4,0.2-0.8-0.4-0.8h-3l0.5-5.9 c0-0.6-0.2-0.7-0.5-0.2l-5.6,7C3.1,8.5,3.3,8.9,3.9,8.9H6.9z"></path>
                                                                         </svg>
                                                                     </span></span><span className="Price"><span className="Price__value"
-                                                                        data-wdio="Price" data-price="89">$&nbsp;{result.PROP_BASE_RATE}</span><span className="Price__period">avg/night</span></span></div>
+                                                                        data-wdio="Price" data-price="89">$&nbsp;{result.propbaserate}</span><span className="Price__period">avg/night</span></span></div>
                                                             </div>
                                                             <div className="HitInfo__badgeRatingGroup"><span className="" style={{ display: "inline-block;", outline: "0;", position: "relative" }}
                                                                 role="button" tabindex="0">
@@ -187,7 +227,7 @@ class OwnerPostedProperties extends Component {
                 </div>
             )
         } else {
-            eachPropPostedResult = propertiesPostedResults.map(propPostedResult => {
+            eachPropPostedResult = propertiesPostedResults.map((propPostedResult, index) => {
                 // console.log("Each Result Array: ", result);
                 return(
                     <div>
@@ -232,15 +272,16 @@ class OwnerPostedProperties extends Component {
                                                                     <path fill="none" stroke-linecap="round" stroke-linejoin="round" d="M8 23l11-11L8 1"></path>
                                                                 </svg></span>
                                                         </button>
+                                                        <img src={this.imageArr[index]}/>
                                                     </a>
                                                 </div>
-                                                <div className="Hit__info"><a key = {propPostedResult.PROP_ID} className="a--plain-link Hit__infoLink" onClick ={(event) => {this.propertyDetailHandler(event,propPostedResult.PROP_ID)}} href={'http://localhost:3000/propertydetail/'+ propPostedResult.PROP_ID} >
+                                                <div className="Hit__info"><a key = {propPostedResult._id} className="a--plain-link Hit__infoLink" onClick ={(event) => {this.propertyDetailHandler(event,propPostedResult._id)}} href={'http://localhost:3000/propertydetail/'+ propPostedResult._id} >
                                                     <div className="HitInfo HitInfo--desktop">
                                                         <div className="HitInfo__content">
                                                             <div className="HitInfo__viewedUrgency hidden-xs" data-wdio="viewed-urgency-message"><small>Viewed
-                                                            46 times in the last 48 hours</small><span style={{float:"right"}}><strong>Available Dates: </strong><small>{usaDateFormat(propPostedResult.PROP_AVAIL_DATE.substring(0, 10))} to {usaDateFormat(propPostedResult.PROP_AVAIL_TILL.substring(0, 10))} </small></span></div>
+                                                            46 times in the last 48 hours</small><span style={{float:"right"}}><strong>Available Dates: </strong><small>{usaDateFormat(propPostedResult.propavaildate.substring(0, 10))} to {usaDateFormat(propPostedResult.propavailtill.substring(0, 10))} </small></span></div>
                                                             <h4 className="HitInfo__headline hover-text hidden-xs">
-                                                            {capitalizeFirstLetter(propPostedResult.PROP_HEADLINE)}</h4>
+                                                            {capitalizeFirstLetter(propPostedResult.propheadline)}</h4>
                                                             <div className="HitInfo__distance hidden-xs">
                                                                 <div className="GeoDistance"><svg aria-hidden="true" className="GeoDistance__icon"
                                                                     xmlns="http://www.w3.org/2000/svg" width="10" height="14" viewBox="0 0 10 14">
@@ -251,9 +292,9 @@ class OwnerPostedProperties extends Component {
                                                                 </svg><span className="GeoDistance__text">1.4 mi to San Diego center</span></div>
                                                             </div>
                                                             <div className="HitInfo__details">
-                                                                <div className="Details__propertyType Details__item">{capitalizeFirstLetter(propPostedResult.PROP_TYPE)}</div>
-                                                                <div className="Details__bathrooms text-capitalize Details__label">{propPostedResult.PROP_NO_BEDROOM} BA</div>
-                                                                <div className="Details__sleeps Details__label">Sleeps {propPostedResult.PROP_GUEST_COUNT}</div>
+                                                                <div className="Details__propertyType Details__item">{capitalizeFirstLetter(propPostedResult.proptype)}</div>
+                                                                <div className="Details__bathrooms text-capitalize Details__label">{propPostedResult.propbedroom} BA</div>
+                                                                <div className="Details__sleeps Details__label">Sleeps {propPostedResult.propguestcount}</div>
                                                                 <div className="Details__area Details__item Details__label"><span className="Details__value">200</span><span
                                                                     className="text-capitalize">Sq. Ft.</span></div>
                                                             </div>
@@ -268,7 +309,7 @@ class OwnerPostedProperties extends Component {
                                                                             <path d="M6.9,8.9l-0.5,5.9c0,0.6,0.2,0.7,0.5,0.2l5.6-7c0.3-0.4,0.2-0.8-0.4-0.8h-3l0.5-5.9 c0-0.6-0.2-0.7-0.5-0.2l-5.6,7C3.1,8.5,3.3,8.9,3.9,8.9H6.9z"></path>
                                                                         </svg>
                                                                     </span></span><span className="Price"><span className="Price__value"
-                                                                        data-wdio="Price" data-price="89">$&nbsp;{propPostedResult.PROP_BASE_RATE}</span><span className="Price__period">avg/night</span></span></div>
+                                                                        data-wdio="Price" data-price="89">$&nbsp;{propPostedResult.propbaserate}</span><span className="Price__period">avg/night</span></span></div>
                                                             </div>
                                                             <div className="HitInfo__badgeRatingGroup"><span className="" style={{ display: "inline-block;", outline: "0;", position: "relative" }}
                                                                 role="button" tabindex="0">

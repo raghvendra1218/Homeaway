@@ -1,275 +1,333 @@
-<div className="pdp-container margin-bottom-sm shadow-bottom-s">
-    <div className="pdp-body-wrapper">
-        <div id="fb-root" className=" fb_reset">
-            <script type="text/javascript" async="true" src="//connect.facebook.net/en_US/sdk.js"></script>
-            <div style={{position: "absolute;", top: "-10000px;", height: "0px;", width: "0px;"}}>
-                <div><iframe name="fb_xdm_frame_https" frameborder="0" allowtransparency="true" allowfullscreen="true"
-                        scrolling="no" allow="encrypted-media" id="fb_xdm_frame_https" aria-hidden="true" title="Facebook Cross Domain Communication Frame"
-                        tabindex="-1" src="https://staticxx.facebook.com/connect/xd_arbiter/r/jeGFvz3E6vx.js?version=42#channel=f392ce402dc3b2c&amp;origin=https%3A%2F%2Fwww.homeaway.com"
-                        style={{border: "none;"}}></iframe></div>
-            </div>
-            <div style={{"position: "absolute;", top: "-10000px;", height: "0px;", width: "0px;"}}>
-                <div></div>
-            </div>
-        </div>
-        <div className="pdp-headline-container container hidden-xs js-headlineContainer">
-            <ul className="nav property-back-nav">
-                <li>
-                    <button href="javascript:void(0)" className="js-backToSearch btn-back-to-search btn btn-sm btn-default ">
-                        <span><i className="icon-chevron-left"></i>Back to Search</span>
-                    </button>
-                </li>
-            </ul>
-            <ol itemscope="" itemtype="http://data-vocabulary.org/Breadcrumb" className="breadcrumb breadcrumb-gt-header hidden-xs js-breadcrumb">
-                <li className="last">
-                    <a href="/results/keywords:Grant+Hill,+San+Diego,+CA,+USA" className="js-breadcrumbLink">Grant Hill,
-                        San Diego, CA, USA</a>
-                    &nbsp;<span className="divider">&gt;</span>
-                </li>
-                <li className="unlinked">
-                    Rental 1210873vb
-                </li>
-            </ol>
-            <div className="headline-messages">
-                <span className="premier-badge js-premierBadge"><span className="premier-badge-label">Premier Partner</span></span>
-                <div className="headline-message">
-                    <div className="superlative-reviews-summary " data-wdio="reviews-summary-pdp-container">
-                        <a href="#reviews">
-                            <span><strong>Wonderful!</strong></span>
-                            <span><strong>4.9/5 - </strong></span>
-                            <div className="rating rating-5" title="Average Rating: 4.9"></div>
-                            <span className="review-count">
-                                (7 traveler reviews)
-                            </span>
-                        </a>
-                    </div>
-                </div>
-                <div className="headline-message hidden-xs ">
-                    <div className="js-freeCancellationComponent free-cancellation-component" style={{display:"none"}}>
-                        <i className="icon-check"></i>
-                        <span><strong>Free Cancellation</strong> until</span>
-                        <strong className="js-freeCancellationDate"></strong>
-                    </div>
-                    <div className="js-freeCancellationPopoverContent" style={{display:"none"}}>
-                        <div className="js-refundPolicies">Reservation must be cancelled by 11:59 AM (property's local
-                            time) on to receive 100% refund. A 50% refund will be given if cancelled by 11:59 AM
-                            (property's local time) on .</div>
-                        Service Fee fully refunded on cancellations that qualify for 100% refund.
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div id="summary" className="page-anchor"></div>
-        <div className="pdp-cap js-pdpCap gt-navbar hidden-xs affix-top">
-            <div className="pdp-cap-inner with-hearting">
-                <div className="pdp-cap-container container">
-                    <div className="row">
-                        <div className="hidden-xs">
-                            <ul className="nav nav-underline section-nav js-propertyNav" role="tablist" data-wdio="pdp-navbar">
-                                <li className="js-sectionNavPill">
-                                    <a href="#summary" data-navtitle="property-summary" data-wdio="navbar-property-summary">
-                                        <i className="icon-home"></i>
-                                        Overview
-                                    </a>
-                                </li>
-                                <li className="js-sectionNavPill">
-                                    <a href="#amenities" data-navtitle="amenities" data-wdio="navbar-amenties">
-                                        <i className="icon-list"></i>
-                                        Amenities
-                                    </a>
-                                </li>
-                                <li className="js-sectionNavPill">
-                                    <a href="#reviews" data-navtitle="reviews" data-wdio="navbar-reviews">
-                                        <i className="icon-star"></i>
-                                        Reviews
-                                    </a>
-                                </li>
-                                <li className="js-sectionNavPill">
-                                    <a href="#map" data-navtitle="map" data-wdio="navbar-map">
-                                        <i className="icon-location"></i>
-                                        Map
-                                    </a>
-                                </li>
-                                <li className="js-sectionNavPill">
-                                    <a href="#photos" data-navtitle="gallery" data-wdio="navbar-gallery">
-                                        <i className="icon-picture"></i>
-                                        Photos
-                                    </a>
-                                </li>
-                                <li className="js-sectionNavPill">
-                                    <a href="#ratesAnchor" data-navtitle="payment" data-wdio="navbar-payment">
-                                        <i className="icon-creditcard"></i>
-                                        Rates &amp; Availability
-                                    </a>
-                                </li>
-                            </ul>
-                        </div>
-                        <div className="visible-md visible-lg">
-                            <ul className="pull-right nav pdp-fav-share-nav js-pdpFavShareNav nav-icon-links with-hearting">
-                                <li className="js-shareComponent">
-                                    <a className="share-button js-shareMenuToggle btn-link hidden-sm hidden-xs" data-toggle="popover"
-                                        href="javascript:void(0)">
-                                        <span>
-                                            Share
-                                        </span>
-                                        <i className="icon-share hidden-sm clickable"></i>
-                                    </a>
-                                    <div className="share-menu js-shareMenu" style="display:none">
-                                        <button type="button" className="share-menu-close js-shareMenuToggle">×</button>
-                                        <div className="share-form">
-                                            <div className="property-preview-container">
-                                                <div className="share-menu-photo" style={{"backgroundImage:url('https://odis.homeaway.com/odis/listing/5721861f-d727-4027-bf49-ffbacf490a1d.c5.jpg')"}}></div>
-                                                <div className="property-details">
-                                                    <h4>Beautifully Upgraded Victorian Property on Slope above Downtown
-                                                        San Diego.</h4>
-                                                    <p>Located in a Historic District on the Slope above Downtown San
-                                                        Diego, this beautiful Queen Ann Victorian accommodates up to 6
-                                                        guests. This unit is completely private with a separate entry,
-                                                        living space, 2 bedrooms, 2 bathrooms, full kitchen, living
-                                                        room, kitchen nook, living area and patio with private BBQ and
-                                                        patio table and chairs. No expense was spared in the design of
-                                                        this highly upgraded unit which features views of the Ocean,
-                                                        Coronado Bridge and the islands off the coast from the
-                                                        property's front porch. No expense was spared in the layout and
-                                                        design of this unit which is modern classNameic. The living area
-                                                        features a Queen size leather pull-out sofa bed, large LED
-                                                        smart TV, dining table and chairs and ceiling fan. The kitchen
-                                                        is beautifully upgraded complete with everything you will need
-                                                        to cook your own meals during your stay with us. The bathrooms
-                                                        are brand new and equipped with plenty of plush towels,
-                                                        shampoo, conditioner, body wash and a blow dryer. There are
-                                                        Queen size beds in each of 2 separate bedrooms. Both Queen beds
-                                                        have memory foam mattresses which are very comfortable. Each
-                                                        bedroom also has a vertical fan, in-wall air conditioner and a
-                                                        high definition LED smart TV with cable access and streaming
-                                                        capability. All 3 televisions have free Netflix access provided
-                                                        free to our Guests. Our property is located just minutes
-                                                        driving distance to the Convention Center, Gas Lamp district,
-                                                        Ball Park, Coronado Island, the Airport, Balboa Park and the
-                                                        Zoo. Freeway access is located around the corner and bus stop
-                                                        transits to and from downtown can be found within a block. All
-                                                        local beaches are within easy driving distance of the property.
-                                                        Some of Golden Hill’s most popular spots such as the Turf Club,
-                                                        Panchitas Bakery, Krakatoa Coffee Shop, Luigi's Pizza and
-                                                        Golden Hill Park are all within easy walking distance. Enjoy a
-                                                        morning cup of coffee and Coronado Bay Bridge views from the
-                                                        patio table and chairs provided on the front porch or BBQ on
-                                                        your own private patio. There is an on-site laundry so check
-                                                        for the coins, laundry detergent and fabric softener tissues we
-                                                        provide in the unit as a complimentary gift and our way of
-                                                        saying thank you. Enjoy these beautiful and unique
-                                                        accommodations while experiencing all the best that San Diego
-                                                        has to offer.
-                                                        Instant Booking - This unit has a Queen size bed in each of 2
-                                                        separate bedrooms. Both beds have memory foam mattresses. There
-                                                        is additionally a Queen size pull out sofa bed in the living
-                                                        area. While this unit is designed to accommodate 6 Guests, it
-                                                        could be a bit challenging if they are all adults. We want to
-                                                        be sure this arrangement will be comfortably accommodate your
-                                                        group.</p>
-                                                </div>
+<section class="Application__filterBar HA_SERP_THREE_PACK">
+    <div class="FilterBar" data-wdio="FilterBar">
+        <div data-wdio="PriceDropdown" class="FilterBar__dropdown PriceDropdown FilterBar__dropdown--selected">
+            <div class="Dropdown Dropdown--open" tabindex="-1" role="presentation"><button class="btn btn-default Dropdown__toggle border-border-color Dropdown__toggle--open btn-rounded"
+                    id="priceFilter" aria-haspopup="true" label="[object Object]" aria-expanded="true" type="button"><span
+                        class="btn__label"><span>$&nbsp;0 - $&nbsp;490</span></span><span class="SVGIcon SVGIcon--12px Dropdown__toggle-icon Dropdown__toggle-icon--open"><svg
+                            data-id="SVG_CHEVRON_DOWN__12" width="12" height="12" viewBox="0 0 12 12" xmlns="http://www.w3.org/2000/svg">
+                            <path fill="none" stroke-linecap="round" stroke-linejoin="round" d="M11 4L6 9 1 4"></path>
+                        </svg></span></button>
+                <ul class="Dropdown__menu Dropdown__menu--open" style="max-height:" role="menu" aria-labelledby="priceFilter">
+                    <div class="DropdownPanel">
+                        <div class="DropdownPanel__content">
+                            <div class="DropdownPanel__children">
+                                <div class="PriceSlider ">
+                                    <div class="PriceSlider__priceLabel"><span class="PriceSlider__priceLabel__values"><span>$&nbsp;0
+                                                - $&nbsp;490</span></span><span class="PriceSlider__priceLabel__perNight"><span>per
+                                                night</span></span></div>
+                                    <div class="PriceSlider__slider" data-wdio="PriceSlider__slider">
+                                        <div class="rc-slider Slider">
+                                            <div class="rc-slider-rail"></div>
+                                            <div class="rc-slider-track rc-slider-track-1" style="visibility: visible; left: 0%; width: 49%;"></div>
+                                            <div class="rc-slider-step"></div>
+                                            <div class="rc-slider-handle-target" role="slider" tabindex="0" data-wdio="rc-slider-handle-target-0"
+                                                style="left:0%">
+                                                <div class="rc-slider-handle rc-slider-handle-1"></div>
                                             </div>
-                                            <div className="share-button-container ">
-                                                <div className="row">
-                                                    <div className="col-xs-6">
-                                                        <a href="http://www.facebook.com/" className="js-facebookShare social-share-link"
-                                                            onclick="popUp=window.open('http://www.facebook.com/sharer.php?u=https://www.homeaway.com/vacation-rental/p1210873vb','popupwindow','width=670,height=340');popUp.focus();return false">
-                                                            <div className="custom-social-button facebook">
-                                                                <i className="icon-facebook" aria-hidden="true"></i>
-                                                            </div>
-                                                            <span className="social-text">Share on Facebook</span>
-                                                        </a>
-                                                    </div>
-                                                    <div className="col-xs-6">
-                                                        <a href="http://www.pinterest.com/" className="js-pinterestShare social-share-link"
-                                                            onclick="popUp=window.open('http://pinterest.com/pin/create/button/?url=https://www.homeaway.com/vacation-rental/p1210873vb&amp;media=https://odis.homeaway.com/odis/listing/5721861f-d727-4027-bf49-ffbacf490a1d.c5.jpg&amp;description=Beautifully Upgraded Victorian Property on Slope above Downtown San Diego.','popupwindow','width=750,height=642');popUp.focus();return false">
-                                                            <div className="custom-social-button pinterest">
-                                                                <i className="icon-pinterest" aria-hidden="true"></i>
-                                                            </div>
-                                                            <span className="social-text">Save to Pinterest</span>
-                                                        </a>
-                                                    </div>
-                                                </div>
-                                                <div className="row">
-                                                    <div className="col-xs-6">
-                                                        <a href="http://twitter.com/share" className="js-twitterShare social-share-link"
-                                                            onclick="popUp=window.open('https://twitter.com/intent/tweet?text=Check out this awesome property I found on @HomeAway!&amp;url=https://www.homeaway.com/vacation-rental/p1210873vb','popupwindow','width=550,height=420');popUp.focus();return false">
-                                                            <div className="custom-social-button twitter">
-                                                                <i className="icon-twitter" aria-hidden="true"></i>
-                                                            </div>
-                                                            <span className="social-text">Tweet about it</span>
-                                                        </a>
-                                                    </div>
-                                                </div>
+                                            <div class="rc-slider-handle-target" role="slider" tabindex="0" data-wdio="rc-slider-handle-target-1"
+                                                aria-valuemin="0" aria-valuemax="1000" aria-valuenow="490"
+                                                aria-disabled="false" style="left: 49%;">
+                                                <div class="rc-slider-handle rc-slider-handle-2"></div>
                                             </div>
-                                            <div className="copy-link-container js-copyLinkComponent">
-                                                <label for="property-url" className="copy-this-link-label">Copy this link
-                                                    to share</label>
-                                                <div className="form-group">
-                                                    <div className="input-group">
-                                                        <div className="input-group-wrapper">
-                                                            <input className="form-control js-copyLinkInput" type="text"
-                                                                value="https://www.homeaway.com/vacation-rental/p1210873vb"
-                                                                readonly=""/>
-                                                        </div>
-                                                        <span className="input-group-btn">
-                                                            <label for="copy-link-button" className="link-copied-button-label">Copied
-                                                                to clipboard</label>
-                                                            <button id="copy-link-button" className="btn btn-default js-copyLinkButton"
-                                                                type="button" data-effect="ripple"
-                                                                data-clipboard-target=".js-copyLinkInput">
-                                                                <span className="copy-button-text">Copy</span>
-                                                                <span className="success-button-text"><i className="icon-check"></i></span>
-                                                            </button>
-                                                        </span>
-                                                    </div>
-                                                </div>
-                                            </div>
+                                            <div class="rc-slider-mark"></div>
                                         </div>
                                     </div>
-                                </li>
-                                <li id="heart-button-nav" className="heart-button-parent">
-                                    <div className="heart-button-container js-heartButtonPDP heart-button-sunset"><button
-                                            data-reactroot="" className="react-trip-board-button react-trip-board-button__outline"
-                                            tabindex="-1">
-                                            <div className="react-trip-board-button__heart-core" tabindex="0"><svg height="15px"
-                                                    viewBox="-1 -1 18 15" width="17px">
-                                                    <path className="react-trip-board-button__heart-core__heart-icon unhearted"
-                                                        d="M14.1294135,7.57785915 L9.1813451,12.5257519 C8.40187017,13.3051991 7.13698698,13.3040721 6.35866678,12.5257519 L1.41077405,7.57785915 C0.543404248,6.78002342 -8.8817842e-16,5.63564613 -8.8817842e-16,4.3646175 C-8.8817842e-16,1.9541783 1.95395254,0 4.3646175,0 C5.60449125,0 6.72403494,0.517216091 7.51825852,1.3473355 C7.60675643,1.43944557 7.69073914,1.53539356 7.76998089,1.63472794 C7.84989992,1.53539356 7.93365686,1.43944557 8.02170325,1.3473355 C8.81615259,0.517216091 9.93569628,0 11.1753443,0 C13.5860092,8.02060533e-16 15.5399618,1.9541783 15.5399618,4.3646175 C15.5399618,5.63564613 14.9965575,6.78024918 14.1294135,7.57785915 Z"></path>
-                                                </svg></div>
-                                        </button></div>
-                                    <div className="heart-popover js-heartPopover"></div>
-                                    <div className="hidden js-heartPopoverContent">
-                                        <div className="heart-popover-content">
-                                            <button className="heart-popover-close-button card__close hidden-mini js-closeHeartTooltip">
-                                                <svg className="inline-svg heart-popover-close-button__svg" viewBox="0 0 18 18">
-                                                    <g transform="translate(1.000000, 1.000000)">
-                                                        <path d="M0.444444444,0.444444444 L15.5293891,15.5293891"></path>
-                                                        <path d="M15.5293891,0.444444444 L0.444444444,15.5293891"></path>
-                                                    </g>
-                                                </svg>
-                                            </button>
-                                            <div className="heart-popover-title">
-                                                <div className="heart-popover-images js-heart-popover-images">
-                                                </div>
-                                                <div className="heart-popover-text">
-                                                    See more properties you'll love
-                                                </div>
-                                            </div>
-                                            <div className="heart-popover-cta">
-                                                <div className="btn btn-sm btn-default heart-popover-cta-btn">
-                                                    Discover more
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </li>
-                            </ul>
+                                </div>
+                            </div>
+                            <div class="DropdownPanel__buttons"><button class="btn btn-link btn-rounded btn-xs"
+                                    data-wdio="DropdownPanel-clear-button" label="Clear Filters" type="button"><span
+                                        class="btn__label">Clear Filters</span></button><button class="btn btn-primary btn-rounded btn-xs"
+                                    data-wdio="DropdownPanel-apply-button" label="Apply" type="button"><span class="btn__label">Apply</span></button></div>
                         </div>
                     </div>
-                </div>
+                </ul>
             </div>
         </div>
-    </div>
-    <div className="hidden-xs hidden-sm right-rail-ad-spacer"></div>
-</div>
+        <div data-wdio="BedroomsDropdown" class="FilterBar__dropdown BedroomsDropdown FilterBar__dropdown--unselected">
+            <div class="Dropdown" tabindex="-1" role="presentation"><button class="btn btn-default Dropdown__toggle border-border-color btn-rounded"
+                    id="bedroomsFilter" aria-haspopup="true" label="Bedrooms" aria-expanded="false" type="button"><span
+                        class="btn__label">Bedrooms</span><span class="SVGIcon SVGIcon--12px Dropdown__toggle-icon"><svg
+                            data-id="SVG_CHEVRON_DOWN__12" width="12" height="12" viewBox="0 0 12 12" xmlns="http://www.w3.org/2000/svg">
+                            <path fill="none" stroke-linecap="round" stroke-linejoin="round" d="M11 4L6 9 1 4"></path>
+                        </svg></span></button>
+                <ul class="Dropdown__menu" style="max-height:" role="menu" aria-labelledby="bedroomsFilter">
+                    <div class="DropdownPanel">
+                        <div class="DropdownPanel__content">
+                            <div class="DropdownPanel__children">
+                                <div class="BedroomsFilter " data-wdio="BedroomsFilter"><span class="BedroomsFilter--icon"
+                                        aria-hidden="true"><span>
+                                            <svg display="none" width="0" height="0" version="1.1" xmlns="http://www.w3.org/2000/svg">
+                                                <defs>
+                                                    <symbol id="svg-plus" viewBox="0 0 50 50">
+                                                        <title>plus</title>
+                                                        <path d="M50 22H28V0h-6v22H0v6h22v22h6V28h22"></path>
+                                                    </symbol>
+                                                </defs>
+                                            </svg>
+                                        </span></span><span class="BedroomsFilter--icon" aria-hidden="true"><span>
+                                            <svg display="none" width="0" height="0" version="1.1" xmlns="http://www.w3.org/2000/svg">
+                                                <defs>
+                                                    <symbol id="svg-minus" viewBox="0 0 50 50">
+                                                        <title>minus</title>
+                                                        <path d="M0 22.7h50v4.5H0z"></path>
+                                                    </symbol>
+                                                </defs>
+                                            </svg>
+                                        </span></span>
+                                    <div class="BedroomsFilter__QuantitySelector BedroomsFilter--row form-group">
+                                        <div class="quantity-selector" step="1"><label aria-live="polite" class="quantity-selector__label"
+                                                for="bedrooms_filter-quantity"><span class="quantity-selector__custom-label">
+                                                    <div><span class="BedroomsFilter__value">Any</span><span class="BedroomsFilter__label">Bedrooms</span></div>
+                                                </span><input type="number" min="0" max="50" class="quantity-selector__input"
+                                                    id="bedrooms_filter-quantity" value="0">
+                                                <div class="quantity-selector__focus-indicator bg-brand"></div>
+                                            </label><button class="btn btn-icon btn-default quantity-selector__btn quantity-selector__btn--decrease btn-icon-circle"
+                                                label="Decrease bedrooms" type="button" disabled=""><span class="btn__label sr-only">Decrease
+                                                    bedrooms</span><span class="SVGIcon SVGIcon--16px flex-center"><svg
+                                                        data-id="SVG_MINUS__16" width="16" height="16" viewBox="0 0 16 16"
+                                                        xmlns="http://www.w3.org/2000/svg">
+                                                        <path d="M15 8H1" fill="none" fill-rule="evenodd"
+                                                            stroke-linecap="round"></path>
+                                                    </svg></span></button><button class="btn btn-icon btn-default quantity-selector__btn quantity-selector__btn--increase btn-icon-circle"
+                                                label="Increase bedrooms" type="button"><span class="btn__label sr-only">Increase
+                                                    bedrooms</span><span class="SVGIcon SVGIcon--16px flex-center"><svg
+                                                        data-id="SVG_PLUS__16" width="16" height="16" viewBox="0 0 16 16"
+                                                        xmlns="http://www.w3.org/2000/svg">
+                                                        <g fill="none" fill-rule="evenodd" stroke-linecap="round">
+                                                            <path d="M8 1v14M15 8H1"></path>
+                                                        </g>
+                                                    </svg></span></button></div>
+                                    </div>
+                                    <div class="BedroomsFilter__Switch BedroomsFilter--row form-group">
+                                        <div class="switch" role="switch" aria-checked="false"><input type="checkbox"
+                                                id="bedrooms_switch" name="exact bedrooms"><label for="bedrooms_switch"><span
+                                                    class="SVGIcon SVGIcon--24px SVGIcon--inline switch-checked text-white"><svg
+                                                        data-id="SVG_CHECK__24" width="24" height="24" viewBox="0 0 24 24"
+                                                        xmlns="http://www.w3.org/2000/svg">
+                                                        <path transform="scale(1.5, 1.5)" vector-effect="non-scaling-stroke"
+                                                            fill="none" stroke-linecap="round" stroke-linejoin="round"
+                                                            d="M1 9.5L5.7 14 15 2"></path>
+                                                    </svg></span><span class="SVGIcon SVGIcon--24px SVGIcon--inline switch-unchecked text-white"><svg
+                                                        data-id="SVG_CLOSE__24" width="24" height="24" viewBox="0 0 24 24"
+                                                        xmlns="http://www.w3.org/2000/svg">
+                                                        <path transform="scale(1.5, 1.5)" vector-effect="non-scaling-stroke"
+                                                            d="M1 15L15 1m0 14L1 1" fill="none" stroke-linecap="round"
+                                                            stroke-linejoin="round"></path>
+                                                    </svg></span>
+                                                <div class="switch-toggle"></div>
+                                            </label><label for="bedrooms_switch"><span>Use exact match for bedrooms</span></label></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="DropdownPanel__buttons"><button class="btn btn-primary btn-rounded btn-xs"
+                                    data-wdio="DropdownPanel-apply-button" label="Apply" type="button"><span class="btn__label">Apply</span></button></div>
+                        </div>
+                    </div>
+                </ul>
+            </div>
+        </div>
+        <div data-wdio="InstantConfirmationDropdown" class="FilterBar__dropdown InstantConfirmationDropdown FilterBar__dropdown--unselected">
+            <div class="Dropdown" tabindex="-1" role="presentation"><button class="btn btn-default Dropdown__toggle border-border-color btn-rounded"
+                    id="instantConfirmationFilter" aria-haspopup="true" label="Instant Confirmation" aria-expanded="false"
+                    type="button"><span class="btn__label">Instant Confirmation</span><span class="SVGIcon SVGIcon--12px Dropdown__toggle-icon"><svg
+                            data-id="SVG_CHEVRON_DOWN__12" width="12" height="12" viewBox="0 0 12 12" xmlns="http://www.w3.org/2000/svg">
+                            <path fill="none" stroke-linecap="round" stroke-linejoin="round" d="M11 4L6 9 1 4"></path>
+                        </svg></span></button>
+                <ul class="Dropdown__menu" style="max-height:" role="menu" aria-labelledby="instantConfirmationFilter">
+                    <div class="DropdownPanel">
+                        <div class="DropdownPanel__content">
+                            <div class="DropdownPanel__children">
+                                <div class="InstantConfirmationFilter " data-wdio="InstantConfirmationFilter">
+                                    <div class="InstantConfirmationFilter--row form-group">
+                                        <div class="InstantConfirmation__primaryLabel"><span class="InstantBook__icon"
+                                                aria-hidden="true"><span>
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                                        viewBox="0 0 16 16">
+                                                        <path d="M6.9,8.9l-0.5,5.9c0,0.6,0.2,0.7,0.5,0.2l5.6-7c0.3-0.4,0.2-0.8-0.4-0.8h-3l0.5-5.9 c0-0.6-0.2-0.7-0.5-0.2l-5.6,7C3.1,8.5,3.3,8.9,3.9,8.9H6.9z"></path>
+                                                    </svg>
+                                                </span></span><span>Instant Confirmation</span></div>
+                                        <div class="InstantConfirmation__secondaryLabel"><span>Book without waiting for
+                                                owner approval</span></div>
+                                    </div>
+                                    <div class="InstantConfirmationFilter--row form-group" data-wdio="InstantConfirmationFilter__toggle">
+                                        <div class="switch" role="switch" aria-checked="false"><input type="checkbox"
+                                                id="instantConfirmation__switch" name="filter:89"><label for="instantConfirmation__switch"><span
+                                                    class="SVGIcon SVGIcon--24px SVGIcon--inline switch-checked text-white"><svg
+                                                        data-id="SVG_CHECK__24" width="24" height="24" viewBox="0 0 24 24"
+                                                        xmlns="http://www.w3.org/2000/svg">
+                                                        <path transform="scale(1.5, 1.5)" vector-effect="non-scaling-stroke"
+                                                            fill="none" stroke-linecap="round" stroke-linejoin="round"
+                                                            d="M1 9.5L5.7 14 15 2"></path>
+                                                    </svg></span><span class="SVGIcon SVGIcon--24px SVGIcon--inline switch-unchecked text-white"><svg
+                                                        data-id="SVG_CLOSE__24" width="24" height="24" viewBox="0 0 24 24"
+                                                        xmlns="http://www.w3.org/2000/svg">
+                                                        <path transform="scale(1.5, 1.5)" vector-effect="non-scaling-stroke"
+                                                            d="M1 15L15 1m0 14L1 1" fill="none" stroke-linecap="round"
+                                                            stroke-linejoin="round"></path>
+                                                    </svg></span>
+                                                <div class="switch-toggle"></div>
+                                            </label><label for="instantConfirmation__switch"></label></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </ul>
+            </div>
+        </div>
+        <div class="FilterBar__dropdown MoreFiltersPanelDropdown HA_SERP_THREE_PACK HA_SERP_THREE_PACK_V2 FilterBar__dropdown--unselected">
+            <div class="Dropdown HA_SERP_DESKTOP_FILTER_BTN" tabindex="-1" role="presentation"><button class="btn btn-default Dropdown__toggle border-border-color btn-rounded"
+                    id="moreFilters" aria-haspopup="true" label="[object Object]" aria-expanded="false" type="button"><span
+                        class="btn__label"><span class="Icon svg-link-color" aria-hidden="true"><span>
+                                <svg width="20px" height="16px" viewBox="0 0 20 16" version="1.1" xmlns="http://www.w3.org/2000/svg">
+                                    <title>IconSliders</title>
+                                    <g stroke="none" fill-rule="evenodd">
+                                        <path d="M3.09451311,12.25 C3.42754521,10.9560796 4.60212043,10 6,10 C7.39787957,10 8.57245479,10.9560796 8.90548689,12.25 L19.2403984,12.25 C19.6599148,12.25 20,12.5828986 20,13 C20,13.4142136 19.6695492,13.75 19.2403984,13.75 L8.90548689,13.75 C8.57245479,15.0439204 7.39787957,16 6,16 C4.60212043,16 3.42754521,15.0439204 3.09451311,13.75 L0.759601593,13.75 C0.340085217,13.75 0,13.4171014 0,13 C0,12.5857864 0.330450833,12.25 0.759601593,12.25 L3.09451311,12.25 Z M6,15 C7.1045695,15 8,14.1045695 8,13 C8,11.8954305 7.1045695,11 6,11 C4.8954305,11 4,11.8954305 4,13 C4,14.1045695 4.8954305,15 6,15 Z"></path>
+                                        <path d="M11.0945131,2.25 C11.4275452,0.95607959 12.6021204,0 14,0 C15.3978796,0 16.5724548,0.95607959 16.9054869,2.25 L19.2403984,2.25 C19.6599148,2.25 20,2.58289862 20,3 C20,3.41421356 19.6695492,3.75 19.2403984,3.75 L16.9054869,3.75 C16.5724548,5.04392041 15.3978796,6 14,6 C12.6021204,6 11.4275452,5.04392041 11.0945131,3.75 L0.759601593,3.75 C0.340085217,3.75 0,3.41710138 0,3 C0,2.58578644 0.330450833,2.25 0.759601593,2.25 L11.0945131,2.25 Z M14,5 C15.1045695,5 16,4.1045695 16,3 C16,1.8954305 15.1045695,1 14,1 C12.8954305,1 12,1.8954305 12,3 C12,4.1045695 12.8954305,5 14,5 Z"></path>
+                                    </g>
+                                </svg>
+                            </span></span>More Filters </span></button>
+                <ul class="Dropdown__menu" style="max-height:" role="menu" aria-labelledby="moreFilters">
+                    <div class="MoreFiltersPanel" data-wdio="MoreFiltersPanel">
+                        <div tabindex="0" class="MoreFiltersPanel__content HA_SERP_THREE_PACK">
+                            <div class="MoreFiltersPanel__column HA_SERP_THREE_PACK MoreFiltersPanel__column--left">
+                                <div class="PriceSlider MoreFiltersPanel__item">
+                                    <div class="PriceSlider__priceLabel"><span class="PriceSlider__priceLabel__values"><span>$&nbsp;0
+                                                - $&nbsp;490</span></span><span class="PriceSlider__priceLabel__perNight"><span>per
+                                                night</span></span></div>
+                                    <div class="PriceSlider__slider" data-wdio="PriceSlider__slider">
+                                        <div class="rc-slider Slider">
+                                            <div class="rc-slider-rail"></div>
+                                            <div class="rc-slider-track rc-slider-track-1" style="visibility: visible; left: 0%; width: 49%;"></div>
+                                            <div class="rc-slider-step"></div>
+                                            <div class="rc-slider-handle-target" role="slider" tabindex="0" data-wdio="rc-slider-handle-target-0"
+                                                style="left:0%">
+                                                <div class="rc-slider-handle rc-slider-handle-1"></div>
+                                            </div>
+                                            <div class="rc-slider-handle-target" role="slider" tabindex="0" data-wdio="rc-slider-handle-target-1"
+                                                aria-valuemin="0" aria-valuemax="1000" aria-valuenow="490"
+                                                aria-disabled="false" style="left: 49%;">
+                                                <div class="rc-slider-handle rc-slider-handle-2"></div>
+                                            </div>
+                                            <div class="rc-slider-mark"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="BedroomsFilter MoreFiltersPanel__item" data-wdio="BedroomsFilter"><span
+                                        class="BedroomsFilter--icon" aria-hidden="true"><span>
+                                            <svg display="none" width="0" height="0" version="1.1" xmlns="http://www.w3.org/2000/svg">
+                                                <defs>
+                                                    <symbol id="svg-plus" viewBox="0 0 50 50">
+                                                        <title>plus</title>
+                                                        <path d="M50 22H28V0h-6v22H0v6h22v22h6V28h22"></path>
+                                                    </symbol>
+                                                </defs>
+                                            </svg>
+                                        </span></span><span class="BedroomsFilter--icon" aria-hidden="true"><span>
+                                            <svg display="none" width="0" height="0" version="1.1" xmlns="http://www.w3.org/2000/svg">
+                                                <defs>
+                                                    <symbol id="svg-minus" viewBox="0 0 50 50">
+                                                        <title>minus</title>
+                                                        <path d="M0 22.7h50v4.5H0z"></path>
+                                                    </symbol>
+                                                </defs>
+                                            </svg>
+                                        </span></span>
+                                    <div class="BedroomsFilter__QuantitySelector BedroomsFilter--row form-group">
+                                        <div class="quantity-selector" step="1"><label aria-live="polite" class="quantity-selector__label"
+                                                for="bedrooms_filter-quantity"><span class="quantity-selector__custom-label">
+                                                    <div><span class="BedroomsFilter__value">Any</span><span class="BedroomsFilter__label">Bedrooms</span></div>
+                                                </span><input type="number" min="0" max="50" class="quantity-selector__input"
+                                                    id="bedrooms_filter-quantity" value="0">
+                                                <div class="quantity-selector__focus-indicator bg-brand"></div>
+                                            </label><button class="btn btn-icon btn-default quantity-selector__btn quantity-selector__btn--decrease btn-icon-circle"
+                                                label="Decrease bedrooms" type="button" disabled=""><span class="btn__label sr-only">Decrease
+                                                    bedrooms</span><span class="SVGIcon SVGIcon--16px flex-center"><svg
+                                                        data-id="SVG_MINUS__16" width="16" height="16" viewBox="0 0 16 16"
+                                                        xmlns="http://www.w3.org/2000/svg">
+                                                        <path d="M15 8H1" fill="none" fill-rule="evenodd"
+                                                            stroke-linecap="round"></path>
+                                                    </svg></span></button><button class="btn btn-icon btn-default quantity-selector__btn quantity-selector__btn--increase btn-icon-circle"
+                                                label="Increase bedrooms" type="button"><span class="btn__label sr-only">Increase
+                                                    bedrooms</span><span class="SVGIcon SVGIcon--16px flex-center"><svg
+                                                        data-id="SVG_PLUS__16" width="16" height="16" viewBox="0 0 16 16"
+                                                        xmlns="http://www.w3.org/2000/svg">
+                                                        <g fill="none" fill-rule="evenodd" stroke-linecap="round">
+                                                            <path d="M8 1v14M15 8H1"></path>
+                                                        </g>
+                                                    </svg></span></button></div>
+                                    </div>
+                                    <div class="BedroomsFilter__Switch BedroomsFilter--row form-group">
+                                        <div class="switch" role="switch" aria-checked="false"><input type="checkbox"
+                                                id="bedrooms_switch" name="exact bedrooms"><label for="bedrooms_switch"><span
+                                                    class="SVGIcon SVGIcon--24px SVGIcon--inline switch-checked text-white"><svg
+                                                        data-id="SVG_CHECK__24" width="24" height="24" viewBox="0 0 24 24"
+                                                        xmlns="http://www.w3.org/2000/svg">
+                                                        <path transform="scale(1.5, 1.5)" vector-effect="non-scaling-stroke"
+                                                            fill="none" stroke-linecap="round" stroke-linejoin="round"
+                                                            d="M1 9.5L5.7 14 15 2"></path>
+                                                    </svg></span><span class="SVGIcon SVGIcon--24px SVGIcon--inline switch-unchecked text-white"><svg
+                                                        data-id="SVG_CLOSE__24" width="24" height="24" viewBox="0 0 24 24"
+                                                        xmlns="http://www.w3.org/2000/svg">
+                                                        <path transform="scale(1.5, 1.5)" vector-effect="non-scaling-stroke"
+                                                            d="M1 15L15 1m0 14L1 1" fill="none" stroke-linecap="round"
+                                                            stroke-linejoin="round"></path>
+                                                    </svg></span>
+                                                <div class="switch-toggle"></div>
+                                            </label><label for="bedrooms_switch"><span>Use exact match for bedrooms</span></label></div>
+                                    </div>
+                                </div>
+                                <div class="BathroomsFilter MoreFiltersPanel__item" data-wdio="BathroomsFilter"><span
+                                        class="BathroomsFilter__icon" aria-hidden="true"><span>
+                                            <svg display="none" width="0" height="0" version="1.1" xmlns="http://www.w3.org/2000/svg">
+                                                <defs>
+                                                    <symbol id="svg-plus" viewBox="0 0 50 50">
+                                                        <title>plus</title>
+                                                        <path d="M50 22H28V0h-6v22H0v6h22v22h6V28h22"></path>
+                                                    </symbol>
+                                                </defs>
+                                            </svg>
+                                        </span></span><span class="BathroomsFilter__icon" aria-hidden="true"><span>
+                                            <svg display="none" width="0" height="0" version="1.1" xmlns="http://www.w3.org/2000/svg">
+                                                <defs>
+                                                    <symbol id="svg-minus" viewBox="0 0 50 50">
+                                                        <title>minus</title>
+                                                        <path d="M0 22.7h50v4.5H0z"></path>
+                                                    </symbol>
+                                                </defs>
+                                            </svg>
+                                        </span></span>
+                                    <div class="BathroomsFilter__QuantitySelector BathroomsFilter__row form-group">
+                                        <div class="quantity-selector" step="1"><label aria-live="polite" class="quantity-selector__label"
+                                                for="BathroomsFilter__quantity"><span class="quantity-selector__custom-label">
+                                                    <div><span class="BathroomsFilter__value">Any</span><span class="BathroomsFilter__label">Bathrooms</span></div>
+                                                </span><input type="number" min="0" max="50" class="quantity-selector__input"
+                                                    id="BathroomsFilter__quantity" value="0">
+                                                <div class="quantity-selector__focus-indicator bg-brand"></div>
+                                            </label><button class="btn btn-icon btn-default quantity-selector__btn quantity-selector__btn--decrease btn-icon-circle"
+                                                disabled="" label="Decrease bathrooms" type="button"><span class="btn__label sr-only">Decrease
+                                                    bathrooms</span><span class="SVGIcon SVGIcon--16px flex-center"><svg
+                                                        data-id="SVG_MINUS__16" width="16" height="16" viewBox="0 0 16 16"
+                                                        xmlns="http://www.w3.org/2000/svg">
+                                                        <path d="M15 8H1" fill="none" fill-rule="evenodd"
+                                                            stroke-linecap="round"></path>
+                                                    </svg></span></button><button class="btn btn-icon btn-default quantity-selector__btn quantity-selector__btn--increase btn-icon-circle"
+                                                label="Increase bathrooms" type="button"><span class="btn__label sr-only">Increase
+                                                    bathrooms</span><span class="SVGIcon SVGIcon--16px flex-center"><svg
+                                                        data-id="SVG_PLUS__16" width="16" height="16" viewBox="0 0 16 16"
+                                                        xmlns="http://www.w3.org/2000/svg">
+                                                        <g fill="none" fill-rule="evenodd" stroke-linecap="round">
+                                                            <path d="M8 1v14M15 8H1"></path>
+                                                        </g>
+                                                    </svg></span></button></div>
+                                    </div>
+                                </div>
+                                <div class="InstantConfirmationFilter MoreFiltersPanel__item" data-wdio="InstantConfirmationFilter">
+                                    <div class="InstantConfirmationFilter--row form-group">
+                                        <div class="InstantConfirmation__primaryLabel"><span class="InstantBook__icon"
+                                                aria-hidden="true"><span>
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                                        viewBox="0 0 16 16">
+                                                        <path d="M6.9,8.9l-0.5,5.9c0,0.6,0.2,0.7,0.5,0.2l5.6-7c0.3-0.4,0.2-0.8-0.4-0.8h-3l0.5-5.9 c0-0.6-0.2-0.7-0.5-0.2l-5.6,7C3.1,8.5,3.3,8.9,3.9,8.9H6.9z"></path>
+                                                    </svg>
+                                                    </span></span><span>Instant Confirmation</span></div><div class="InstantConfirmation__secondaryLabel"><span>Book without waiting for owner approval</span></div></div><div class="InstantConfirmationFilter--row form-group" data-wdio="InstantConfirmationFilter__toggle"><div class="switch" role="switch" aria-checked="false"><input type="checkbox" id="moreFiltersConfirmation__switch" name="filter:89"><label for="moreFiltersConfirmation__switch"><span class="SVGIcon SVGIcon--24px SVGIcon--inline switch-checked text-white"><svg data-id="SVG_CHECK__24" width="24" height="24" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path transform="scale(1.5, 1.5)" vector-effect="non-scaling-stroke" fill="none" stroke-linecap="round" stroke-linejoin="round" d="M1 9.5L5.7 14 15 2"></path></svg></span><span class="SVGIcon SVGIcon--24px SVGIcon--inline switch-unchecked text-white"><svg data-id="SVG_CLOSE__24" width="24" height="24" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path transform="scale(1.5, 1.5)" vector-effect="non-scaling-stroke" d="M1 15L15 1m0 14L1 1" fill="none" stroke-linecap="round" stroke-linejoin="round"></path></svg></span><div class="switch-toggle"></div></label><label for="moreFiltersConfirmation__switch"></label></div></div></div></div><div class="MoreFiltersPanel__column HA_SERP_THREE_PACK"><div class="MoreFiltersPanelGroup" data-wdio="MoreFilterGroup_3"><div class="MoreFilters__filterGroup" data-wdio="MoreorLess_3"><div id="MoreFilters--3" class="MoreOrLess MoreOrLess--block"><div class="CollapseBase" style="max-height: 308px;"><div class="CollapseBase__content"><div class="FilterGroup"><h3 class="FilterGroup__label">Location</h3><div class="form-group checkbox-group checkbox-group-sm" role="checkbox" aria-checked="false"><label><input type="checkbox" class="checkbox" data-wdio="checkbox__filter:31" name="filter:31"><div class="toggle"><span class="SVGIcon SVGIcon--16px SVGIcon--inline text-white"><svg data-id="SVG_CHECK__16" width="16" height="16" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg"><path fill="none" stroke-linecap="round" stroke-linejoin="round" d="M1 9.5L5.7 14 15 2"></path></svg></span></div><span class="label-text">Beach view</span></label></div><div class="form-group checkbox-group checkbox-group-sm" role="checkbox" aria-checked="false"><label><input type="checkbox" class="checkbox" data-wdio="checkbox__filter:37" name="filter:37"><div class="toggle"><span class="SVGIcon SVGIcon--16px SVGIcon--inline text-white"><svg data-id="SVG_CHECK__16" width="16" height="16" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg"><path fill="none" stroke-linecap="round" stroke-linejoin="round" d="M1 9.5L5.7 14 15 2"></path></svg></span></div><span class="label-text">Ocean</span></label></div><div class="form-group checkbox-group checkbox-group-sm" role="checkbox" aria-checked="false"><label><input type="checkbox" class="checkbox" data-wdio="checkbox__filter:33" name="filter:33"><div class="toggle"><span class="SVGIcon SVGIcon--16px SVGIcon--inline text-white"><svg data-id="SVG_CHECK__16" width="16" height="16" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg"><path fill="none" stroke-linecap="round" stroke-linejoin="round" d="M1 9.5L5.7 14 15 2"></path></svg></span></div><span class="label-text">Downtown</span></label></div><div class="form-group checkbox-group checkbox-group-sm" role="checkbox" aria-checked="false"><label><input type="checkbox" class="checkbox" data-wdio="checkbox__filter:32" name="filter:32"><div class="toggle"><span class="SVGIcon SVGIcon--16px SVGIcon--inline text-white"><svg data-id="SVG_CHECK__16" width="16" height="16" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg"><path fill="none" stroke-linecap="round" stroke-linejoin="round" d="M1 9.5L5.7 14 15 2"></path></svg></span></div><span class="label-text">Beachfront</span></label></div><div class="form-group checkbox-group checkbox-group-sm" role="checkbox" aria-checked="false"><label><input type="checkbox" class="checkbox" data-wdio="checkbox__filter:30" name="filter:30"><div class="toggle"><span class="SVGIcon SVGIcon--16px SVGIcon--inline text-white"><svg data-id="SVG_CHECK__16" width="16" height="16" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg"><path fill="none" stroke-linecap="round" stroke-linejoin="round" d="M1 9.5L5.7 14 15 2"></path></svg></span></div><span class="label-text">Beach</span></label></div><div class="form-group checkbox-group checkbox-group-sm" role="checkbox" aria-checked="false"><label><input type="checkbox" class="checkbox" data-wdio="checkbox__filter:91" name="filter:91"><div class="toggle"><span class="SVGIcon SVGIcon--16px SVGIcon--inline text-white"><svg data-id="SVG_CHECK__16" width="16" height="16" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg"><path fill="none" stroke-linecap="round" stroke-linejoin="round" d="M1 9.5L5.7 14 15 2"></path></svg></span></div><span class="label-text">Oceanfront</span></label></div><div class="form-group checkbox-group checkbox-group-sm" role="checkbox" aria-checked="false"><label><input type="checkbox" class="checkbox" data-wdio="checkbox__filter:41" name="filter:41"><div class="toggle"><span class="SVGIcon SVGIcon--16px SVGIcon--inline text-white"><svg data-id="SVG_CHECK__16" width="16" height="16" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg"><path fill="none" stroke-linecap="round" stroke-linejoin="round" d="M1 9.5L5.7 14 15 2"></path></svg></span></div><span class="label-text">Village</span></label></div><div class="form-group checkbox-group checkbox-group-sm" role="checkbox" aria-checked="false"><label><input type="checkbox" class="checkbox" data-wdio="checkbox__filter:42" name="filter:42"><div class="toggle"><span class="SVGIcon SVGIcon--16px SVGIcon--inline text-white"><svg data-id="SVG_CHECK__16" width="16" height="16" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg"><path fill="none" stroke-linecap="round" stroke-linejoin="round" d="M1 9.5L5.7 14 15 2"></path></svg></span></div><span class="label-text">Waterfront</span></label></div><div class="form-group checkbox-group checkbox-group-sm" role="checkbox" aria-checked="false"><label><input type="checkbox" class="checkbox" data-wdio="checkbox__filter:36" name="filter:36"><div class="toggle"><span class="SVGIcon SVGIcon--16px SVGIcon--inline text-white"><svg data-id="SVG_CHECK__16" width="16" height="16" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg"><path fill="none" stroke-linecap="round" stroke-linejoin="round" d="M1 9.5L5.7 14 15 2"></path></svg></span></div><span class="label-text">Mountains</span></label></div><div class="form-group checkbox-group checkbox-group-sm" role="checkbox" aria-checked="false"><label><input type="checkbox" class="checkbox" data-wdio="checkbox__filter:38" name="filter:38"><div class="toggle"><span class="SVGIcon SVGIcon--16px SVGIcon--inline text-white"><svg data-id="SVG_CHECK__16" width="16" height="16" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg"><path fill="none" stroke-linecap="round" stroke-linejoin="round" d="M1 9.5L5.7 14 15 2"></path></svg></span></div><span class="label-text">Rural</span></label></div><div class="form-group checkbox-group checkbox-group-sm" role="checkbox" aria-checked="false"><label><input type="checkbox" class="checkbox" data-wdio="checkbox__filter:40" name="filter:40"><div class="toggle"><span class="SVGIcon SVGIcon--16px SVGIcon--inline text-white"><svg data-id="SVG_CHECK__16" width="16" height="16" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg"><path fill="none" stroke-linecap="round" stroke-linejoin="round" d="M1 9.5L5.7 14 15 2"></path></svg></span></div><span class="label-text">Town</span></label></div><div class="form-group checkbox-group checkbox-group-sm" role="checkbox" aria-checked="false"><label><input type="checkbox" class="checkbox" data-wdio="checkbox__filter:34" name="filter:34"><div class="toggle"><span class="SVGIcon SVGIcon--16px SVGIcon--inline text-white"><svg data-id="SVG_CHECK__16" width="16" height="16" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg"><path fill="none" stroke-linecap="round" stroke-linejoin="round" d="M1 9.5L5.7 14 15 2"></path></svg></span></div><span class="label-text">Golf course</span></label></div><div class="form-group checkbox-group checkbox-group-sm" role="checkbox" aria-checked="false"><label><input type="checkbox" class="checkbox" data-wdio="checkbox__filter:35" name="filter:35"><div class="toggle"><span class="SVGIcon SVGIcon--16px SVGIcon--inline text-white"><svg data-id="SVG_CHECK__16" width="16" height="16" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg"><path fill="none" stroke-linecap="round" stroke-linejoin="round" d="M1 9.5L5.7 14 15 2"></path></svg></span></div><span class="label-text">Lake</span></label></div><div class="form-group checkbox-group checkbox-group-sm disabled" role="checkbox" aria-checked="false"><label><input type="checkbox" class="checkbox" data-wdio="checkbox__filter:39" name="filter:39" disabled=""><div class="toggle"></div><span class="label-text">Ski-in/ski-out</span></label></div></div></div></div><button aria-expanded="false" aria-controls="MoreFilters--3" aria-hidden="true" class="text-link MoreOrLess__toggle MoreOrLess__toggle--block"><span class="MoreOrLess__toggle-text"><span>More</span></span></button></div></div></div><div class="MoreFiltersPanelGroup" data-wdio="MoreFilterGroup_4"><div class="MoreFilters__filterGroup"><div class="FilterGroup"><h3 class="FilterGroup__label">Properties good for</h3><div class="form-group checkbox-group checkbox-group-sm" role="checkbox" aria-checked="false"><label><input type="checkbox" class="checkbox" data-wdio="checkbox__filter:43" name="filter:43"><div class="toggle"><span class="SVGIcon SVGIcon--16px SVGIcon--inline text-white"><svg data-id="SVG_CHECK__16" width="16" height="16" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg"><path fill="none" stroke-linecap="round" stroke-linejoin="round" d="M1 9.5L5.7 14 15 2"></path></svg></span></div><span class="label-text">Families with kids</span></label></div><div class="form-group checkbox-group checkbox-group-sm" role="checkbox" aria-checked="false"><label><input type="checkbox" class="checkbox" data-wdio="checkbox__filter:44" name="filter:44"><div class="toggle"><span class="SVGIcon SVGIcon--16px SVGIcon--inline text-white"><svg data-id="SVG_CHECK__16" width="16" height="16" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg"><path fill="none" stroke-linecap="round" stroke-linejoin="round" d="M1 9.5L5.7 14 15 2"></path></svg></span></div><span class="label-text">Luxury</span></label></div></div></div></div><div class="MoreFiltersPanelGroup" data-wdio="MoreFilterGroup_amenities_title"><div class="MoreFilters__filterGroup"><div class="FilterGroup"><h3 class="FilterGroup__label">House rules</h3><div class="form-group checkbox-group checkbox-group-sm" role="checkbox" aria-checked="false"><label><input type="checkbox" class="checkbox" data-wdio="checkbox__filter:27" name="filter:27"><div class="toggle"><span class="SVGIcon SVGIcon--16px SVGIcon--inline text-white"><svg data-id="SVG_CHECK__16" width="16" height="16" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg"><path fill="none" stroke-linecap="round" stroke-linejoin="round" d="M1 9.5L5.7 14 15 2"></path></svg></span></div><span class="label-text">Pets allowed</span></label></div><div class="form-group checkbox-group checkbox-group-sm" role="checkbox" aria-checked="false"><label><input type="checkbox" class="checkbox" data-wdio="checkbox__filter:29" name="filter:29"><div class="toggle"><span class="SVGIcon SVGIcon--16px SVGIcon--inline text-white"><svg data-id="SVG_CHECK__16" width="16" height="16" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg"><path fill="none" stroke-linecap="round" stroke-linejoin="round" d="M1 9.5L5.7 14 15 2"></path></svg></span></div><span class="label-text">Children welcome</span></label></div><div class="form-group checkbox-group checkbox-group-sm" role="checkbox" aria-checked="false"><label><input type="checkbox" class="checkbox" data-wdio="checkbox__filter:28" name="filter:28"><div class="toggle"><span class="SVGIcon SVGIcon--16px SVGIcon--inline text-white"><svg data-id="SVG_CHECK__16" width="16" height="16" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg"><path fill="none" stroke-linecap="round" stroke-linejoin="round" d="M1 9.5L5.7 14 15 2"></path></svg></span></div><span class="label-text">Smoking allowed</span></label></div><div class="form-group checkbox-group checkbox-group-sm" role="checkbox" aria-checked="false"><label><input type="checkbox" class="checkbox" data-wdio="checkbox__filter:26" name="filter:26"><div class="toggle"><span class="SVGIcon SVGIcon--16px SVGIcon--inline text-white"><svg data-id="SVG_CHECK__16" width="16" height="16" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg"><path fill="none" stroke-linecap="round" stroke-linejoin="round" d="M1 9.5L5.7 14 15 2"></path></svg></span></div><span class="label-text">Events allowed</span></label></div></div></div></div><div class="MoreFiltersPanelGroup" data-wdio="MoreFilterGroup_5"><div class="MoreFilters__filterGroup" data-wdio="MoreorLess_5"><div id="MoreFilters--5" class="MoreOrLess MoreOrLess--block"><div class="CollapseBase" style="max-height: 308px;"><div class="CollapseBase__content"><div class="FilterGroup"><h3 class="FilterGroup__label">Nearby activities</h3><div class="form-group checkbox-group checkbox-group-sm" role="checkbox" aria-checked="false"><label><input type="checkbox" class="checkbox" data-wdio="checkbox__filter:48" name="filter:48"><div class="toggle"><span class="SVGIcon SVGIcon--16px SVGIcon--inline text-white"><svg data-id="SVG_CHECK__16" width="16" height="16" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg"><path fill="none" stroke-linecap="round" stroke-linejoin="round" d="M1 9.5L5.7 14 15 2"></path></svg></span></div><span class="label-text">Golfing</span></label></div><div class="form-group checkbox-group checkbox-group-sm" role="checkbox" aria-checked="false"><label><input type="checkbox" class="checkbox" data-wdio="checkbox__filter:55" name="filter:55"><div class="toggle"><span class="SVGIcon SVGIcon--16px SVGIcon--inline text-white"><svg data-id="SVG_CHECK__16" width="16" height="16" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg"><path fill="none" stroke-linecap="round" stroke-linejoin="round" d="M1 9.5L5.7 14 15 2"></path></svg></span></div><span class="label-text">Skiing/snowboarding</span></label></div><div class="form-group checkbox-group checkbox-group-sm" role="checkbox" aria-checked="false"><label><input type="checkbox" class="checkbox" data-wdio="checkbox__filter:50" name="filter:50"><div class="toggle"><span class="SVGIcon SVGIcon--16px SVGIcon--inline text-white"><svg data-id="SVG_CHECK__16" width="16" height="16" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg"><path fill="none" stroke-linecap="round" stroke-linejoin="round" d="M1 9.5L5.7 14 15 2"></path></svg></span></div><span class="label-text">Horseback riding</span></label></div><div class="form-group checkbox-group checkbox-group-sm" role="checkbox" aria-checked="false"><label><input type="checkbox" class="checkbox" data-wdio="checkbox__filter:47" name="filter:47"><div class="toggle"><span class="SVGIcon SVGIcon--16px SVGIcon--inline text-white"><svg data-id="SVG_CHECK__16" width="16" height="16" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg"><path fill="none" stroke-linecap="round" stroke-linejoin="round" d="M1 9.5L5.7 14 15 2"></path></svg></span></div><span class="label-text">Fishing</span></label></div><div class="form-group checkbox-group checkbox-group-sm" role="checkbox" aria-checked="false"><label><input type="checkbox" class="checkbox" data-wdio="checkbox__filter:49" name="filter:49"><div class="toggle"><span class="SVGIcon SVGIcon--16px SVGIcon--inline text-white"><svg data-id="SVG_CHECK__16" width="16" height="16" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg"><path fill="none" stroke-linecap="round" stroke-linejoin="round" d="M1 9.5L5.7 14 15 2"></path></svg></span></div><span class="label-text">Hiking</span></label></div><div class="form-group checkbox-group checkbox-group-sm" role="checkbox" aria-checked="false"><label><input type="checkbox" class="checkbox" data-wdio="checkbox__filter:46" name="filter:46"><div class="toggle"><span class="SVGIcon SVGIcon--16px SVGIcon--inline text-white"><svg data-id="SVG_CHECK__16" width="16" height="16" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg"><path fill="none" stroke-linecap="round" stroke-linejoin="round" d="M1 9.5L5.7 14 15 2"></path></svg></span></div><span class="label-text">Cycling</span></label></div><div class="form-group checkbox-group checkbox-group-sm" role="checkbox" aria-checked="false"><label><input type="checkbox" class="checkbox" data-wdio="checkbox__filter:45" name="filter:45"><div class="toggle"><span class="SVGIcon SVGIcon--16px SVGIcon--inline text-white"><svg data-id="SVG_CHECK__16" width="16" height="16" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg"><path fill="none" stroke-linecap="round" stroke-linejoin="round" d="M1 9.5L5.7 14 15 2"></path></svg></span></div><span class="label-text">Amusement/theme parks</span></label></div><div class="form-group checkbox-group checkbox-group-sm" role="checkbox" aria-checked="false"><label><input type="checkbox" class="checkbox" data-wdio="checkbox__filter:56" name="filter:56"><div class="toggle"><span class="SVGIcon SVGIcon--16px SVGIcon--inline text-white"><svg data-id="SVG_CHECK__16" width="16" height="16" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg"><path fill="none" stroke-linecap="round" stroke-linejoin="round" d="M1 9.5L5.7 14 15 2"></path></svg></span></div><span class="label-text">Tennis</span></label></div><div class="form-group checkbox-group checkbox-group-sm" role="checkbox" aria-checked="false"><label><input type="checkbox" class="checkbox" data-wdio="checkbox__filter:54" name="filter:54"><div class="toggle"><span class="SVGIcon SVGIcon--16px SVGIcon--inline text-white"><svg data-id="SVG_CHECK__16" width="16" height="16" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg"><path fill="none" stroke-linecap="round" stroke-linejoin="round" d="M1 9.5L5.7 14 15 2"></path></svg></span></div><span class="label-text">Shopping &amp; relaxation</span></label></div><div class="form-group checkbox-group checkbox-group-sm" role="checkbox" aria-checked="false"><label><input type="checkbox" class="checkbox" data-wdio="checkbox__filter:58" name="filter:58"><div class="toggle"><span class="SVGIcon SVGIcon--16px SVGIcon--inline text-white"><svg data-id="SVG_CHECK__16" width="16" height="16" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg"><path fill="none" stroke-linecap="round" stroke-linejoin="round" d="M1 9.5L5.7 14 15 2"></path></svg></span></div><span class="label-text">Winery/brewery tours</span></label></div><div class="form-group checkbox-group checkbox-group-sm" role="checkbox" aria-checked="false"><label><input type="checkbox" class="checkbox" data-wdio="checkbox__filter:51" name="filter:51"><div class="toggle"><span class="SVGIcon SVGIcon--16px SVGIcon--inline text-white"><svg data-id="SVG_CHECK__16" width="16" height="16" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg"><path fill="none" stroke-linecap="round" stroke-linejoin="round" d="M1 9.5L5.7 14 15 2"></path></svg></span></div><span class="label-text">Museums &amp; galleries</span></label></div><div class="form-group checkbox-group checkbox-group-sm" role="checkbox" aria-checked="false"><label><input type="checkbox" class="checkbox" data-wdio="checkbox__filter:52" name="filter:52"><div class="toggle"><span class="SVGIcon SVGIcon--16px SVGIcon--inline text-white"><svg data-id="SVG_CHECK__16" width="16" height="16" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg"><path fill="none" stroke-linecap="round" stroke-linejoin="round" d="M1 9.5L5.7 14 15 2"></path></svg></span></div><span class="label-text">Rock/mountain climbing</span></label></div><div class="form-group checkbox-group checkbox-group-sm" role="checkbox" aria-checked="false"><label><input type="checkbox" class="checkbox" data-wdio="checkbox__filter:53" name="filter:53"><div class="toggle"><span class="SVGIcon SVGIcon--16px SVGIcon--inline text-white"><svg data-id="SVG_CHECK__16" width="16" height="16" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg"><path fill="none" stroke-linecap="round" stroke-linejoin="round" d="M1 9.5L5.7 14 15 2"></path></svg></span></div><span class="label-text">Scuba diving/snorkeling</span></label></div><div class="form-group checkbox-group checkbox-group-sm" role="checkbox" aria-checked="false"><label><input type="checkbox" class="checkbox" data-wdio="checkbox__filter:57" name="filter:57"><div class="toggle"><span class="SVGIcon SVGIcon--16px SVGIcon--inline text-white"><svg data-id="SVG_CHECK__16" width="16" height="16" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg"><path fill="none" stroke-linecap="round" stroke-linejoin="round" d="M1 9.5L5.7 14 15 2"></path></svg></span></div><span class="label-text">Watersports</span></label></div></div></div></div><button aria-expanded="false" aria-controls="MoreFilters--5" aria-hidden="true" class="text-link MoreOrLess__toggle MoreOrLess__toggle--block"><span class="MoreOrLess__toggle-text"><span>More</span></span></button></div></div></div><div class="MoreFiltersPanelGroup" data-wdio="MoreFilterGroup_booking_title"><div class="MoreFilters__filterGroup"><div class="FilterGroup"><h3 class="FilterGroup__label">Booking Options</h3><div class="form-group checkbox-group checkbox-group-sm" role="checkbox" aria-checked="false"><label><input type="checkbox" class="checkbox" data-wdio="checkbox__filter:90" name="filter:90"><div class="toggle"><span class="SVGIcon SVGIcon--16px SVGIcon--inline text-white"><svg data-id="SVG_CHECK__16" width="16" height="16" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg"><path fill="none" stroke-linecap="round" stroke-linejoin="round" d="M1 9.5L5.7 14 15 2"></path></svg></span></div><span class="label-text">24 Hour Confirmation</span></label></div></div></div></div></div><div class="MoreFiltersPanel__column HA_SERP_THREE_PACK"><div class="MoreFiltersPanelGroup" data-wdio="MoreFilterGroup_6"><div class="MoreFilters__filterGroup" data-wdio="MoreorLess_6"><div id="MoreFilters--6" class="MoreOrLess MoreOrLess--block"><div style="max-height:308px" class="CollapseBase"><div class="CollapseBase__content"><div class="FilterGroup"><h3 class="FilterGroup__label">Property type</h3><div class="form-group checkbox-group checkbox-group-sm" role="checkbox" aria-checked="false"><label><input type="checkbox" class="checkbox" data-wdio="checkbox__filter:74" name="filter:74"><div class="toggle"><span class="SVGIcon SVGIcon--16px SVGIcon--inline text-white"><svg data-id="SVG_CHECK__16" width="16" height="16" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg"><path fill="none" stroke-linecap="round" stroke-linejoin="round" d="M1 9.5L5.7 14 15 2"></path></svg></span></div><span class="label-text">House</span></label></div><div class="form-group checkbox-group checkbox-group-sm" role="checkbox" aria-checked="false"><label><input type="checkbox" class="checkbox" data-wdio="checkbox__filter:92" name="filter:92"><div class="toggle"><span class="SVGIcon SVGIcon--16px SVGIcon--inline text-white"><svg data-id="SVG_CHECK__16" width="16" height="16" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg"><path fill="none" stroke-linecap="round" stroke-linejoin="round" d="M1 9.5L5.7 14 15 2"></path></svg></span></div><span class="label-text">Apartment/condo</span></label></div><div class="form-group checkbox-group checkbox-group-sm" role="checkbox" aria-checked="false"><label><input type="checkbox" class="checkbox" data-wdio="checkbox__filter:80" name="filter:80"><div class="toggle"><span class="SVGIcon SVGIcon--16px SVGIcon--inline text-white"><svg data-id="SVG_CHECK__16" width="16" height="16" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg"><path fill="none" stroke-linecap="round" stroke-linejoin="round" d="M1 9.5L5.7 14 15 2"></path></svg></span></div><span class="label-text">Studio</span></label></div><div class="form-group checkbox-group checkbox-group-sm" role="checkbox" aria-checked="false"><label><input type="checkbox" class="checkbox" data-wdio="checkbox__filter:82" name="filter:82"><div class="toggle"><span class="SVGIcon SVGIcon--16px SVGIcon--inline text-white"><svg data-id="SVG_CHECK__16" width="16" height="16" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg"><path fill="none" stroke-linecap="round" stroke-linejoin="round" d="M1 9.5L5.7 14 15 2"></path></svg></span></div><span class="label-text">Townhouse</span></label></div><div class="form-group checkbox-group checkbox-group-sm" role="checkbox" aria-checked="false"><label><input type="checkbox" class="checkbox" data-wdio="checkbox__filter:79" name="filter:79"><div class="toggle"><span class="SVGIcon SVGIcon--16px SVGIcon--inline text-white"><svg data-id="SVG_CHECK__16" width="16" height="16" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg"><path fill="none" stroke-linecap="round" stroke-linejoin="round" d="M1 9.5L5.7 14 15 2"></path></svg></span></div><span class="label-text">Resort</span></label></div><div class="form-group checkbox-group checkbox-group-sm" role="checkbox" aria-checked="false"><label><input type="checkbox" class="checkbox" data-wdio="checkbox__filter:69" name="filter:69"><div class="toggle"><span class="SVGIcon SVGIcon--16px SVGIcon--inline text-white"><svg data-id="SVG_CHECK__16" width="16" height="16" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg"><path fill="none" stroke-linecap="round" stroke-linejoin="round" d="M1 9.5L5.7 14 15 2"></path></svg></span></div><span class="label-text">Cottage</span></label></div><div class="form-group checkbox-group checkbox-group-sm" role="checkbox" aria-checked="false"><label><input type="checkbox" class="checkbox" data-wdio="checkbox__filter:64" name="filter:64"><div class="toggle"><span class="SVGIcon SVGIcon--16px SVGIcon--inline text-white"><svg data-id="SVG_CHECK__16" width="16" height="16" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg"><path fill="none" stroke-linecap="round" stroke-linejoin="round" d="M1 9.5L5.7 14 15 2"></path></svg></span></div><span class="label-text">Cabin</span></label></div><div class="form-group checkbox-group checkbox-group-sm" role="checkbox" aria-checked="false"><label><input type="checkbox" class="checkbox" data-wdio="checkbox__filter:63" name="filter:63"><div class="toggle"><span class="SVGIcon SVGIcon--16px SVGIcon--inline text-white"><svg data-id="SVG_CHECK__16" width="16" height="16" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg"><path fill="none" stroke-linecap="round" stroke-linejoin="round" d="M1 9.5L5.7 14 15 2"></path></svg></span></div><span class="label-text">Bungalow</span></label></div><div class="form-group checkbox-group checkbox-group-sm" role="checkbox" aria-checked="false"><label><input type="checkbox" class="checkbox" data-wdio="checkbox__filter:62" name="filter:62"><div class="toggle"><span class="SVGIcon SVGIcon--16px SVGIcon--inline text-white"><svg data-id="SVG_CHECK__16" width="16" height="16" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg"><path fill="none" stroke-linecap="round" stroke-linejoin="round" d="M1 9.5L5.7 14 15 2"></path></svg></span></div><span class="label-text">Boat</span></label></div><div class="form-group checkbox-group checkbox-group-sm" role="checkbox" aria-checked="false"><label><input type="checkbox" class="checkbox" data-wdio="checkbox__filter:83" name="filter:83"><div class="toggle"><span class="SVGIcon SVGIcon--16px SVGIcon--inline text-white"><svg data-id="SVG_CHECK__16" width="16" height="16" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg"><path fill="none" stroke-linecap="round" stroke-linejoin="round" d="M1 9.5L5.7 14 15 2"></path></svg></span></div><span class="label-text">Villa</span></label></div><div class="form-group checkbox-group checkbox-group-sm" role="checkbox" aria-checked="false"><label><input type="checkbox" class="checkbox" data-wdio="checkbox__filter:70" name="filter:70"><div class="toggle"><span class="SVGIcon SVGIcon--16px SVGIcon--inline text-white"><svg data-id="SVG_CHECK__16" width="16" height="16" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg"><path fill="none" stroke-linecap="round" stroke-linejoin="round" d="M1 9.5L5.7 14 15 2"></path></svg></span></div><span class="label-text">Estate</span></label></div><div class="form-group checkbox-group checkbox-group-sm" role="checkbox" aria-checked="false"><label><input type="checkbox" class="checkbox" data-wdio="checkbox__filter:72" name="filter:72"><div class="toggle"><span class="SVGIcon SVGIcon--16px SVGIcon--inline text-white"><svg data-id="SVG_CHECK__16" width="16" height="16" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg"><path fill="none" stroke-linecap="round" stroke-linejoin="round" d="M1 9.5L5.7 14 15 2"></path></svg></span></div><span class="label-text">Guest house</span></label></div><div class="form-group checkbox-group checkbox-group-sm" role="checkbox" aria-checked="false"><label><input type="checkbox" class="checkbox" data-wdio="checkbox__filter:61" name="filter:61"><div class="toggle"><span class="SVGIcon SVGIcon--16px SVGIcon--inline text-white"><svg data-id="SVG_CHECK__16" width="16" height="16" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg"><path fill="none" stroke-linecap="round" stroke-linejoin="round" d="M1 9.5L5.7 14 15 2"></path></svg></span></div><span class="label-text">Bed &amp; breakfast</span></label></div><div class="form-group checkbox-group checkbox-group-sm" role="checkbox" aria-checked="false"><label><input type="checkbox" class="checkbox" data-wdio="checkbox__filter:73" name="filter:73"><div class="toggle"><span class="SVGIcon SVGIcon--16px SVGIcon--inline text-white"><svg data-id="SVG_CHECK__16" width="16" height="16" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg"><path fill="none" stroke-linecap="round" stroke-linejoin="round" d="M1 9.5L5.7 14 15 2"></path></svg></span></div><span class="label-text">Hotel</span></label></div><div class="form-group checkbox-group checkbox-group-sm" role="checkbox" aria-checked="false"><label><input type="checkbox" class="checkbox" data-wdio="checkbox__filter:84" name="filter:84"><div class="toggle"><span class="SVGIcon SVGIcon--16px SVGIcon--inline text-white"><svg data-id="SVG_CHECK__16" width="16" height="16" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg"><path fill="none" stroke-linecap="round" stroke-linejoin="round" d="M1 9.5L5.7 14 15 2"></path></svg></span></div><span class="label-text">Yacht</span></label></div><div class="form-group checkbox-group checkbox-group-sm disabled" role="checkbox" aria-checked="false"><label><input type="checkbox" class="checkbox" data-wdio="checkbox__filter:75" name="filter:75" disabled=""><div class="toggle"></div><span class="label-text">Houseboat</span></label></div><div class="form-group checkbox-group checkbox-group-sm disabled" role="checkbox" aria-checked="false"><label><input type="checkbox" class="checkbox" data-wdio="checkbox__filter:65" name="filter:65" disabled=""><div class="toggle"></div><span class="label-text">Castle</span></label></div><div class="form-group checkbox-group checkbox-group-sm disabled" role="checkbox" aria-checked="false"><label><input type="checkbox" class="checkbox" data-wdio="checkbox__filter:76" name="filter:76" disabled=""><div class="toggle"></div><span class="label-text">Lodge</span></label></div><div class="form-group checkbox-group checkbox-group-sm" role="checkbox" aria-checked="false"><label><input type="checkbox" class="checkbox" data-wdio="checkbox__filter:78" name="filter:78"><div class="toggle"><span class="SVGIcon SVGIcon--16px SVGIcon--inline text-white"><svg data-id="SVG_CHECK__16" width="16" height="16" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg"><path fill="none" stroke-linecap="round" stroke-linejoin="round" d="M1 9.5L5.7 14 15 2"></path></svg></span></div><span class="label-text">Mobile home/caravan</span></label></div><div class="form-group checkbox-group checkbox-group-sm disabled" role="checkbox" aria-checked="false"><label><input type="checkbox" class="checkbox" data-wdio="checkbox__filter:67" name="filter:67" disabled=""><div class="toggle"></div><span class="label-text">Chateau/country house</span></label></div><div class="form-group checkbox-group checkbox-group-sm disabled" role="checkbox" aria-checked="false"><label><input type="checkbox" class="checkbox" data-wdio="checkbox__filter:66" name="filter:66" disabled=""><div class="toggle"></div><span class="label-text">Chalet</span></label></div><div class="form-group checkbox-group checkbox-group-sm disabled" role="checkbox" aria-checked="false"><label><input type="checkbox" class="checkbox" data-wdio="checkbox__filter:71" name="filter:71" disabled=""><div class="toggle"></div><span class="label-text">Farmhouse</span></label></div><div class="form-group checkbox-group checkbox-group-sm disabled" role="checkbox" aria-checked="false"><label><input type="checkbox" class="checkbox" data-wdio="checkbox__filter:60" name="filter:60" disabled=""><div class="toggle"></div><span class="label-text">Barn</span></label></div><div class="form-group checkbox-group checkbox-group-sm disabled" role="checkbox" aria-checked="false"><label><input type="checkbox" class="checkbox" data-wdio="checkbox__filter:77" name="filter:77" disabled=""><div class="toggle"></div><span class="label-text">Mill</span></label></div><div class="form-group checkbox-group checkbox-group-sm disabled" role="checkbox" aria-checked="false"><label><input type="checkbox" class="checkbox" data-wdio="checkbox__filter:81" name="filter:81" disabled=""><div class="toggle"></div><span class="label-text">Tower</span></label></div></div></div></div><button aria-expanded="false" aria-controls="MoreFilters--6" aria-hidden="true" class="text-link MoreOrLess__toggle MoreOrLess__toggle--block"><span class="MoreOrLess__toggle-text"><span>More</span></span></button></div></div></div><div class="MoreFiltersPanelGroup" data-wdio="MoreFilterGroup_1"><div class="MoreFilters__filterGroup" data-wdio="MoreorLess_1"><div id="MoreFilters--1" class="MoreOrLess MoreOrLess--block"><div class="CollapseBase" style="max-height: 308px;"><div class="CollapseBase__content"><div class="FilterGroup"><h3 class="FilterGroup__label">Features &amp; amenities</h3><div class="form-group checkbox-group checkbox-group-sm" role="checkbox" aria-checked="false"><label><input type="checkbox" class="checkbox" data-wdio="checkbox__filter:23" name="filter:23"><div class="toggle"><span class="SVGIcon SVGIcon--16px SVGIcon--inline text-white"><svg data-id="SVG_CHECK__16" width="16" height="16" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg"><path fill="none" stroke-linecap="round" stroke-linejoin="round" d="M1 9.5L5.7 14 15 2"></path></svg></span></div><span class="label-text">Pool</span></label></div><div class="form-group checkbox-group checkbox-group-sm" role="checkbox" aria-checked="false"><label><input type="checkbox" class="checkbox" data-wdio="checkbox__filter:13" name="filter:13"><div class="toggle"><span class="SVGIcon SVGIcon--16px SVGIcon--inline text-white"><svg data-id="SVG_CHECK__16" width="16" height="16" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg"><path fill="none" stroke-linecap="round" stroke-linejoin="round" d="M1 9.5L5.7 14 15 2"></path></svg></span></div><span class="label-text">Internet/WiFi</span></label></div><div class="form-group checkbox-group checkbox-group-sm" role="checkbox" aria-checked="false"><label><input type="checkbox" class="checkbox" data-wdio="checkbox__filter:1" name="filter:1"><div class="toggle"><span class="SVGIcon SVGIcon--16px SVGIcon--inline text-white"><svg data-id="SVG_CHECK__16" width="16" height="16" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg"><path fill="none" stroke-linecap="round" stroke-linejoin="round" d="M1 9.5L5.7 14 15 2"></path></svg></span></div><span class="label-text">Air conditioning</span></label></div><div class="form-group checkbox-group checkbox-group-sm" role="checkbox" aria-checked="false"><label><input type="checkbox" class="checkbox" data-wdio="checkbox__filter:10099" name="filter:10099"><div class="toggle"><span class="SVGIcon SVGIcon--16px SVGIcon--inline text-white"><svg data-id="SVG_CHECK__16" width="16" height="16" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg"><path fill="none" stroke-linecap="round" stroke-linejoin="round" d="M1 9.5L5.7 14 15 2"></path></svg></span></div><span class="label-text">Full Kitchen</span></label></div><div class="form-group checkbox-group checkbox-group-sm" role="checkbox" aria-checked="false"><label><input type="checkbox" class="checkbox" data-wdio="checkbox__filter:12" name="filter:12"><div class="toggle"><span class="SVGIcon SVGIcon--16px SVGIcon--inline text-white"><svg data-id="SVG_CHECK__16" width="16" height="16" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg"><path fill="none" stroke-linecap="round" stroke-linejoin="round" d="M1 9.5L5.7 14 15 2"></path></svg></span></div><span class="label-text">Hot tub</span></label></div><div class="form-group checkbox-group checkbox-group-sm" role="checkbox" aria-checked="false"><label><input type="checkbox" class="checkbox" data-wdio="checkbox__filter:25" name="filter:25"><div class="toggle"><span class="SVGIcon SVGIcon--16px SVGIcon--inline text-white"><svg data-id="SVG_CHECK__16" width="16" height="16" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg"><path fill="none" stroke-linecap="round" stroke-linejoin="round" d="M1 9.5L5.7 14 15 2"></path></svg></span></div><span class="label-text">TV</span></label></div><div class="form-group checkbox-group checkbox-group-sm" role="checkbox" aria-checked="false"><label><input type="checkbox" class="checkbox" data-wdio="checkbox__filter:17" name="filter:17"><div class="toggle"><span class="SVGIcon SVGIcon--16px SVGIcon--inline text-white"><svg data-id="SVG_CHECK__16" width="16" height="16" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg"><path fill="none" stroke-linecap="round" stroke-linejoin="round" d="M1 9.5L5.7 14 15 2"></path></svg></span></div><span class="label-text">Laundry machines</span></label></div><div class="form-group checkbox-group checkbox-group-sm" role="checkbox" aria-checked="false"><label><input type="checkbox" class="checkbox" data-wdio="checkbox__filter:19" name="filter:19"><div class="toggle"><span class="SVGIcon SVGIcon--16px SVGIcon--inline text-white"><svg data-id="SVG_CHECK__16" width="16" height="16" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg"><path fill="none" stroke-linecap="round" stroke-linejoin="round" d="M1 9.5L5.7 14 15 2"></path></svg></span></div><span class="label-text">Outdoor grill/BBQ</span></label></div><div class="form-group checkbox-group checkbox-group-sm" role="checkbox" aria-checked="false"><label><input type="checkbox" class="checkbox" data-wdio="checkbox__filter:21" name="filter:21"><div class="toggle"><span class="SVGIcon SVGIcon--16px SVGIcon--inline text-white"><svg data-id="SVG_CHECK__16" width="16" height="16" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg"><path fill="none" stroke-linecap="round" stroke-linejoin="round" d="M1 9.5L5.7 14 15 2"></path></svg></span></div><span class="label-text">Parking available</span></label></div><div class="form-group checkbox-group checkbox-group-sm" role="checkbox" aria-checked="false"><label><input type="checkbox" class="checkbox" data-wdio="checkbox__filter:5" name="filter:5"><div class="toggle"><span class="SVGIcon SVGIcon--16px SVGIcon--inline text-white"><svg data-id="SVG_CHECK__16" width="16" height="16" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg"><path fill="none" stroke-linecap="round" stroke-linejoin="round" d="M1 9.5L5.7 14 15 2"></path></svg></span></div><span class="label-text">Dishwasher</span></label></div><div class="form-group checkbox-group checkbox-group-sm" role="checkbox" aria-checked="false"><label><input type="checkbox" class="checkbox" data-wdio="checkbox__filter:7" name="filter:7"><div class="toggle"><span class="SVGIcon SVGIcon--16px SVGIcon--inline text-white"><svg data-id="SVG_CHECK__16" width="16" height="16" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg"><path fill="none" stroke-linecap="round" stroke-linejoin="round" d="M1 9.5L5.7 14 15 2"></path></svg></span></div><span class="label-text">Fireplace</span></label></div><div class="form-group checkbox-group checkbox-group-sm" role="checkbox" aria-checked="false"><label><input type="checkbox" class="checkbox" data-wdio="checkbox__filter:8" name="filter:8"><div class="toggle"><span class="SVGIcon SVGIcon--16px SVGIcon--inline text-white"><svg data-id="SVG_CHECK__16" width="16" height="16" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg"><path fill="none" stroke-linecap="round" stroke-linejoin="round" d="M1 9.5L5.7 14 15 2"></path></svg></span></div><span class="label-text">Garden or backyard</span></label></div><div class="form-group checkbox-group checkbox-group-sm" role="checkbox" aria-checked="false"><label><input type="checkbox" class="checkbox" data-wdio="checkbox__filter:2" name="filter:2"><div class="toggle"><span class="SVGIcon SVGIcon--16px SVGIcon--inline text-white"><svg data-id="SVG_CHECK__16" width="16" height="16" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg"><path fill="none" stroke-linecap="round" stroke-linejoin="round" d="M1 9.5L5.7 14 15 2"></path></svg></span></div><span class="label-text">Balcony</span></label></div><div class="form-group checkbox-group checkbox-group-sm" role="checkbox" aria-checked="false"><label><input type="checkbox" class="checkbox" data-wdio="checkbox__filter:3" name="filter:3"><div class="toggle"><span class="SVGIcon SVGIcon--16px SVGIcon--inline text-white"><svg data-id="SVG_CHECK__16" width="16" height="16" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg"><path fill="none" stroke-linecap="round" stroke-linejoin="round" d="M1 9.5L5.7 14 15 2"></path></svg></span></div><span class="label-text">Bed linens provided</span></label></div><div class="form-group checkbox-group checkbox-group-sm" role="checkbox" aria-checked="false"><label><input type="checkbox" class="checkbox" data-wdio="checkbox__filter:10" name="filter:10"><div class="toggle"><span class="SVGIcon SVGIcon--16px SVGIcon--inline text-white"><svg data-id="SVG_CHECK__16" width="16" height="16" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg"><path fill="none" stroke-linecap="round" stroke-linejoin="round" d="M1 9.5L5.7 14 15 2"></path></svg></span></div><span class="label-text">Heated/indoor pool</span></label></div><div class="form-group checkbox-group checkbox-group-sm" role="checkbox" aria-checked="false"><label><input type="checkbox" class="checkbox" data-wdio="checkbox__filter:22" name="filter:22"><div class="toggle"><span class="SVGIcon SVGIcon--16px SVGIcon--inline text-white"><svg data-id="SVG_CHECK__16" width="16" height="16" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg"><path fill="none" stroke-linecap="round" stroke-linejoin="round" d="M1 9.5L5.7 14 15 2"></path></svg></span></div><span class="label-text">Patio or deck</span></label></div><div class="form-group checkbox-group checkbox-group-sm" role="checkbox" aria-checked="false"><label><input type="checkbox" class="checkbox" data-wdio="checkbox__filter:16" name="filter:16"><div class="toggle"><span class="SVGIcon SVGIcon--16px SVGIcon--inline text-white"><svg data-id="SVG_CHECK__16" width="16" height="16" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg"><path fill="none" stroke-linecap="round" stroke-linejoin="round" d="M1 9.5L5.7 14 15 2"></path></svg></span></div><span class="label-text">King-sized bed</span></label></div><div class="form-group checkbox-group checkbox-group-sm" role="checkbox" aria-checked="false"><label><input type="checkbox" class="checkbox" data-wdio="checkbox__filter:20" name="filter:20"><div class="toggle"><span class="SVGIcon SVGIcon--16px SVGIcon--inline text-white"><svg data-id="SVG_CHECK__16" width="16" height="16" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg"><path fill="none" stroke-linecap="round" stroke-linejoin="round" d="M1 9.5L5.7 14 15 2"></path></svg></span></div><span class="label-text">Oven/stove</span></label></div><div class="form-group checkbox-group checkbox-group-sm" role="checkbox" aria-checked="false"><label><input type="checkbox" class="checkbox" data-wdio="checkbox__filter:18" name="filter:18"><div class="toggle"><span class="SVGIcon SVGIcon--16px SVGIcon--inline text-white"><svg data-id="SVG_CHECK__16" width="16" height="16" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg"><path fill="none" stroke-linecap="round" stroke-linejoin="round" d="M1 9.5L5.7 14 15 2"></path></svg></span></div><span class="label-text">Microwave</span></label></div><div class="form-group checkbox-group checkbox-group-sm" role="checkbox" aria-checked="false"><label><input type="checkbox" class="checkbox" data-wdio="checkbox__filter:4" name="filter:4"><div class="toggle"><span class="SVGIcon SVGIcon--16px SVGIcon--inline text-white"><svg data-id="SVG_CHECK__16" width="16" height="16" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg"><path fill="none" stroke-linecap="round" stroke-linejoin="round" d="M1 9.5L5.7 14 15 2"></path></svg></span></div><span class="label-text">Crib</span></label></div><div class="form-group checkbox-group checkbox-group-sm" role="checkbox" aria-checked="false"><label><input type="checkbox" class="checkbox" data-wdio="checkbox__filter:6" name="filter:6"><div class="toggle"><span class="SVGIcon SVGIcon--16px SVGIcon--inline text-white"><svg data-id="SVG_CHECK__16" width="16" height="16" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg"><path fill="none" stroke-linecap="round" stroke-linejoin="round" d="M1 9.5L5.7 14 15 2"></path></svg></span></div><span class="label-text">DVD player</span></label></div><div class="form-group checkbox-group checkbox-group-sm" role="checkbox" aria-checked="false"><label><input type="checkbox" class="checkbox" data-wdio="checkbox__filter:14" name="filter:14"><div class="toggle"><span class="SVGIcon SVGIcon--16px SVGIcon--inline text-white"><svg data-id="SVG_CHECK__16" width="16" height="16" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg"><path fill="none" stroke-linecap="round" stroke-linejoin="round" d="M1 9.5L5.7 14 15 2"></path></svg></span></div><span class="label-text">Iron &amp; ironing board</span></label></div><div class="form-group checkbox-group checkbox-group-sm" role="checkbox" aria-checked="false"><label><input type="checkbox" class="checkbox" data-wdio="checkbox__filter:15" name="filter:15"><div class="toggle"><span class="SVGIcon SVGIcon--16px SVGIcon--inline text-white"><svg data-id="SVG_CHECK__16" width="16" height="16" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg"><path fill="none" stroke-linecap="round" stroke-linejoin="round" d="M1 9.5L5.7 14 15 2"></path></svg></span></div><span class="label-text">Kids' high chair</span></label></div><div class="form-group checkbox-group checkbox-group-sm" role="checkbox" aria-checked="false"><label><input type="checkbox" class="checkbox" data-wdio="checkbox__filter:11" name="filter:11"><div class="toggle"><span class="SVGIcon SVGIcon--16px SVGIcon--inline text-white"><svg data-id="SVG_CHECK__16" width="16" height="16" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg"><path fill="none" stroke-linecap="round" stroke-linejoin="round" d="M1 9.5L5.7 14 15 2"></path></svg></span></div><span class="label-text">Heating</span></label></div><div class="form-group checkbox-group checkbox-group-sm" role="checkbox" aria-checked="false"><label><input type="checkbox" class="checkbox" data-wdio="checkbox__filter:9" name="filter:9"><div class="toggle"><span class="SVGIcon SVGIcon--16px SVGIcon--inline text-white"><svg data-id="SVG_CHECK__16" width="16" height="16" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg"><path fill="none" stroke-linecap="round" stroke-linejoin="round" d="M1 9.5L5.7 14 15 2"></path></svg></span></div><span class="label-text">Gym/fitness equipment</span></label></div><div class="form-group checkbox-group checkbox-group-sm" role="checkbox" aria-checked="false"><label><input type="checkbox" class="checkbox" data-wdio="checkbox__filter:24" name="filter:24"><div class="toggle"><span class="SVGIcon SVGIcon--16px SVGIcon--inline text-white"><svg data-id="SVG_CHECK__16" width="16" height="16" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg"><path fill="none" stroke-linecap="round" stroke-linejoin="round" d="M1 9.5L5.7 14 15 2"></path></svg></span></div><span class="label-text">Private pool</span></label></div></div></div></div><button aria-expanded="false" aria-controls="MoreFilters--1" aria-hidden="true" class="text-link MoreOrLess__toggle MoreOrLess__toggle--block"><span class="MoreOrLess__toggle-text"><span>More</span></span></button></div></div></div><div class="MoreFiltersPanelGroup" data-wdio="MoreFilterGroup_10"><div class="MoreFilters__filterGroup"><div class="FilterGroup"><h3 class="FilterGroup__label">Property reviews</h3><div class="form-group checkbox-group checkbox-group-sm" role="checkbox" aria-checked="false"><label><input type="checkbox" class="checkbox" data-wdio="checkbox__filter:94" name="filter:94"><div class="toggle"><span class="SVGIcon SVGIcon--16px SVGIcon--inline text-white"><svg data-id="SVG_CHECK__16" width="16" height="16" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg"><path fill="none" stroke-linecap="round" stroke-linejoin="round" d="M1 9.5L5.7 14 15 2"></path></svg></span></div><span class="label-text">★★★★★ 5 stars</span></label></div><div class="form-group checkbox-group checkbox-group-sm" role="checkbox" aria-checked="false"><label><input type="checkbox" class="checkbox" data-wdio="checkbox__filter:95" name="filter:95"><div class="toggle"><span class="SVGIcon SVGIcon--16px SVGIcon--inline text-white"><svg data-id="SVG_CHECK__16" width="16" height="16" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg"><path fill="none" stroke-linecap="round" stroke-linejoin="round" d="M1 9.5L5.7 14 15 2"></path></svg></span></div><span class="label-text">★★★★☆ 4+ stars</span></label></div></div></div></div><div class="MoreFiltersPanelGroup" data-wdio="MoreFilterGroup_7"><div class="MoreFilters__filterGroup"><div class="FilterGroup"><h3 class="FilterGroup__label">Safety &amp; accessibility</h3><div class="form-group checkbox-group checkbox-group-sm" role="checkbox" aria-checked="false"><label><input type="checkbox" class="checkbox" data-wdio="checkbox__filter:86" name="filter:86"><div class="toggle"><span class="SVGIcon SVGIcon--16px SVGIcon--inline text-white"><svg data-id="SVG_CHECK__16" width="16" height="16" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg"><path fill="none" stroke-linecap="round" stroke-linejoin="round" d="M1 9.5L5.7 14 15 2"></path></svg></span></div><span class="label-text">Low-allergen environment</span></label></div><div class="form-group checkbox-group checkbox-group-sm" role="checkbox" aria-checked="false"><label><input type="checkbox" class="checkbox" data-wdio="checkbox__filter:87" name="filter:87"><div class="toggle"><span class="SVGIcon SVGIcon--16px SVGIcon--inline text-white"><svg data-id="SVG_CHECK__16" width="16" height="16" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg"><path fill="none" stroke-linecap="round" stroke-linejoin="round" d="M1 9.5L5.7 14 15 2"></path></svg></span></div><span class="label-text">Wheelchair accessible</span></label></div><div class="form-group checkbox-group checkbox-group-sm" role="checkbox" aria-checked="false"><label><input type="checkbox" class="checkbox" data-wdio="checkbox__filter:85" name="filter:85"><div class="toggle"><span class="SVGIcon SVGIcon--16px SVGIcon--inline text-white"><svg data-id="SVG_CHECK__16" width="16" height="16" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg"><path fill="none" stroke-linecap="round" stroke-linejoin="round" d="M1 9.5L5.7 14 15 2"></path></svg></span></div><span class="label-text">Elevator</span></label></div></div></div></div><div class="MoreFiltersPanelGroup" data-wdio="MoreFilterGroup_8"><div class="MoreFilters__filterGroup"><div class="FilterGroup"><h3 class="FilterGroup__label">Services</h3><div class="form-group checkbox-group checkbox-group-sm" role="checkbox" aria-checked="false"><label><input type="checkbox" class="checkbox" data-wdio="checkbox__filter:88" name="filter:88"><div class="toggle"><span class="SVGIcon SVGIcon--16px SVGIcon--inline text-white"><svg data-id="SVG_CHECK__16" width="16" height="16" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg"><path fill="none" stroke-linecap="round" stroke-linejoin="round" d="M1 9.5L5.7 14 15 2"></path></svg></span></div><span class="label-text">Housekeeping</span></label></div></div></div></div></div></div><div class="MoreFiltersPanel__buttons--container"><div class="MoreFiltersPanel__buttons HA_SERP_THREE_PACK"><button class="btn btn-default btn-rounded" id="moreFiltersPanel__btn--cancel" label="Cancel" type="button"><span class="btn__label">Cancel</span></button><button class="btn btn-primary btn-rounded" id="moreFiltersPanel__btn--submit" label="See 300+ Results" type="button"><span class="btn__label">See 300+ Results</span></button></div></div></div></ul></div></div><button class="FilterBar__clear btn btn-link HA_SERP_THREE_PACK invisible" data-wdio="FilterBar__clear"><span>Clear Filters</span></button></div></section>

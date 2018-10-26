@@ -6,7 +6,7 @@ import updateProfileReducer from './updateProfileReducer';
 const rootReducer = combineReducers({
     loginData: loginReducer,
     postProperty : postPropertyReducer,
-    updateProfile : updateProfileReducer
+    updateProfile : updateProfileReducer,
 });
 
 export default rootReducer;

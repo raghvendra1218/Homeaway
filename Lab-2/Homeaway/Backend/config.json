@@ -1,3 +1,7 @@
 {
-    "JWT_KEY" : "secret",
+    "env" : {
+        "MONGO_USERNAME" : "Raghav",
+        "MONGO_PWD" : "superman1",
+        "JWT_KEY" : "secret"
+    }
 }

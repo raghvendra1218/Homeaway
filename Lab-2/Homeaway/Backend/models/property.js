@@ -95,6 +95,31 @@ var propertySchema = new mongoose.Schema({
         type : String,
         required: true,
         default : ""
+    },
+    isBooked :{
+        type : Boolean,
+        required: false,
+        default : false
+    },
+    bookstartdate: {
+        type : Date,
+        required: false,
+        default : "" 
+    },
+    bookenddate: {
+        type : Date,
+        required: false,
+        default : "" 
+    },
+    travelerId :{
+        type : String,
+        required: false,
+        default : ""
+    },
+    propownerId :{
+        type : String,
+        required: true,
+        default : ""
     }
 });
 

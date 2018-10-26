@@ -100,8 +100,9 @@ class EditProfile extends Component {
                                 ...this.state,
                                 userDetails: obj1
                         });
-                        this.props.editProfileData(obj1,true,false);
+                        console.log("OBJ1: ", obj1);
                         localStorage.setItem('token', response.data.token);
+                        this.props.editProfileData(obj1,true,false);
                     }
             });
     }
@@ -273,8 +274,8 @@ class EditProfile extends Component {
         //set the with credentials to true
         axios.defaults.withCredentials = true;
         //make a put request with the user data
-        axios.put('http://localhost:3001/editprofile',{
-        data,
+        axios.put('http://localhost:3001/editprofile',
+        data,{
         headers: {
             'Content-Type': 'application/json',
             'Accept': 'application/json',
