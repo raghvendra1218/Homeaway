@@ -5,6 +5,10 @@ import './propertydetail.css';
 import PropertyDetailsNavbar from './PropertyDetailNavbar';
 import PriceBook from './priceBook';
 import jwtDecode from 'jwt-decode';
+import {propertyDetails} from '../../actions/index';
+import {propertyPosted} from '../../actions/index';
+import {connect} from 'react-redux';
+import { withRouter } from 'react-router-dom';
 
 class PropertyDetail extends Component {
     imageArr = []
@@ -35,6 +39,8 @@ class PropertyDetail extends Component {
                     ...this.state,
                     propertyDetails: this.state.propertyDetails.concat(response.data.result)
             });
+            let obj1 = this.state;
+            this.props.propertyDetails(obj1,false,true);
             for(var i=0; i<response.data.result.length;i++){
                 var photoD = response.data.result[i];
                 var photoArray = JSON.parse(photoD.propimages);
@@ -86,6 +92,8 @@ class PropertyDetail extends Component {
                         ...this.state,
                         isPropertyBooked: true
                     });
+                    let obj1 = this.state;
+                    this.props.propertyPosted(obj1,true,true);
                     console.log("State result: "+ JSON.stringify(this.state.propertyDetails));
                     alert("Property Booked successfully.");
                 } else {
@@ -94,6 +102,8 @@ class PropertyDetail extends Component {
                         ...this.state,
                         isPropertyBooked: false
                     });
+                    let obj1 = this.state;
+                    this.props.propertyPosted(obj1,false, false);
                 };
             })
             .catch( error =>{
@@ -126,4 +136,19 @@ class PropertyDetail extends Component {
     }
 }
 
-export default PropertyDetail;
+function mapDispatchToProps(dispatch) {
+    return {
+        propertyDetails: (propertyDetailData, isBooked, isFetched) => dispatch(propertyDetails(propertyDetailData, isBooked, isFetched)),
+        propertyPosted: (propertyDetailData, isBooked, isFetched) => dispatch(propertyPosted(propertyDetailData, isBooked, isFetched)),
+    };
+}
+
+function mapStateToProps(state) {
+    return{
+        propertyDetailData : state.propertyDetailData,
+    };
+}
+const propertydetail = withRouter(connect(mapStateToProps, mapDispatchToProps)(PropertyDetail));
+export default propertydetail;
+
+// export default PropertyDetail;

@@ -5,6 +5,10 @@ import "../SearchProperty/searchProperty.css"
 import {capitalizeFirstLetter} from '../../utility';
 import {usaDateFormat} from '../../utility';
 import jwtDecode from 'jwt-decode';
+import {ownerBookings} from '../../actions/index';
+import {ownerProperties} from '../../actions/index';
+import {connect} from 'react-redux';
+import { withRouter } from 'react-router-dom';
 
 class OwnerPostedProperties extends Component {
     imageArr = [];
@@ -38,6 +42,8 @@ class OwnerPostedProperties extends Component {
                 propertiesBookedResult: this.state.propertiesBookedResult.concat(response.data.result),
                 isPropBookedFetched : true
         });
+        let obj1 = this.state;
+        this.props.ownerBookings(obj1, true);
         for(var i=0; i<response.data.result.length;i++){
             var photoD = response.data.result[i];
             var photoArray = JSON.parse(photoD.propimages);
@@ -64,6 +70,8 @@ class OwnerPostedProperties extends Component {
                     propertiesPosted: this.state.propertiesPosted.concat(response.data.result),
                     isPropPostedFetched : true
             });
+            let obj2 = this.state;
+            this.props.ownerProperties(obj2, true);
             for(var i=0; i<response.data.result.length;i++){
                 var photoD = response.data.result[i];
                 var photoArray = JSON.parse(photoD.propimages);
@@ -354,4 +362,18 @@ class OwnerPostedProperties extends Component {
 
 }
 
-export default OwnerPostedProperties;
+function mapDispatchToProps(dispatch) {
+    return {
+        ownerBookings: (ownerPropertiesData, isOwnerBookingsFetched) => dispatch(ownerBookings(ownerPropertiesData, isOwnerBookingsFetched)),
+        ownerProperties: (ownerPropertiesData, isOwnerPropertiesFetched) => dispatch(ownerProperties(ownerPropertiesData, isOwnerPropertiesFetched)),
+    };
+}
+
+function mapStateToProps(state) {
+    return{
+        ownerPropertiesData : state.ownerPropertiesData,
+    };
+}
+const ownerpostedproperties = withRouter(connect(mapStateToProps, mapDispatchToProps)(OwnerPostedProperties));
+export default ownerpostedproperties;
+// export default OwnerPostedProperties;

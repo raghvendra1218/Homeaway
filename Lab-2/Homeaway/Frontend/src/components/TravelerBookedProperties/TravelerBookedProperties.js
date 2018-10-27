@@ -5,6 +5,9 @@ import "../SearchProperty/searchProperty.css"
 import {capitalizeFirstLetter} from '../../utility';
 import {usaDateFormat} from '../../utility';
 import jwtDecode from 'jwt-decode';
+import {travelerBookedProperties} from '../../actions/index';
+import {connect} from 'react-redux';
+import { withRouter } from 'react-router-dom';
 
 class TravelerBookedProperties extends Component {
     imageArr = []
@@ -36,6 +39,8 @@ class TravelerBookedProperties extends Component {
                     bookingResults: this.state.bookingResults.concat(response.data.result),
                     isFetched : true
             });
+            let obj1 = this.state;
+            this.props.travelerBookedProperties(obj1, true);
             for(var i=0; i<response.data.result.length;i++){
                 var photoD = response.data.result[i];
                 var photoArray = JSON.parse(photoD.propimages);
@@ -198,4 +203,18 @@ class TravelerBookedProperties extends Component {
 
 }
 
-export default TravelerBookedProperties;
+function mapDispatchToProps(dispatch) {
+    return {
+        travelerBookedProperties: (travelerBookingDetailsData, isFetched) => dispatch(travelerBookedProperties(travelerBookingDetailsData, isFetched)),
+    };
+}
+
+function mapStateToProps(state) {
+    return{
+        travelerBookingDetailsData : state.travelerBookingDetailsData,
+    };
+}
+const travelerbookedproperties = withRouter(connect(mapStateToProps, mapDispatchToProps)(TravelerBookedProperties));
+export default travelerbookedproperties;
+
+// export default TravelerBookedProperties;

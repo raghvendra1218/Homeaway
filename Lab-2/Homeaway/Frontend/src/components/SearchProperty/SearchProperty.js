@@ -4,7 +4,9 @@ import axios from 'axios';
 import Navbar from '../Navbar/Navbar';
 import './searchProperty.css'
 import {capitalizeFirstLetter} from '../../utility';
-
+import {searchProperties} from '../../actions/index';
+import {connect} from 'react-redux';
+import { withRouter } from 'react-router-dom';
 
 class SearchProperty extends Component {
     imageArr = []
@@ -34,6 +36,8 @@ class SearchProperty extends Component {
                     searchResults: this.state.searchResults.concat(response.data.result),
                     isSearched : true
             });
+            let obj1 = this.state;
+            this.props.searchProperties(obj1,true);
             for(var i=0; i<response.data.result.length;i++){
                 var photoD = response.data.result[i] ;
                 // console.log(JSON.stringify(photoD.propimages));
@@ -69,6 +73,7 @@ class SearchProperty extends Component {
     render() {
         //iterate over the searched result data to display each result in the below html skeleton
         let results = this.state.searchResults;
+        // let results = this.props.searchData.searchData.searchResults;
         let eachResult = null;
         if(results.length === 0 && this.state.isSearched) {
             eachResult = (
@@ -208,5 +213,18 @@ class SearchProperty extends Component {
         )
     }
 }
+function mapDispatchToProps(dispatch) {
+    return {
+        searchProperties: (searchData, isFetched) => dispatch(searchProperties(searchData, isFetched)),
+    };
+}
 
-export default SearchProperty;
+function mapStateToProps(state) {
+    return{
+        searchData : state.searchData,
+    };
+}
+const searchproperty = withRouter(connect(mapStateToProps, mapDispatchToProps)(SearchProperty));
+export default searchproperty;
+
+// export default SearchProperty;

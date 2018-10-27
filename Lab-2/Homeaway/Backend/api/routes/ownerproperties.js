@@ -9,7 +9,7 @@ const checkAuth = require('../../middleware/check-auth');
     @param: owner_Id
 */
 
-router.get('/', function(req,res){
+router.get('/', checkAuth, function(req,res){
     console.log("Inside the owner property route.");
     var ownerId = req.query.ownerId;
     propertyModel.find({

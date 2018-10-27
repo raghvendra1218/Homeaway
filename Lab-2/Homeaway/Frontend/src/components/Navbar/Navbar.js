@@ -11,7 +11,7 @@ class Navbar extends Component {
     constructor(props) {
         super()
         this.state = {
-            isTraveler: JSON.parse(sessionStorage.getItem('isTraveler'))
+            isTraveler: jwtDecode(localStorage.getItem('token')).isTraveler
         }
         this.notOwnerHandler = this.notOwnerHandler.bind(this);
         this.handleLogout = this.handleLogout.bind(this);

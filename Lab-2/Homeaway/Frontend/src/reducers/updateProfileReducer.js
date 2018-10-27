@@ -7,7 +7,7 @@ const profileState = {
 export default function (state=profileState,action){
     var newState = {};
     switch (action.type) {
-        case "PROPERTY_POST_DATA":
+        case "PROFILE_DATA":
             // const newState = loginStatusState;
             console.log("at reducer",action.profileData);
             newState  = Object.assign({}, state, { isFetched: action.isFetched, isUpdated: action.isUpdated, profileData: action.profileData});
