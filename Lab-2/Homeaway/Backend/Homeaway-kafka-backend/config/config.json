@@ -1,0 +1,5 @@
+{
+    "MONGODB_MLAB_USERNAME" : "Raghav",
+    "MONGODB_MLAB_PASSWORD" : "superman1",
+    "JWT_KEY" : "secret"
+  }
