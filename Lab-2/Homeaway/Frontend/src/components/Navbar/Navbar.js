@@ -78,7 +78,7 @@ class Navbar extends Component {
                 <div className="dropdown" tabindex="-1" role="presentation">
                 <button aria-haspopup="true" aria-expanded="false" className="site-header-nav__toggle Dropdown__toggle" id="dropdownMenuButton"
                     label="Login" data-toggle="dropdown">
-                    {this.props.userData.loginData.userFirstName.toLocaleUpperCase()}<span aria-hidden="true" className="caret"></span>
+                    {this.props.userData.loginData.userFirstName.toUpperCase()}<span aria-hidden="true" className="caret"></span>
                 </button>
                 <div class="dropdown-menu" aria-labelledby="site-header__login">
                     <ul>

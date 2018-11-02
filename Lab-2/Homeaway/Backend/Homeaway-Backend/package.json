@@ -4,7 +4,8 @@
   "description": "homeawayApp",
   "main": "server.js",
   "scripts": {
-    "test": "mocha"
+    "test": "mocha",
+    "start": "node index.js"
   },
   "author": "Raghvendra Dixit",
   "license": "ISC",

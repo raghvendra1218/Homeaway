@@ -1,4 +1,5 @@
 //Convert a String to First char capital and rest lower
+import _ from "lodash";
 
 export const capitalizeFirstLetter = (str) => {
     if(str === null){
@@ -73,3 +74,11 @@ export const userProfileDateFormat = (str) => {
     return str1;
     
 }
+
+export function paginate(items, pageNumber, pageSize) {
+    const startIndex = (pageNumber - 1) * pageSize;
+    return _(items)
+      .slice(startIndex)
+      .take(pageSize)
+      .value();
+  }

@@ -23,11 +23,14 @@ class PropertyDetail extends Component {
             searchBoxHeadCount : sessionStorage.getItem('searchBoxHeadCount'),
             propertyBookEndDate: sessionStorage.getItem('searchBoxEndDate'),
             isPropertyBooked: false,
-            getImage: false
+            getImage: false,
+            question: ""
         }
         // Bind the handlers to this class
         this.bookPropertyHandler = this.bookPropertyHandler.bind(this);
         this.handleGetPhoto = this.handleGetPhoto.bind(this);
+        this.submitQuestionHandler = this.submitQuestionHandler.bind(this);
+        this.submitQuestionHandler = this.submitQuestionHandler.bind(this);
     }
 
     //get the property details from Back-end  
@@ -65,6 +68,21 @@ class PropertyDetail extends Component {
                     getImage: true
                 })
             });
+    }
+    //Property Headline change handler to update state variable with the text entered by the user
+    questionChangeHandler = (e) => {
+        this.setState({
+            ...this.state,
+            question : e.target.value
+        })
+    }
+    submitQuestionHandler = (e) =>{
+        console.log("Inside the submit Question Handler.");
+        if(this.state.isTraveler) {
+
+        } else {
+            alert("You need to be Logged in as a Traveler");
+        }
     }
 
     bookPropertyHandler =(e) =>{
@@ -126,9 +144,12 @@ class PropertyDetail extends Component {
                     startDate ={this.state.propertyBookStartDate}
                     endDate ={this.state.propertyBookEndDate}
                     headCount = {this.state.searchBoxHeadCount}
+                    questionAsked = {this.state.question}
+                    handleQuestionText = {this.questionChangeHandler}
                     propertyDetails ={propertyRate}
                     bookProperty = {this.bookPropertyHandler}
                     imageArray = {this.imageArr}
+                    submitQuestion = {this.submitQuestionHandler}
                     />
                 </div>
             </div>

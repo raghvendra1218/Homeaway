@@ -65,11 +65,12 @@ function handle_request(msg, callback){
                         //     token : token
                         //     });
                         callback(null,token);
+                    } else {
+                        callback(err,"Auth failed");
                     }
                     // res.status(401).json({
                     //     message: 'Auth failed' 
                     // });
-                    callback(err,"Auth failed");
             })
         // }
     })

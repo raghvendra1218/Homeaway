@@ -2,38 +2,58 @@ import React, { Component } from 'react';
 import SearchNavbar from './SearchNavbar';
 import axios from 'axios';
 import Navbar from '../Navbar/Navbar';
-import './searchProperty.css'
+import './searchProperty.css';
 import {capitalizeFirstLetter} from '../../utility';
+import {paginate} from '../../utility';
 import {searchProperties} from '../../actions/index';
 import {connect} from 'react-redux';
 import { withRouter } from 'react-router-dom';
+import * as Validate from '../../Validations/Validation';
+import FilterNavbar from './FilterNavbar';
+import Pagination from '../Pagination/Pagination';
 
 class SearchProperty extends Component {
     imageArr = []
+    isOnceSet = false; 
     constructor (props) {
         super();
         this.state = {
             searchResults:[],
-            searchBoxCity: sessionStorage.getItem('searchBoxCity'),
-            searchBoxStartDate: sessionStorage.getItem('searchBoxStartDate'),
-            searchBoxEndDate: sessionStorage.getItem('searchBoxEndDate'),
-            searchBoxHeadCount : sessionStorage.getItem('searchBoxHeadCount'),
+            city: sessionStorage.getItem('searchBoxCity'),
+            startDate: sessionStorage.getItem('searchBoxStartDate'),
+            endDate: sessionStorage.getItem('searchBoxEndDate'),
+            headCount : sessionStorage.getItem('searchBoxHeadCount'),
             isSearched: false,
-            getImage: false
+            getImage: false,
+            minPrice: "",
+            maxPrice: "",
+            bedrooms: "",
+            messagediv: "",
+            originalSearchResults: [],
+            currentPage: 1,
+            pageSize: 1,
         }
         // Bind the handlers to this class
         this.propertyDetailHandler = this.propertyDetailHandler.bind(this);
         this.handleGetPhoto = this.handleGetPhoto.bind(this);
+        this.searchCityChangeHandler = this.searchCityChangeHandler.bind(this);
+        this.searchStartDateChangeHandler = this.searchStartDateChangeHandler.bind(this);
+        this.searchEndDateChangeHandler = this.searchEndDateChangeHandler.bind(this);
+        this.searchHeadCountChangeHandler = this.searchHeadCountChangeHandler.bind(this);
+        this.applyBedroomHandler = this.applyBedroomHandler.bind(this);
+        this.searchHandler = this.searchHandler.bind(this);
+        this.PageChangeHandler = this.PageChangeHandler.bind(this);
     }
     
     //get the user details from Back-end  
     componentDidMount(){
-        axios.get('http://localhost:3001/searchprop', { params: {city:this.state.searchBoxCity, startDate: this.state.searchBoxStartDate, endDate: this.state.searchBoxEndDate, headCount: this.state.searchBoxHeadCount}})
+        axios.get('http://localhost:3001/searchprop', { params: {city:this.state.city, startDate: this.state.startDate, endDate: this.state.endDate, headCount: this.state.headCount}})
             .then((response) => {
             //Update the state with the response data    
             this.setState({
                     ...this.state,
                     searchResults: this.state.searchResults.concat(response.data.result),
+                    originalSearchResults: this.state.searchResults.concat(response.data.result),
                     isSearched : true
             });
             let obj1 = this.state;
@@ -63,6 +83,14 @@ class SearchProperty extends Component {
             });
     }
 
+    //Handle Pagination
+    PageChangeHandler = page => {
+        this.setState({
+            ...this.state, 
+            currentPage: page 
+        })
+    };
+
     propertyDetailHandler =(e,propertyId) =>{
         console.log(`Inside Property detail handler of: ${propertyId}`);
         //Get call to fetch the property detail
@@ -70,9 +98,170 @@ class SearchProperty extends Component {
         sessionStorage.setItem('propertyDetailId', propertyId);
     }
 
+    //Search City change handler to update state variable with the text entered by the user
+    searchCityChangeHandler = (e) => {
+        this.setState({
+            ...this.state,
+            city : e.target.value
+        })
+    }
+    //Search Start Date change handler to update state variable with the text entered by the user
+    searchStartDateChangeHandler = (e) => {
+        this.setState({
+            ...this.state,
+            startDate : e.target.value
+        })
+    }
+    //Search End Date change handler to update state variable with the text entered by the user
+    searchEndDateChangeHandler = (e) => {
+        this.setState({
+            ...this.state,
+            endDate : e.target.value
+        })
+    }
+    //Search Head Count change handler to update state variable with the text entered by the user
+    searchHeadCountChangeHandler = (e) => {
+        this.setState({
+            ...this.state,
+            headCount : e.target.value
+        })
+    }
+    //Search Minimum Price change handler to update state variable with the text entered by the user
+    minPriceChangeHandler = (e) => {
+        this.setState({
+            ...this.state,
+            minPrice : e.target.value
+        })
+    }
+    //Search Maximum Price change handler to update state variable with the text entered by the user
+    maxPriceChangeHandler = (e) => {
+        this.setState({
+            ...this.state,
+            maxPrice : e.target.value
+        })
+    }
+    //Search  Bedroom change handler to update state variable with the text entered by the user
+    bedroomChangeHandler = (e) => {
+        this.setState({
+            ...this.state,
+            bedrooms : e.target.value
+        })
+    }
+
+    //Handle Price Filter values 
+    applyPriceHandler = (event) => {
+        event.preventDefault();
+        var obj = this.state.originalSearchResults;
+        if(this.state.bedrooms !== ""){
+            var newresult = obj.filter(result => result.propbaserate >= this.state.minPrice && result.propbaserate <= this.state.maxPrice && result.propbedroom == this.state.bedrooms)
+        } else if(this.state.minPrice === "" || this.state.maxPrice === ""){
+            alert("Please enter both the Minimum and Maximum Price fields");
+            newresult = this.state.originalSearchResults;
+        } else {
+            var newresult = obj.filter(result => result.propbaserate >= this.state.minPrice && result.propbaserate <= this.state.maxPrice);
+        }
+        //Update the searchResults to empty before filling it with new response data 
+        this.setState({
+            ...this.state,
+            searchResults: newresult
+        });
+        let obj1 = this.state;
+        this.props.searchProperties(obj1,true);
+        console.log("State result: "+ JSON.stringify(this.state.searchResults));
+    }
+    //Handle Bedroom Filter values
+ 
+    applyBedroomHandler = (event) => {
+        event.preventDefault(); 
+        var obj = this.state.originalSearchResults;
+        if(this.state.minPrice !== "" && this.state.maxPrice !== ""){
+            var newresult = obj.filter(result => result.propbedroom == this.state.bedrooms && result.propbaserate >= this.state.minPrice && result.propbaserate <= this.state.maxPrice)
+        } else if(this.state.minPrice !== "" || this.state.maxPrice !== "" || this.state.bedrooms === "") {
+            alert("Please enter all the fields");
+            newresult = this.state.originalSearchResults;
+        } else {
+            newresult = obj.filter(result => result.propbedroom == this.state.bedrooms);
+        }
+        //Update the searchResults to empty before filling it with new response data 
+        this.setState({
+            ...this.state,
+            searchResults: newresult
+        });
+        let obj1 = this.state;
+        this.props.searchProperties(obj1,true);
+        console.log("State result: "+ JSON.stringify(this.state.searchResults));
+    }
+    //Search Property handler to send a request to the node back-end
+    searchHandler = (event) => {
+        //prevent page from refresh
+        // event.preventDefault();
+        let valid = Validate.search(this.state);
+        if(valid === '') {
+            sessionStorage.removeItem('searchBoxCity');
+            sessionStorage.removeItem('searchBoxStartDate');
+            sessionStorage.removeItem('searchBoxEndDate');
+            sessionStorage.removeItem('searchBoxHeadCount');
+            sessionStorage.setItem('searchBoxCity',this.state.city);
+            sessionStorage.setItem('searchBoxStartDate', this.state.startDate);
+            sessionStorage.setItem('searchBoxEndDate',this.state.endDate);
+            sessionStorage.setItem('searchBoxHeadCount',this.state.headCount);
+            axios.get('http://localhost:3001/searchprop', { params: {city:this.state.city, startDate: this.state.startDate, endDate: this.state.endDate, headCount: this.state.headCount}})
+            .then((response) => {
+            //Update the searchResults to empty before filling it with new response data 
+            this.setState({
+                ...this.state,
+                searchResults: [],
+                minPrice : "",
+                maxPrice: "",
+                bedrooms: ""
+            }); 
+            this.setState({
+                    ...this.state,
+                    searchResults: this.state.searchResults.concat(response.data.result),
+                    isSearched : true
+            });
+            let obj1 = this.state;
+            this.props.searchProperties(obj1,true);
+            for(var i=0; i<response.data.result.length;i++){
+                var photoD = response.data.result[i] ;
+                // console.log(JSON.stringify(photoD.propimages));
+                var photoArray = JSON.parse(photoD.propimages);
+                this.handleGetPhoto(photoArray[0]);
+            }
+            console.log("State result: "+ JSON.stringify(this.state.searchResults));
+            })
+            .catch( error =>{
+                console.log("error:", error);
+            });
+        } else {
+            this.setState({
+                ...this.state,
+                messagediv: valid
+            });
+            event.preventDefault();
+        }
+    }
+
     render() {
+        let message = null;
+        if(this.state.messagediv !== ''){
+            message = (
+                <div className="clearfix">
+                    <div className="alert alert-info text-center" role="alert">{this.state.messagediv}</div>
+                </div>
+            );
+        } else {
+            message = (
+                <div></div>
+            );
+        }
+        //Pagination code
+        const { length: count } = this.state.searchResults;
+        console.log(count);
+        const { pageSize, currentPage } = this.state;
+        const results = paginate(this.state.searchResults, currentPage, pageSize);
         //iterate over the searched result data to display each result in the below html skeleton
-        let results = this.state.searchResults;
+        // let results = this.state.searchResults;
         // let results = this.props.searchData.searchData.searchResults;
         let eachResult = null;
         if(results.length === 0 && this.state.isSearched) {
@@ -199,16 +388,41 @@ class SearchProperty extends Component {
         return(
             <div>
                 <Navbar/>
+                <div className = "row">
+                    {message}
+                </div>
                 <SearchNavbar
-                    city = {this.state.searchBoxCity}
-                    startDate = {this.state.searchBoxStartDate}
-                    endDate = {this.state.searchBoxEndDate}
-                    headCount = {this.state.searchBoxHeadCount}
+                    city = {this.state.city}
+                    startDate = {this.state.startDate}
+                    endDate = {this.state.endDate}
+                    headCount = {this.state.headCount}
+                    changeCity = {this.searchCityChangeHandler}
+                    changeStartDate = {this.searchStartDateChangeHandler}
+                    changeEndDate = {this.searchEndDateChangeHandler}
+                    changeHeadCount = {this.searchHeadCountChangeHandler}
+                    searchPropHandler = {this.searchHandler}
+                />
+                <FilterNavbar
+                    minimumPrice = {this.state.minPrice}
+                    maximumPrice = {this.state.maxPrice}
+                    numberOfBedroom = {this.state.bedrooms}
+                    changeMinPrice = {this.minPriceChangeHandler}
+                    changeMaxPrice = {this.maxPriceChangeHandler}
+                    changeBedroom = {this.bedroomChangeHandler}
+                    applyPrice = {this.applyPriceHandler}
+                    clearPrice = {this.searchHandler}
+                    applyBedroom = {this.applyBedroomHandler}
                 />
                 {eachResult}
                 {/* <SearchResult
                     results = {this.state.searchResults}
                 /> */}
+                <Pagination
+                    itemsCount={count}
+                    currentPage={currentPage}
+                    pageSize={pageSize}
+                    onPageChange={this.PageChangeHandler}
+                />
             </div>
         )
     }

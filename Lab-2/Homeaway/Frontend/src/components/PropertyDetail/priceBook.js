@@ -102,22 +102,33 @@ const priceBook =(props)=> {
                                                                      onClick={props.bookProperty} data-loading-text="Instant Quote">
                                                                     <span>Book Now</span>
                                                                 </button>
-                                                                <div className="inquiry-button-wrapper">
-                                                                    <button className="btn cta js-emailOwnerButton btn-sm btn-default btn-inquiry btn-inquiry-button ask-question-label">
+                                                                    <div className="prop-desc-txt">
+                                                                        <div className="js-descriptionCollapse collapse">
+                                                                            <div class="form-group">
+                                                                                <label for="comment">Ask Owner a Question</label>
+                                                                                <textarea class="form-control" rows="5" id="comment" value = {props.questionAsked} onChange ={props.handleQuestionText}></textarea>
+                                                                            </div>
+                                                                            <button className="btn btn-book btn-sm btn-default" onClick= {props.submitQuestion}>
+                                                                                <span>
+                                                                                    Submit Question
+                                                                                </span>
+                                                                            </button>
+                                                                        </div>
+                                                                        <a data-toggle="collapse" className="js-descriptionCollapseText" data-target=".js-descriptionCollapse" href="javascript:;">
+                                                                            Ask Owner a Question
+                                                                        </a>
+                                                                    </div>
+                                                                    {/* <div class="form-group">
+                                                                        <label for="comment">Ask Owner a Question:</label>
+                                                                        <textarea class="form-control" rows="5" id="comment"></textarea>
+                                                                    </div>
+                                                                    <button className="btn btn-book btn-sm btn-default">
                                                                         <span>
                                                                             Ask Owner a Question
-                                                </span>
-                                                                    </button>
-                                                                    <a className="btn cta js-emailOwnerButton btn-sm btn-link btn-inquiry-link"
-                                                                        data-wdio="inquiry-button">
-                                                                        <span>
-                                                                            Ask Owner a Question
-                                                </span>
-                                                                    </a>
-                                                                </div>
+                                                                        </span>
+                                                                    </button> */}
                                                             </div>
                                                         </div>
-                                                        <div className="sticky-placeholder js-stickyPlaceholder"></div>
                                                     </div>
                                                 </div>
                                             </div>

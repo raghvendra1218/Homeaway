@@ -13,6 +13,7 @@ import SearchProperty from './SearchProperty/SearchProperty';
 import PropertyDetail from './PropertyDetail/PropertyDetail';
 import TravelerBookedProperties from './TravelerBookedProperties/TravelerBookedProperties';
 import OwnerPostedProperties from './OwnerPostedProperties/OwnerPostedProperties';
+import Inbox from './Inbox/Inbox';
 
 // Create a Main Component
 class Main extends Component {
@@ -31,6 +32,7 @@ class Main extends Component {
                 <Route path="/propertydetail" component={PropertyDetail}/>
                 <Route path="/travelertrips" component={TravelerBookedProperties}/>
                 <Route path="/ownerpostings" component={OwnerPostedProperties}/>
+                <Route path="/inbox" component={Inbox}/>
             </div>
         )
     }

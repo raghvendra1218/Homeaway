@@ -8,6 +8,7 @@ import jwtDecode from 'jwt-decode';
 import {travelerBookedProperties} from '../../actions/index';
 import {connect} from 'react-redux';
 import { withRouter } from 'react-router-dom';
+import PropertySearchBar from './PropertySearchBar';
 
 class TravelerBookedProperties extends Component {
     imageArr = []
@@ -17,10 +18,20 @@ class TravelerBookedProperties extends Component {
             bookingResults:[],
             travelerId: jwtDecode(localStorage.getItem('token')).userId,
             isFetched: false,
-            getImage: false
+            getImage: false,
+            propHeadline: "",
+            originalbookingResults: [],
+            bookStartDate: "",
+            bookEndDate: ""
         }
         // Bind the handlers to this class
         this.handleGetPhoto = this.handleGetPhoto.bind(this);
+        this.propHeadlineChangeHandler = this.propHeadlineChangeHandler.bind(this);
+        this.propStartDateChangeHandler = this.propStartDateChangeHandler.bind(this);
+        this.propEndDateChangeHandler = this.propEndDateChangeHandler.bind(this);
+        this.searchPropertyHandler = this.searchPropertyHandler.bind(this);
+        this.searchDateHandler = this.searchDateHandler.bind(this);
+        this.changePropertyHandler = this.changePropertyHandler.bind(this);
     }
     //get the user details from Back-end  
     componentDidMount(){
@@ -37,6 +48,7 @@ class TravelerBookedProperties extends Component {
             this.setState({
                     ...this.state,
                     bookingResults: this.state.bookingResults.concat(response.data.result),
+                    originalbookingResults: this.state.originalbookingResults.concat(response.data.result),
                     isFetched : true
             });
             let obj1 = this.state;
@@ -63,6 +75,87 @@ class TravelerBookedProperties extends Component {
                     getImage: true
                 })
             });
+    }
+
+    //Property Headline change handler to update state variable with the text entered by the user
+    propHeadlineChangeHandler = (e) => {
+        this.setState({
+            ...this.state,
+            propHeadline : e.target.value
+        })
+    }
+    //Property StartDate change handler to update state variable with the text entered by the user
+    propStartDateChangeHandler = (e) => {
+        this.setState({
+            ...this.state,
+            bookStartDate : e.target.value
+        })
+    }
+    //Property EndDate change handler to update state variable with the text entered by the user
+    propEndDateChangeHandler = (e) => {
+        this.setState({
+            ...this.state,
+            bookEndDate : e.target.value
+        })
+    }
+    //Handle Property Name Filter values 
+    searchPropertyHandler = (event) => {
+        // alert("I am here too");
+        event.preventDefault();
+        var obj = this.state.originalbookingResults;
+        if(this.state.bookStartDate !== "" && this.state.bookEndDate !== "" && this.state.propHeadline !== ""){
+            var newresult = obj.filter(result => 
+                new Date(result.bookstartdate) >= new Date(this.state.bookStartDate)
+                && new Date(result.bookenddate) <= new Date(this.state.bookEndDate)
+                && result.propheadline == this.state.propHeadline);
+        } else if(this.state.propHeadline !== ""){
+            var newresult = obj.filter(result => result.propheadline == this.state.propHeadline)
+        } else {
+            alert("Please enter property name");
+            newresult = this.state.originalbookingResults;
+        }
+        //Update the searchResults to empty before filling it with new response data 
+        this.setState({
+            ...this.state,
+            bookingResults: newresult
+        });
+    }
+    //Handle Property Dates Filter values 
+    searchDateHandler = (event) => {
+        // alert("I am here");
+        event.preventDefault();
+        var obj = this.state.originalbookingResults;
+        if(this.state.bookStartDate !== "" && this.state.bookEndDate !== "" && this.state.propHeadline !== ""){
+            var newresult = obj.filter(result => 
+                new Date(result.bookstartdate) >= new Date(this.state.bookStartDate)
+                && new Date(result.bookenddate) <= new Date(this.state.bookEndDate)
+                && result.propheadline == this.state.propHeadline);
+        } else if(this.state.bookStartDate !== "" && this.state.bookEndDate !== ""){
+            var newresult = obj.filter(result => 
+                new Date(result.bookstartdate) >= new Date(this.state.bookStartDate)
+                && new Date(result.bookenddate) <= new Date(this.state.bookEndDate));
+
+        } else {
+            alert("Please enter all Date Range fields");
+            newresult = this.state.originalbookingResults;
+        }
+        //Update the searchResults to empty before filling it with new response data 
+        this.setState({
+            ...this.state,
+            bookingResults: newresult
+        });
+    }
+    //Remove the Filter from the original Search result
+    changePropertyHandler =(e) => {
+        // alert("I ma her");
+        var newresult = this.state.originalbookingResults;
+        this.setState({
+            ...this.state,
+            propHeadline : "",
+            bookStartDate: "",
+            bookEndDate: "",
+            bookingResults: newresult
+        });
     }
 
     render() {
@@ -191,10 +284,21 @@ class TravelerBookedProperties extends Component {
         return(
             <div>
                 <TravelerProfilebar/>
-                <div style ={{padding:"50px"}}>
-                <h1 >Welcome! {capitalizeFirstLetter(sessionStorage.getItem('userFirstName'))}</h1>
+                <PropertySearchBar
+                    propHeadlineInput = {this.state.propHeadline}
+                    propStartDateInput = {this.state.bookStartDate}
+                    propEndDateInput = {this.state.bookEndDate}
+                    changeHeadline = {this.propHeadlineChangeHandler}
+                    changeStartDate = {this.propStartDateChangeHandler}
+                    changeEndDate = {this.propEndDateChangeHandler}
+                    searchPropHandler = {this.searchPropertyHandler}
+                    searchDtHandler = {this.searchDateHandler}
+                    changePropHandler = {this.changePropertyHandler}
+                /><br/><br/>
+                <div style ={{paddingLeft:"30px"}}>
+                <h1 >Welcome! {capitalizeFirstLetter(jwtDecode(localStorage.getItem('token')).firstname)}</h1>
                 <p>Your Trips till Date are...</p>
-                <br /><br /><br />
+                <br /><br />
                 </div>
                 {eachResult}
             </div>

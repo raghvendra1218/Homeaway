@@ -3,12 +3,15 @@ import axios from 'axios';
 import TravelerProfilebar from '../TravelerProfilebar/TravelerProfilebar';
 import "../SearchProperty/searchProperty.css"
 import {capitalizeFirstLetter} from '../../utility';
+import {paginate} from '../../utility';
 import {usaDateFormat} from '../../utility';
 import jwtDecode from 'jwt-decode';
 import {ownerBookings} from '../../actions/index';
 import {ownerProperties} from '../../actions/index';
 import {connect} from 'react-redux';
 import { withRouter } from 'react-router-dom';
+import PropertyOwnerSearchBar from './PropertyOwnerSearchBar';
+import Pagination from '../Pagination/Pagination';
 
 class OwnerPostedProperties extends Component {
     imageArr = [];
@@ -20,8 +23,24 @@ class OwnerPostedProperties extends Component {
             propertiesPosted:[],
             ownerId: jwtDecode(localStorage.getItem('token')).userId,
             isPropPostedFetched: false,
-            isPropBookedFetched: false
+            isPropBookedFetched: false,
+            propHeadline: "",
+            originalpropertiesBookedResult: [],
+            originalpropertiesPosted: [],
+            bookStartDate: "",
+            bookEndDate: "",
+            currentPagePropPosted: 1,
+            pageSizePropPosted: 5,
+            currentPagePropBooked: 1,
+            pageSizePropBooked: 5
         }
+        // Bind the handlers to this class
+        this.handleGetPhoto = this.handleGetPhoto.bind(this);
+        this.propHeadlineChangeHandler = this.propHeadlineChangeHandler.bind(this);
+        this.searchPropertyHandler = this.searchPropertyHandler.bind(this);
+        this.changePropertyHandler = this.changePropertyHandler.bind(this);
+        this.PagePropBookedChangeHandler = this.PagePropBookedChangeHandler.bind(this);
+        this.PagePropPostedChangeHandler = this.PagePropPostedChangeHandler.bind(this);
     }
     //get the user details from Back-end  
     componentDidMount(){
@@ -40,6 +59,7 @@ class OwnerPostedProperties extends Component {
         this.setState({
                 ...this.state,
                 propertiesBookedResult: this.state.propertiesBookedResult.concat(response.data.result),
+                originalpropertiesBookedResult: this.state.originalpropertiesBookedResult.concat(response.data.result),
                 isPropBookedFetched : true
         });
         let obj1 = this.state;
@@ -68,6 +88,7 @@ class OwnerPostedProperties extends Component {
             this.setState({
                     ...this.state,
                     propertiesPosted: this.state.propertiesPosted.concat(response.data.result),
+                    originalpropertiesPosted: this.state.originalpropertiesPosted.concat(response.data.result),
                     isPropPostedFetched : true
             });
             let obj2 = this.state;
@@ -95,11 +116,121 @@ class OwnerPostedProperties extends Component {
                 })
             });
     }
+    //Handle Pagination
+    PagePropPostedChangeHandler = page => {
+        this.setState({
+            ...this.state, 
+            currentPagePropPosted: page
+        })
+    };
+    //Handle Pagination
+    PagePropBookedChangeHandler = page => {
+        this.setState({
+            ...this.state, 
+            currentPagePropBooked: page
+        })
+    };
+    //Property Headline change handler to update state variable with the text entered by the user
+    propHeadlineChangeHandler = (e) => {
+        this.setState({
+            ...this.state,
+            propHeadline : e.target.value
+        })
+    }
+    //Property StartDate change handler to update state variable with the text entered by the user
+    propStartDateChangeHandler = (e) => {
+        this.setState({
+            ...this.state,
+            bookStartDate : e.target.value
+        })
+    }
+    //Property EndDate change handler to update state variable with the text entered by the user
+    propEndDateChangeHandler = (e) => {
+        this.setState({
+            ...this.state,
+            bookEndDate : e.target.value
+        })
+    }
+    //Handle Property Name Filter values 
+    searchPropertyHandler = (event) => {
+        event.preventDefault();
+        var obj = this.state.originalpropertiesBookedResult;
+        var obj1 = this.state.originalpropertiesPosted;
+        if(this.state.bookStartDate !== "" && this.state.bookEndDate !== "" && this.state.propHeadline !== "") {
+            var newresult = obj.filter(result => 
+                new Date(result.propavaildate) >= new Date(this.state.bookStartDate)
+                && new Date(result.propavailtill) <= new Date(this.state.bookEndDate)
+                && result.propheadline == this.state.propHeadline);
+        } else if(this.state.propHeadline !== ""){
+            var newresult = obj.filter(result => result.propheadline == this.state.propHeadline)
+            var newresult1 = obj1.filter(result => result.propheadline == this.state.propHeadline)
+        } else {
+            alert("Please enter property name");
+            newresult = this.state.originalpropertiesBookedResult;
+            newresult1 = this.state.originalpropertiesPosted;
+        }
+        //Update the searchResults to empty before filling it with new response data 
+        this.setState({
+            ...this.state,
+            propertiesBookedResult: newresult,
+            propertiesPosted: newresult1
+        });
+    }
 
+    //Handle Property Dates Filter values 
+    searchDateHandler = (event) => {
+        alert("I am here");
+        event.preventDefault();
+        var obj = this.state.originalpropertiesPosted;
+        if(this.state.bookStartDate !== "" && this.state.bookEndDate !== "" && this.state.propHeadline !== ""){
+            var newresult = obj.filter(result => 
+                new Date(result.propavaildate) >= new Date(this.state.bookStartDate)
+                && new Date(result.propavailtill) <= new Date(this.state.bookEndDate)
+                && result.propheadline == this.state.propHeadline);
+        } else if(this.state.bookStartDate !== "" && this.state.bookEndDate !== ""){
+            var newresult = obj.filter(result => 
+                new Date(result.propavaildate) >= new Date(this.state.bookStartDate)
+                && new Date(result.propavailtill) <= new Date(this.state.bookEndDate));
+
+        } else {
+            alert("Please enter all Date Range fields");
+            newresult = this.state.originalbookingResults;
+        }
+        //Update the searchResults to empty before filling it with new response data 
+        this.setState({
+            ...this.state,
+            propertiesPosted: newresult
+        });
+    }
+    //Remove the Filter from the original Search result
+    changePropertyHandler =(e) => {
+        // alert("I ma her");
+
+        var newresult = this.state.originalpropertiesBookedResult;
+        var newresult1 = this.state.originalpropertiesPosted;
+        this.setState({
+            ...this.state,
+            propHeadline : "",
+            bookStartDate: "",
+            bookEndDate: "",
+            propertiesBookedResult: newresult,
+            propertiesPosted: newresult1
+        });
+    }
     render() {
+        //Pagination code for Properties Posted
+        const { length: count } = this.state.propertiesPosted;
+        console.log(count);
+        const { pageSizePropPosted, currentPagePropPosted } = this.state;
+        const propertiesPostedResults = paginate(this.state.propertiesPosted, currentPagePropPosted, pageSizePropPosted);
+        //Pagination code for Bookings
+        const { length: count1 } = this.state.propertiesBookedResult;
+        console.log(count1);
+        const { pageSizePropBooked, currentPagePropBooked } = this.state;
+        const propertiesBookedResults = paginate(this.state.propertiesBookedResult, currentPagePropBooked, pageSizePropBooked);
         //iterate over the searched result data to display each result in the below html skeleton
-        let propertiesBookedResults = this.state.propertiesBookedResult;
-        let propertiesPostedResults = this.state.propertiesPosted;
+        // let propertiesBookedResults = this.state.propertiesBookedResult;
+        // let propertiesPostedResults = this.state.propertiesPosted;
         let eachPropPostedResult = null;
         let eachPropBookedResult = null;
         if(propertiesBookedResults.length === 0 && this.state.isPropBookedFetched) {
@@ -345,17 +476,41 @@ class OwnerPostedProperties extends Component {
         return(
             <div>
                 <TravelerProfilebar/>
-                <div style ={{padding:"50px"}}>
-                <h1 >Welcome! {capitalizeFirstLetter(sessionStorage.getItem('userFirstName'))}</h1>
+                <PropertyOwnerSearchBar
+                    propHeadlineInput = {this.state.propHeadline}
+                    propStartDateInput = {this.state.bookStartDate}
+                    propEndDateInput = {this.state.bookEndDate}
+                    changeHeadline = {this.propHeadlineChangeHandler}
+                    changeStartDate = {this.propStartDateChangeHandler}
+                    changeEndDate = {this.propEndDateChangeHandler}
+                    searchPropHandler = {this.searchPropertyHandler}
+                    searchDtHandler = {this.searchDateHandler}
+                    changePropHandler = {this.changePropertyHandler}
+                /><br/><br/>
+                <div style ={{paddingLeft:"30px"}}>
+                <h1 >Welcome! {capitalizeFirstLetter(jwtDecode(localStorage.getItem('token')).firstname)}</h1>
                 <h3>Your Properties Postings are...</h3>
+                <br /><br />
                 </div>
                 {eachPropPostedResult}
+                <Pagination
+                    itemsCount={count}
+                    currentPage={currentPagePropPosted}
+                    pageSize={pageSizePropPosted}
+                    onPageChange={this.PagePropPostedChangeHandler}
+                />
                 <hr/>
                 <div style={{paddingLeft: "50px", paddingBottom:"40px"}}>
                 <h3>Your Booked Properties are...</h3>
                 <br/>
                 </div>
                 {eachPropBookedResult}
+                <Pagination
+                    itemsCount={count1}
+                    currentPage={currentPagePropBooked}
+                    pageSize={pageSizePropBooked}
+                    onPageChange={this.PagePropBookedChangeHandler}
+                />
             </div>
         )
     }
