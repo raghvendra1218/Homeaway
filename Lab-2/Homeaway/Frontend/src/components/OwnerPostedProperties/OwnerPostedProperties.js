@@ -12,6 +12,7 @@ import {connect} from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import PropertyOwnerSearchBar from './PropertyOwnerSearchBar';
 import Pagination from '../Pagination/Pagination';
+import {CONSTANTS} from '../../Constants';
 
 class OwnerPostedProperties extends Component {
     imageArr = [];
@@ -46,7 +47,7 @@ class OwnerPostedProperties extends Component {
     componentDidMount(){
 
         //Get the properties booked under a particular owner
-        axios.get('http://localhost:3001/ownerpropsbooking', {
+        axios.get(`${CONSTANTS.BACKEND_URL}/ownerpropsbooking`, {
             params: {ownerId:this.state.ownerId},
             headers: {
                 'Content-Type': 'application/json',
@@ -75,7 +76,7 @@ class OwnerPostedProperties extends Component {
         console.log("error:", error);
         });
         //Get the properties owned by a particular Owner
-        axios.get('http://localhost:3001/ownerprops', { 
+        axios.get(`${CONSTANTS.BACKEND_URL}/ownerprops`, { 
             params: {ownerId:this.state.ownerId},
             headers: {
                 'Content-Type': 'application/json',
@@ -106,7 +107,7 @@ class OwnerPostedProperties extends Component {
     }
 
     handleGetPhoto = (fileName) => {
-        axios.post('http://localhost:3001/download/' + fileName)
+        axios.post(`${CONSTANTS.BACKEND_URL}/download/` + fileName)
             .then(response => {
                 console.log("Image Res : ", response);
                 let imagePreview = 'data:image/jpg;base64, ' + response.data;
@@ -179,7 +180,7 @@ class OwnerPostedProperties extends Component {
 
     //Handle Property Dates Filter values 
     searchDateHandler = (event) => {
-        alert("I am here");
+        // alert("I am here");
         event.preventDefault();
         var obj = this.state.originalpropertiesPosted;
         if(this.state.bookStartDate !== "" && this.state.bookEndDate !== "" && this.state.propHeadline !== ""){
@@ -294,7 +295,7 @@ class OwnerPostedProperties extends Component {
                                                         <img src={this.imageArr[index]}/>
                                                     </a>
                                                 </div>
-                                                <div className="Hit__info"><a key = {result._id} className="a--plain-link Hit__infoLink" onClick ={(event) => {this.propertyDetailHandler(event,result._id)}} href={'http://localhost:3000/propertydetail/'+ result._id} >
+                                                <div className="Hit__info"><a key = {result._id} className="a--plain-link Hit__infoLink" onClick ={(event) => {this.propertyDetailHandler(event,result._id)}} href={CONSTANTS.ROOTURL + "/propertydetail/" + result._id}>
                                                     <div className="HitInfo HitInfo--desktop">
                                                         <div className="HitInfo__content">
                                                             <div className="HitInfo__viewedUrgency hidden-xs" data-wdio="viewed-urgency-message"><small>Viewed
@@ -414,7 +415,7 @@ class OwnerPostedProperties extends Component {
                                                         <img src={this.imageArr[index]}/>
                                                     </a>
                                                 </div>
-                                                <div className="Hit__info"><a key = {propPostedResult._id} className="a--plain-link Hit__infoLink" onClick ={(event) => {this.propertyDetailHandler(event,propPostedResult._id)}} href={'http://localhost:3000/propertydetail/'+ propPostedResult._id} >
+                                                <div className="Hit__info"><a key = {propPostedResult._id} className="a--plain-link Hit__infoLink" onClick ={(event) => {this.propertyDetailHandler(event,propPostedResult._id)}} href={CONSTANTS.ROOTURL + "/propertydetail/"+ propPostedResult._id} >
                                                     <div className="HitInfo HitInfo--desktop">
                                                         <div className="HitInfo__content">
                                                             <div className="HitInfo__viewedUrgency hidden-xs" data-wdio="viewed-urgency-message"><small>Viewed

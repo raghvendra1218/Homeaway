@@ -9,6 +9,9 @@ import {travelerBookedProperties} from '../../actions/index';
 import {connect} from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import PropertySearchBar from './PropertySearchBar';
+import {CONSTANTS} from '../../Constants';
+import {paginate} from '../../utility';
+import Pagination from '../Pagination/Pagination';
 
 class TravelerBookedProperties extends Component {
     imageArr = []
@@ -22,7 +25,9 @@ class TravelerBookedProperties extends Component {
             propHeadline: "",
             originalbookingResults: [],
             bookStartDate: "",
-            bookEndDate: ""
+            bookEndDate: "",
+            currentPage: 1,
+            pageSize: 5,
         }
         // Bind the handlers to this class
         this.handleGetPhoto = this.handleGetPhoto.bind(this);
@@ -35,7 +40,7 @@ class TravelerBookedProperties extends Component {
     }
     //get the user details from Back-end  
     componentDidMount(){
-        axios.get('http://localhost:3001/travelerbookings',{
+        axios.get(`${CONSTANTS.BACKEND_URL}/travelerbookings`,{
             params: {travelerId:this.state.travelerId},
             headers: {
                 'Content-Type': 'application/json',
@@ -66,7 +71,7 @@ class TravelerBookedProperties extends Component {
     }
 
     handleGetPhoto = (fileName) => {
-        axios.post('http://localhost:3001/download/' + fileName)
+        axios.post(`${CONSTANTS.BACKEND_URL}/download/` + fileName)
             .then(response => {
                 console.log("Image Res : ", response);
                 let imagePreview = 'data:image/jpg;base64, ' + response.data;
@@ -76,6 +81,14 @@ class TravelerBookedProperties extends Component {
                 })
             });
     }
+
+    //Handle Pagination
+    PageChangeHandler = page => {
+        this.setState({
+            ...this.state, 
+            currentPage: page 
+        })
+    };
 
     //Property Headline change handler to update state variable with the text entered by the user
     propHeadlineChangeHandler = (e) => {
@@ -159,8 +172,14 @@ class TravelerBookedProperties extends Component {
     }
 
     render() {
+
+        //Pagination code
+        const { length: count } = this.state.bookingResults;
+        console.log(count);
+        const { pageSize, currentPage } = this.state;
+        const results = paginate(this.state.bookingResults, currentPage, pageSize);
         //iterate over the searched result data to display each result in the below html skeleton
-        let results = this.state.bookingResults;
+        // let results = this.state.bookingResults;
         let eachResult = null;
         if(results.length === 0 && this.state.isFetched) {
             eachResult = (
@@ -222,7 +241,7 @@ class TravelerBookedProperties extends Component {
                                                         <img src={this.imageArr[index]}/>
                                                     </a>
                                                 </div>
-                                                <div className="Hit__info"><a key = {result._id} className="a--plain-link Hit__infoLink" onClick ={(event) => {this.propertyDetailHandler(event,result._id)}} href={'http://localhost:3000/propertydetail/'+ result._id} >
+                                                <div className="Hit__info"><a key = {result._id} className="a--plain-link Hit__infoLink" onClick ={(event) => {this.propertyDetailHandler(event,result._id)}} href={CONSTANTS.ROOTURL+ '/propertydetail/'+ result._id} >
                                                     <div className="HitInfo HitInfo--desktop">
                                                         <div className="HitInfo__content">
                                                             <div className="HitInfo__viewedUrgency hidden-xs" data-wdio="viewed-urgency-message"><small>Viewed
@@ -301,6 +320,12 @@ class TravelerBookedProperties extends Component {
                 <br /><br />
                 </div>
                 {eachResult}
+                <Pagination
+                    itemsCount={count}
+                    currentPage={currentPage}
+                    pageSize={pageSize}
+                    onPageChange={this.PageChangeHandler}
+                />
             </div>
         )
     }

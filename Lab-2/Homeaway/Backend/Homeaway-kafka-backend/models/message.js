@@ -1,5 +1,4 @@
 var mongoose = require('mongoose');
-var utility = require('../utility');
 
 var messageSchema = new mongoose.Schema({
     _id: mongoose.Schema.Types.ObjectId,
@@ -7,11 +6,6 @@ var messageSchema = new mongoose.Schema({
         type : String,
         required: true,
         lowercase: true,
-        default : ""
-    },
-    ownerid :{
-        type : String,
-        required: true,
         default : ""
     },
     traveleremail :{

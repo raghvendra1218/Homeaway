@@ -1,5 +1,6 @@
 import React from 'react';
 import './propertydetail.css';
+import {CONSTANTS} from '../../Constants';
 
 const propertydetailsnavbar =(props)=>{
     return(
@@ -8,7 +9,7 @@ const propertydetailsnavbar =(props)=>{
                 <div className="pdp-headline-container container hidden-xs js-headlineContainer">
                     <ul className="nav property-back-nav">
                         <li>
-                            <form method='get' action="http://localhost:3000/searchproperty">
+                            <form method='get' action={CONSTANTS.ROOTURL +"/searchproperty"}>
                                 <button className="js-backToSearch btn-back-to-search btn btn-sm btn-default" type="submit">
                                     <span><i className="icon-chevron-left"></i>Back to Search</span>
                                 </button>

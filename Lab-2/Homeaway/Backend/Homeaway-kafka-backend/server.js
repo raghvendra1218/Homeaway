@@ -13,6 +13,8 @@ const bookproperty = require('./services/bookproperty');
 const travelerbookings = require('./services/travelerbookings');
 const ownerproperties = require('./services/ownerproperties');
 const ownerpropertiesbookings = require('./services/ownerpropertiesbookings');
+const postMessage = require('./services/postmessage');
+const gettMessages = require('./services/getmessages');
 
 function handleTopicRequest(topic_name,fname){
     //var topic_name = 'root_topic';
@@ -57,3 +59,5 @@ handleTopicRequest("book_property",bookproperty);
 handleTopicRequest("traveler_bookings",travelerbookings);
 handleTopicRequest("owner_properties",ownerproperties);
 handleTopicRequest("owner_prop_bookings",ownerpropertiesbookings);
+handleTopicRequest("post_message",postMessage);
+handleTopicRequest("get_messages",gettMessages);

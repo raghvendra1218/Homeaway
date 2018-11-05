@@ -3,6 +3,7 @@ import axios from 'axios';
 import {Redirect} from 'react-router';
 import LoginNavbar from '../LoginNavbar/LoginNavbar';
 import * as Validate from '../../Validations/Validation';
+import {CONSTANTS} from '../../Constants';
 
 class TravelerSignup extends Component{
     constructor(props) {
@@ -64,7 +65,7 @@ class TravelerSignup extends Component{
                 password: this.state.password,
                 isTraveler: true
             }
-            axios.post('http://localhost:3001/signup',data)
+            axios.post(`${CONSTANTS.BACKEND_URL}/signup`,data)
             .then(response => {
                 console.log("Status Code : ",response.status);
                 if(response.status === 200){
@@ -125,7 +126,7 @@ class TravelerSignup extends Component{
                                 <h1 className="hidden-xs">Sign up for HomeAway</h1>
                                 <div className="footer-top traveler"></div>
                                 <div className="footer traveler" Align="center">
-                                    <div><span>Already have an account?</span><a id="sign-in-link" href="http://localhost:3000/travelerlogin">&nbsp;Log
+                                    <div><span>Already have an account?</span><a id="sign-in-link" href={CONSTANTS.ROOTURL+ '/travelerlogin'}>&nbsp;Log
                                             in</a>
                                     </div>
                                 </div>

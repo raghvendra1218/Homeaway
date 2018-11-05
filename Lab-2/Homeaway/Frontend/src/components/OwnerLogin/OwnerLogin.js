@@ -7,6 +7,7 @@ import {loginData} from '../../actions/index';
 import {connect} from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import jwtDecode from 'jwt-decode';
+import {CONSTANTS} from '../../Constants';
 
 class OwnerLogin extends Component {
     constructor(props){
@@ -81,7 +82,7 @@ class OwnerLogin extends Component {
         //set the with credentials to true
         axios.defaults.withCredentials = true;
         //make a post request with the user data
-        axios.post('http://localhost:3001/login',data)
+        axios.post(`${CONSTANTS.BACKEND_URL}/login`,data)
             .then(response2 => {
                 console.log("Status Code for post: ",response2.status);
                 if(response2.status === 200){
@@ -172,7 +173,7 @@ class OwnerLogin extends Component {
                                                 <span>
                                                     Need an account?
                                                 </span>
-                                                <a href="http://localhost:3000/ownersignup">&nbsp;
+                                                <a href={CONSTANTS.ROOTURL + "/ownersignup"}>&nbsp;
                                                     Sign Up
                                                 </a>
                                             </div>

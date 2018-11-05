@@ -1,9 +1,11 @@
 //import the require dependencies
+const { CONSTANTS } = require('./Constants');
 const express = require('express');
 const app = express();
 const morgan = require('morgan');
 const bodyParser = require('body-parser');
 const cors = require('cors');
+
 
 
 const userdetailRoutes = require('./api/routes/userdetail');
@@ -19,6 +21,8 @@ const bookPropertyRoutes = require('./api/routes/bookproperty');
 const travelerBookingRoutes = require('./api/routes/travelerbookings');
 const ownerBookingRoutes = require('./api/routes/ownerpropertiesbookings');
 const ownerPropertiesRoutes = require('./api/routes/ownerproperties');
+const getMessageRoutes = require('./api/routes/getmessages');
+const postMessageRoutes = require('./api/routes/postmessage');
 
 
 //Use middleware
@@ -27,10 +31,10 @@ app.use(bodyParser.urlencoded({
     extended: true
   }));
 app.use(bodyParser.json());
-app.use(cors({origin:'http://localhost:3000', credentials: true}));
+app.use(cors({origin:`http://ec2-54-200-127-28.us-west-2.compute.amazonaws.com:3000`, credentials: true}));
 //Allow Access Control
 app.use(function(req, res, next) {
-    res.setHeader('Access-Control-Allow-Origin', 'http://localhost:3000');
+    res.setHeader('Access-Control-Allow-Origin', `http://ec2-54-200-127-28.us-west-2.compute.amazonaws.com:3000`);
     res.setHeader('Access-Control-Allow-Credentials', 'true');
     res.setHeader('Access-Control-Allow-Methods', 'GET,HEAD,OPTIONS,POST,PUT,DELETE, PATCH');
     res.setHeader('Access-Control-Allow-Headers', 'Access-Control-Allow-Headers, Origin,Accept, X-Requested-With, Content-Type, Access-Control-Request-Method, Access-Control-Request-Headers');
@@ -54,6 +58,8 @@ app.use('/bookproperty', bookPropertyRoutes);
 app.use('/travelerbookings', travelerBookingRoutes);
 app.use('/ownerpropsbooking', ownerBookingRoutes);
 app.use('/ownerprops', ownerPropertiesRoutes);
+app.use('/getmessages', getMessageRoutes);
+app.use('/postmessage', postMessageRoutes);
 
 
 //Handle the errors of the application

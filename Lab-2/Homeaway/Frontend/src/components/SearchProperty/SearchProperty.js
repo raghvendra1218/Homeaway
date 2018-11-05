@@ -11,6 +11,7 @@ import { withRouter } from 'react-router-dom';
 import * as Validate from '../../Validations/Validation';
 import FilterNavbar from './FilterNavbar';
 import Pagination from '../Pagination/Pagination';
+import {CONSTANTS} from '../../Constants';
 
 class SearchProperty extends Component {
     imageArr = []
@@ -31,7 +32,7 @@ class SearchProperty extends Component {
             messagediv: "",
             originalSearchResults: [],
             currentPage: 1,
-            pageSize: 1,
+            pageSize: 10,
         }
         // Bind the handlers to this class
         this.propertyDetailHandler = this.propertyDetailHandler.bind(this);
@@ -47,7 +48,7 @@ class SearchProperty extends Component {
     
     //get the user details from Back-end  
     componentDidMount(){
-        axios.get('http://localhost:3001/searchprop', { params: {city:this.state.city, startDate: this.state.startDate, endDate: this.state.endDate, headCount: this.state.headCount}})
+        axios.get(`${CONSTANTS.BACKEND_URL}/searchprop`, { params: {city:this.state.city, startDate: this.state.startDate, endDate: this.state.endDate, headCount: this.state.headCount}})
             .then((response) => {
             //Update the state with the response data    
             this.setState({
@@ -72,7 +73,7 @@ class SearchProperty extends Component {
     }
 
     handleGetPhoto = (fileName) => {
-        axios.post('http://localhost:3001/download/' + fileName)
+        axios.post(`${CONSTANTS.BACKEND_URL}/download/` + fileName)
             .then(response => {
                 console.log("Image Res : ", response);
                 let imagePreview = 'data:image/jpg;base64, ' + response.data;
@@ -205,7 +206,7 @@ class SearchProperty extends Component {
             sessionStorage.setItem('searchBoxStartDate', this.state.startDate);
             sessionStorage.setItem('searchBoxEndDate',this.state.endDate);
             sessionStorage.setItem('searchBoxHeadCount',this.state.headCount);
-            axios.get('http://localhost:3001/searchprop', { params: {city:this.state.city, startDate: this.state.startDate, endDate: this.state.endDate, headCount: this.state.headCount}})
+            axios.get(`${CONSTANTS.BACKEND_URL}/searchprop`, { params: {city:this.state.city, startDate: this.state.startDate, endDate: this.state.endDate, headCount: this.state.headCount}})
             .then((response) => {
             //Update the searchResults to empty before filling it with new response data 
             this.setState({
@@ -326,7 +327,7 @@ class SearchProperty extends Component {
                                                         <img src={this.imageArr[index]}/>
                                                     </a>
                                                 </div>
-                                                <div className="Hit__info"><a key = {result._id} className="a--plain-link Hit__infoLink" onClick ={(event) => {this.propertyDetailHandler(event,result._id)}} href={'http://localhost:3000/propertydetail/'+ result._id} >
+                                                <div className="Hit__info"><a key = {result._id} className="a--plain-link Hit__infoLink" onClick ={(event) => {this.propertyDetailHandler(event,result._id)}} href={CONSTANTS.ROOTURL+ '/propertydetail/'+ result._id} >
                                                     <div className="HitInfo HitInfo--desktop">
                                                         <div className="HitInfo__content">
                                                             <div className="HitInfo__viewedUrgency hidden-xs" data-wdio="viewed-urgency-message"><small>Viewed

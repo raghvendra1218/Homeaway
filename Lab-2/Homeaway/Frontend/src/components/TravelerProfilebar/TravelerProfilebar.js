@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import Navbar from '../Navbar/Navbar';
+import {CONSTANTS} from '../../Constants';
 
 class TravelerProfilebar extends Component {
     render(){
@@ -12,16 +13,16 @@ class TravelerProfilebar extends Component {
                             <div className="container">
                                 <ul className="nav nav-underline nav-underline--left" role="tablist">
                                     <li role="presentation" className="js-th-nav-inbox">
-                                        <a href="http://localhost:3000/inbox" data-bypass="true">Inbox</a>
+                                        <a href={CONSTANTS.ROOTURL+'/inbox'} data-bypass="true">Inbox</a>
                                     </li>
                                     <li role="presentation" className="js-th-nav-booked">
-                                        <a href="http://localhost:3000//bookings" data-bypass="true">My Trips</a>
+                                        <a href={CONSTANTS.ROOTURL+'/bookings'} data-bypass="true">My Trips</a>
                                     </li>
                                     <li role="presentation" className="js-th-nav-profile">
-                                        <a href="http://localhost:3000/editprofile">Profile</a>
+                                        <a href={CONSTANTS.ROOTURL+'/editprofile'}>Profile</a>
                                     </li>
                                     <li role="presentation" className="js-th-nav-settings">
-                                        <a href="http://localhost:3000/account">Account</a>
+                                        <a href={CONSTANTS.ROOTURL+'/account'}>Account</a>
                                     </li>
                                 </ul>
                             </div>

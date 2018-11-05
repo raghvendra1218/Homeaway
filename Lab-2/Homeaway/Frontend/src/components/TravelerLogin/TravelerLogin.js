@@ -8,6 +8,7 @@ import {loginData} from '../../actions/index';
 import {connect} from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import jwtDecode from 'jwt-decode';
+import {CONSTANTS} from '../../Constants';
 
 //Define a Login Component
 class TravelerLogin extends Component{
@@ -79,7 +80,7 @@ class TravelerLogin extends Component{
             //set the with credentials to true
             axios.defaults.withCredentials = true;
             //make a post request with the user data
-            axios.post('http://localhost:3001/login',data)
+            axios.post(`${CONSTANTS.BACKEND_URL}/login`,data)
                 .then(response2 => {
                     console.log("Status Code for post: ",response2.status);
                     if(response2.status === 200){
@@ -166,7 +167,7 @@ class TravelerLogin extends Component{
                                         <span>
                                             Need an account?
                                         </span>
-                                        <a href="http://localhost:3000/travelersignup">&nbsp;
+                                        <a href={CONSTANTS.ROOTURL+'/travelersignup'}>&nbsp;
                                             Sign Up
                                         </a>
                                     </div>

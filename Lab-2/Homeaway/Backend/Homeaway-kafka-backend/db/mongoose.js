@@ -31,7 +31,8 @@ var options = {
       "connectTimeoutMS" : 30000
     }
   },
-  "useNewUrlParser" : true
+  "useNewUrlParser" : true,
+  "poolSize" : 700
 }
 
 const appEnv = 'development';

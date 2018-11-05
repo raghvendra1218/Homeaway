@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import {CONSTANTS} from '../../Constants';
 
 class LoginNavbar extends Component {
     render(){
@@ -8,7 +9,7 @@ class LoginNavbar extends Component {
                 <div className="navbar header navbar-bce">
                     <div className="navbar-inner">
                         <div className="pull-left">
-                            <a href="http://localhost:3000" title="HomeAway" className="logo">
+                            <a href={CONSTANTS.ROOTURL} title="HomeAway" className="logo">
                                 <img src={"//csvcus.homeaway.com/rsrcs/cdn-logos/2.10.6/bce/moniker/homeaway_us/logo-bceheader.svg"} alt = "logo"/>
                             </a>    
                         </div>

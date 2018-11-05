@@ -6,6 +6,7 @@ import { withRouter } from 'react-router-dom';
 import { logoutData } from '../../actions/index';
 import {loginData} from '../../actions/index';
 import jwtDecode from 'jwt-decode';
+import {CONSTANTS} from '../../Constants';
 
 class Navbar extends Component {
     constructor(props) {
@@ -59,7 +60,8 @@ class Navbar extends Component {
                 <div className="dropdown" tabindex="-1" role="presentation">
                 <button aria-haspopup="true" aria-expanded="false" className="site-header-nav__toggle Dropdown__toggle" id="dropdownMenuButton"
                     label="Login" data-toggle="dropdown">
-                    {this.props.userData.loginData.userFirstName.toUpperCase()}<span aria-hidden="true" className="caret"></span>
+                    {/* {this.props.userData.loginData.userFirstName.toUpperCase()}<span aria-hidden="true" className="caret"></span> */}
+                    {jwtDecode(localStorage.getItem('token')).firstname.toUpperCase()}<span aria-hidden="true" className="caret"></span>
                 </button>
                 <div class="dropdown-menu" aria-labelledby="site-header__login">
                     <ul>
@@ -78,7 +80,8 @@ class Navbar extends Component {
                 <div className="dropdown" tabindex="-1" role="presentation">
                 <button aria-haspopup="true" aria-expanded="false" className="site-header-nav__toggle Dropdown__toggle" id="dropdownMenuButton"
                     label="Login" data-toggle="dropdown">
-                    {this.props.userData.loginData.userFirstName.toUpperCase()}<span aria-hidden="true" className="caret"></span>
+                    {/* {this.props.userData.loginData.userFirstName.toUpperCase()}<span aria-hidden="true" className="caret"></span> */}
+                    {jwtDecode(localStorage.getItem('token')).firstname.toUpperCase()}<span aria-hidden="true" className="caret"></span>
                 </button>
                 <div class="dropdown-menu" aria-labelledby="site-header__login">
                     <ul>
@@ -121,7 +124,7 @@ class Navbar extends Component {
                         </span>
                     </a>
                     <div className="site-header-logo">
-                        <a className="site-header-logo__link flex-item" href="http://localhost:3000" title="HomeAway.com"><img alt="HomeAway logo" className="site-header-logo__img img-responsive" role="presentation"
+                        <a className="site-header-logo__link flex-item" href={CONSTANTS.ROOTURL} title="HomeAway.com"><img alt="HomeAway logo" className="site-header-logo__img img-responsive" role="presentation"
                             src={"//csvcus.homeaway.com/rsrcs/cdn-logos/2.10.6/bce/moniker/homeaway_us/logo-bceheader.svg"} /></a>
                     </div>
                     <div className="site-header__flex-spacer"></div>
@@ -155,10 +158,10 @@ class Navbar extends Component {
                     </div>
                     {(!this.props.userData.isTraveler) ?
                         <div>
-                            <a className="site-header-list-your-property btn btn-default" data-bypass="true" href="http://localhost:3000/postproperty">Post your property</a>
+                            <a className="site-header-list-your-property btn btn-default" data-bypass="true" href={CONSTANTS.ROOTURL + "/postproperty"}>Post your property</a>
                         </div> :
                         <div>
-                            <a className="site-header-list-your-property btn btn-default" onClick= {this.notOwnerHandler} data-bypass="true" href="http://localhost:3000">Post your property</a>
+                            <a className="site-header-list-your-property btn btn-default" onClick= {this.notOwnerHandler} data-bypass="true" href={CONSTANTS.ROOTURL}>Post your property</a>
                         </div>
                     }
                     <div className="site-header-birdhouse">

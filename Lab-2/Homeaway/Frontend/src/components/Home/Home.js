@@ -7,6 +7,7 @@ import { withRouter } from 'react-router-dom';
 import {loginData} from '../../actions/index';
 import { logoutData } from '../../actions/index';
 import jwtDecode from 'jwt-decode';
+import {CONSTANTS} from '../../Constants';
 
 class Home extends Component {
     constructor(props) {
@@ -210,7 +211,7 @@ class Home extends Component {
                                     </span>
                                 </a>
                                 <div className="site-header-logo">
-                                    <a className="site-header-logo__link flex-item" href="http://localhost:3000" title="HomeAway.com"><img alt="HomeAway logo" className="site-header-logo__img img-responsive" role="presentation"
+                                    <a className="site-header-logo__link flex-item" href= {CONSTANTS.ROOTURL} title="HomeAway.com"><img alt="HomeAway logo" className="site-header-logo__img img-responsive" role="presentation"
                                         src={"//csvcus.homeaway.com/rsrcs/cdn-logos/2.11.0/bce/moniker/homeaway_us/logo-bceheader-white.svg"} /></a>
                                 </div>
                                 <div className="site-header__flex-spacer"></div>
@@ -244,10 +245,10 @@ class Home extends Component {
                                 </div>
                                 { (!this.props.userData.isTraveler) ?
                                     <div>
-                                        <a className="site-header-list-your-property btn btn-default btn-inverse" data-bypass="true" href="http://localhost:3000/postproperty">Post your property</a>
+                                        <a className="site-header-list-your-property btn btn-default btn-inverse" data-bypass="true" href= {CONSTANTS.ROOTURL+"/postproperty"}>Post your property</a>
                                     </div> : 
                                     <div>
-                                        <a className="site-header-list-your-property btn btn-default btn-inverse" onClick= {this.notOwnerHandler} data-bypass="true" href="http://localhost:3000">Post your property</a>
+                                        <a className="site-header-list-your-property btn btn-default btn-inverse" onClick= {this.notOwnerHandler} data-bypass="true" href={CONSTANTS.ROOTURL}>Post your property</a>
                                     </div>
                                 }
                                 <div className="site-header-birdhouse">

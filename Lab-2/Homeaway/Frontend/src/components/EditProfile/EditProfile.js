@@ -9,6 +9,7 @@ import {userProfileDateFormat} from '../../utility';
 import {editProfileData} from '../../actions/index';
 import {connect} from 'react-redux';
 import { withRouter } from 'react-router-dom';
+import {CONSTANTS} from '../../Constants';
 
 class EditProfile extends Component {
     constructor(props) {
@@ -46,7 +47,8 @@ class EditProfile extends Component {
                 gender: "",
                 phoneNumber: "",
                 memberSince: "",
-                isUpdated: false
+                isUpdated: false,
+                getImage: false
             }
         }
 
@@ -67,7 +69,7 @@ class EditProfile extends Component {
 
     //get the user details from Back-end  
     componentDidMount(){
-        axios.get('http://localhost:3001/userdetail',{
+        axios.get(`${CONSTANTS.BACKEND_URL}/userdetail`,{
         params: {email:this.state.userDetails.email, isTraveler: this.state.userDetails.isTraveler},
         headers: {
             'Content-Type': 'application/json',
@@ -75,10 +77,10 @@ class EditProfile extends Component {
             'Authorization': localStorage.getItem('token')
         },
         })
-        // axios.get('http://localhost:3001/userdetail', { params: {email:this.state.email, isTraveler: this.state.isTraveler}})
+        // axios.get(`${CONSTANTS.BACKEND_URL}/userdetail`, { params: {email:this.state.email, isTraveler: this.state.isTraveler}})
                 .then((response) => {
                     if(response.status === 200) {
-                        console.log("Decoded Values: ", jwtDecode(response.data.token));
+                        // console.log("Decoded Values: ", jwtDecode(response.data.token));
                         //update the state with the response data
                         let userDetailsFetched = jwtDecode(localStorage.getItem('token'));
                         let obj1 = this.state.userDetails;
@@ -103,6 +105,8 @@ class EditProfile extends Component {
                         console.log("OBJ1: ", obj1);
                         localStorage.setItem('token', response.data.token);
                         this.props.editProfileData(obj1,true,false);
+                        // var profilePhoto = userDetailsFetched.profileimage;
+                        // this.handleGetPhoto(profilePhoto);
                     }
             });
     }
@@ -116,6 +120,18 @@ class EditProfile extends Component {
     //     })
     // }
 
+    handleGetPhoto = (fileName) => {
+        axios.post(`${CONSTANTS.BACKEND_URL}/download/` + fileName)
+            .then(response => {
+                console.log("Image Res : ", response);
+                let imagePreview = 'data:image/jpg;base64, ' + response.data;
+                this.setState({
+                    ...this.state.userDetails,
+                    profileImage: imagePreview,
+                    getImage: true
+                })
+            });
+    }
     //First Name change handler to update state variable with the text entered by the user
     firstNameChangeHandler = (e) => {
         const userFirstName = e.target.value;
@@ -274,7 +290,7 @@ class EditProfile extends Component {
         //set the with credentials to true
         axios.defaults.withCredentials = true;
         //make a put request with the user data
-        axios.put('http://localhost:3001/editprofile',
+        axios.put(`${CONSTANTS.BACKEND_URL}/editprofile`,
         data,{
         headers: {
             'Content-Type': 'application/json',
@@ -289,6 +305,7 @@ class EditProfile extends Component {
                     ...this.state,
                     isUpdated : true
                 })
+                // localStorage.setItem('token', response.data.token);
                 this.props.editProfileData(data,true,true);
                 console.log("message:", response.data.message);
                 alert("Your profile was successfully edited");
@@ -297,6 +314,7 @@ class EditProfile extends Component {
                     ...this.state,
                     isUpdated : false
                 })
+                // localStorage.setItem('token', response.data.token);
                 this.props.editProfileData(data,true,true);
                 console.log("message:", response.data.message);
                 alert("Unable to update the profile");

@@ -9,6 +9,7 @@ import {propertyDetails} from '../../actions/index';
 import {propertyPosted} from '../../actions/index';
 import {connect} from 'react-redux';
 import { withRouter } from 'react-router-dom';
+import {CONSTANTS} from '../../Constants';
 
 class PropertyDetail extends Component {
     imageArr = []
@@ -17,12 +18,14 @@ class PropertyDetail extends Component {
         this.state = {
             propertyDetails: [],
             travelerId: jwtDecode(localStorage.getItem('token')).userId,
+            travelerEmail: jwtDecode(localStorage.getItem('token')).email,
             isTraveler: jwtDecode(localStorage.getItem('token')).isTraveler,
             propertyId: sessionStorage.getItem('propertyDetailId'),
             propertyBookStartDate: sessionStorage.getItem('searchBoxStartDate'),
             searchBoxHeadCount : sessionStorage.getItem('searchBoxHeadCount'),
             propertyBookEndDate: sessionStorage.getItem('searchBoxEndDate'),
             isPropertyBooked: false,
+            isQuestionPosted: false,
             getImage: false,
             question: ""
         }
@@ -30,12 +33,12 @@ class PropertyDetail extends Component {
         this.bookPropertyHandler = this.bookPropertyHandler.bind(this);
         this.handleGetPhoto = this.handleGetPhoto.bind(this);
         this.submitQuestionHandler = this.submitQuestionHandler.bind(this);
-        this.submitQuestionHandler = this.submitQuestionHandler.bind(this);
+        this.questionChangeHandler = this.questionChangeHandler.bind(this);
     }
 
     //get the property details from Back-end  
     componentDidMount(){
-        axios.get('http://localhost:3001/propertydetail', { params: {propertyId:this.state.propertyId}})
+        axios.get(`${CONSTANTS.BACKEND_URL}/propertydetail`, { params: {propertyId:this.state.propertyId}})
             .then((response) => {
             //Update the state with the response data    
             this.setState({
@@ -59,7 +62,7 @@ class PropertyDetail extends Component {
     }
 
     handleGetPhoto = (fileName) => {
-        axios.post('http://localhost:3001/download/' + fileName)
+        axios.post(`${CONSTANTS.BACKEND_URL}/download/` + fileName)
             .then(response => {
                 console.log("Image Res : ", response);
                 let imagePreview = 'data:image/jpg;base64, ' + response.data;
@@ -69,7 +72,7 @@ class PropertyDetail extends Component {
                 })
             });
     }
-    //Property Headline change handler to update state variable with the text entered by the user
+    //Question change handler to update state variable with the text entered by the user
     questionChangeHandler = (e) => {
         this.setState({
             ...this.state,
@@ -77,9 +80,55 @@ class PropertyDetail extends Component {
         })
     }
     submitQuestionHandler = (e) =>{
-        console.log("Inside the submit Question Handler.");
+        // alert("Inside the submit Question Handler.");
         if(this.state.isTraveler) {
-
+            e.preventDefault();
+            let propertyDetail = this.state.propertyDetails[0];
+            const data = {
+                propId: propertyDetail._id,
+                ownerEmail: propertyDetail.email,
+                travelerEmail: this.state.travelerEmail,
+                travelerId: this.state.travelerId,
+                isTraveler: this.state.isTraveler,
+                travelerMessage: this.state.question,
+                ownerMessage: "",
+                propHeadline: propertyDetail.propheadline
+            }
+            //Post call to Ask Question about the property
+            axios.post(`${CONSTANTS.BACKEND_URL}/postmessage`, 
+            data, {
+            headers: {
+                        'Content-Type': 'application/json',
+                        'Accept': 'application/json',
+                        'Authorization': localStorage.getItem('token')
+                    },
+                }
+            )
+            .then((response) => {
+                console.log("Status Code for post: ",response.status);
+                if(response.status === 200){
+                    //Update the state with the response data    
+                    this.setState({
+                        ...this.state,
+                        isQuestionPosted: true
+                    });
+                    // let obj1 = this.state;
+                    // this.props.propertyPosted(obj1,true,true);
+                    console.log("State result: "+ JSON.stringify(this.state.propertyDetails));
+                    alert("Message sent successfully.");
+                } else {
+                    alert("Error: ", response.data.message);
+                    this.setState({
+                        ...this.state,
+                        isQuestionPosted: false
+                    });
+                    // let obj1 = this.state;
+                    // this.props.propertyPosted(obj1,false, false);
+                };
+            })
+            .catch( error =>{
+                console.log("error:", error);
+            });
         } else {
             alert("You need to be Logged in as a Traveler");
         }
@@ -93,7 +142,7 @@ class PropertyDetail extends Component {
                 ...this.state
             }
             //Post call to book the property
-            axios.post('http://localhost:3001/bookproperty', 
+            axios.post(`${CONSTANTS.BACKEND_URL}/bookproperty`, 
             data, {
             headers: {
                 'Content-Type': 'application/json',

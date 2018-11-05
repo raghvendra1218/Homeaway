@@ -15,6 +15,7 @@ import jwtDecode from 'jwt-decode';
 import {postPropertyData} from '../../actions/index';
 import {connect} from 'react-redux';
 import { withRouter } from 'react-router-dom';
+import {CONSTANTS} from '../../Constants';
 
 class PostProperty extends Component {
     constructor(props) {
@@ -294,7 +295,7 @@ class PostProperty extends Component {
 
             formData.append("timestamp", (Date.now() / 1000) | 0);
 
-            return axios.post('http://localhost:3001/uploadImages', formData, {
+            return axios.post(`${CONSTANTS.BACKEND_URL}/uploadImages`, formData, {
                 params: {
                     imagename: file.name
                 }
@@ -376,7 +377,7 @@ class PostProperty extends Component {
             //set the with credentials to true
             axios.defaults.withCredentials = true;
             //make a post request with the user data
-            axios.post('http://localhost:3001/postproperty',
+            axios.post(`${CONSTANTS.BACKEND_URL}/postproperty`,
             propertyData,{
             headers: {
                 'Content-Type': 'application/json',
